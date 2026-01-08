@@ -1,0 +1,36 @@
+# Node
+node_modules
+.pnpm-store
+
+# Build outputs
+dist
+.next
+out
+coverage
+
+# Env
+.env
+.env.*
+!.env.example
+
+# Logs
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Turbo
+.turbo
+
+# Prisma
+prisma/migrations/**/migration_lock.toml
+
+# Editor
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea
