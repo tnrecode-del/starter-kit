@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "./src/main.ts",
+  "type": "module",
   "scripts": {
-    "dev": "ts-node -r tsconfig-paths/register src/main.ts",
+    "dev": "tsx watch --env-file=../../.env src/main.ts",
     "build": "nest build",
-    "start": "node dist/main",
+    "start": "node dist/main.js",
     "lint": "eslint ."
   },
   "packageManager": "pnpm@10.27.0",
@@ -15,9 +16,11 @@
     "@types/node": "^25.0.3",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
+    "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   },
   "dependencies": {
+    "@core/database": "workspace:*",
     "@core/shared": "workspace:*",
     "@nestjs/common": "^11.1.11",
     "@nestjs/core": "^11.1.11",
