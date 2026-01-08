@@ -9,9 +9,6 @@
     "start": "node dist/main",
     "lint": "eslint ."
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "packageManager": "pnpm@10.27.0",
   "devDependencies": {
     "@types/express": "^5.0.6",

@@ -1,0 +1,20 @@
+@theme {
+  --color-primary: #0070f3;
+  --color-primary-foreground: #ffffff;
+
+  --font-sans: "Inter", ui-sans-serif, system-ui;
+}
+
+/* Твои кастомные базовые стили */
+@layer base {
+  button {
+    @apply transition-colors;
+  }
+}
+
+/* Твои утилиты */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
