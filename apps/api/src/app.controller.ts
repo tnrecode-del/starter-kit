@@ -1,13 +1,12 @@
-import { Controller, Get } from "@nestjs/common";
-
-import { DatabaseService } from "./database/database.service.js";
+import { Inject, Controller, Get } from "@nestjs/common";
+import { AppService } from "./app.service.js";
 
 @Controller("users")
 export class AppController {
-  constructor(private readonly dataBaseService: DatabaseService) {}
+  constructor(@Inject(AppService) private readonly appService: AppService) {}
 
   @Get()
-  getHello() {
-    return this.dataBaseService.client.user.count();
+  async getHello() {
+    return this.appService.getUsers();
   }
 }

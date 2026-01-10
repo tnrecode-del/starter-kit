@@ -1,15 +1,27 @@
 import { Injectable, OnModuleInit, OnModuleDestroy } from "@nestjs/common";
-import { db } from "@core/database";
+import * as dbPackage from "@core/database";
 
 @Injectable()
 export class DatabaseService implements OnModuleInit, OnModuleDestroy {
-  public readonly client = db;
+  public client!: dbPackage.PrismaClient;
 
   async onModuleInit() {
+    // Присваиваем только в момент инициализации модуля NestJS
+    // Это гарантирует, что @core/database уже полностью загружен в память
+    this.client = dbPackage.db;
+
+    if (!this.client) {
+      throw new Error(
+        "CRITICAL: Prisma client (db) is undefined. Check exports in @core/database",
+      );
+    }
+
     await this.client.$connect();
   }
 
   async onModuleDestroy() {
-    await this.client.$disconnect();
+    if (this.client) {
+      await this.client.$disconnect();
+    }
   }
 }

@@ -3,24 +3,27 @@ import { PrismaPg } from "@prisma/adapter-pg";
 import pg from "pg";
 import process from "node:process";
 
+// Важно: экспортируем типы отдельно
 export * from "../prisma/generated/client.js";
 
 declare global {
   var prisma: GeneratedClient | undefined;
 }
 
-const createClient = () => {
-  // 1. Создаем пул соединений через стандартный pg
-  const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
+const createClient = (): GeneratedClient => {
+  const connectionString = process.env.DATABASE_URL;
 
-  // 2. Оборачиваем его в адаптер Prisma
+  if (!connectionString) {
+    throw new Error("DATABASE_URL is not defined in environment variables");
+  }
+
+  const pool = new pg.Pool({ connectionString });
   const adapter = new PrismaPg(pool);
 
-  // 3. Передаем адаптер в конструктор.
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return new (GeneratedClient as any)({ adapter }) as GeneratedClient;
+  return new GeneratedClient({ adapter });
 };
 
+// Экспортируем константу db напрямую
 export const db = globalThis.prisma ?? createClient();
 
 if (process.env.NODE_ENV !== "production") {
