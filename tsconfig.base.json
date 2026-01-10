@@ -14,7 +14,8 @@
     "paths": {
       "@core/shared/*": ["packages/shared/src/*"],
       "@core/database": ["packages/database/src/index.ts"],
-      "@core/database/*": ["packages/database/*"]
+      "@core/database/*": ["packages/database/*"],
+      "@core/trpc": ["./packages/trpc/src/index.ts"]
     }
   }
 }

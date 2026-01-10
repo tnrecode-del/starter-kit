@@ -6,7 +6,7 @@ export class AppController {
   constructor(@Inject(AppService) private readonly appService: AppService) {}
 
   @Get()
-  async getHello() {
+  async getUsers() {
     return this.appService.getUsers();
   }
 }
