@@ -1,6 +1,9 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "tasks": {
+    "db:push": {
+      "cache": false
+    },
     "db:generate": {
       "cache": true,
       "inputs": ["prisma/schema.prisma"],
