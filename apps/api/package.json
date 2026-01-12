@@ -12,8 +12,10 @@
   },
   "packageManager": "pnpm@10.27.0",
   "devDependencies": {
+    "@types/cookie-parser": "^1.4.10",
     "@types/express": "^5.0.6",
     "@types/node": "^25.0.3",
+    "@types/passport-jwt": "^4.0.1",
     "tsx": "^4.21.0",
     "typescript": "^5.7.3"
   },
@@ -23,8 +25,11 @@
     "@core/trpc": "workspace:*",
     "@nestjs/common": "^11.1.11",
     "@nestjs/core": "^11.1.11",
+    "@nestjs/jwt": "^11.0.2",
     "@nestjs/platform-express": "^11.1.11",
     "@trpc/server": "^11.8.1",
+    "cookie-parser": "^1.4.7",
+    "passport-jwt": "^4.0.1",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2",
     "zod": "^4.3.5"

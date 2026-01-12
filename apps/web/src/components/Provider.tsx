@@ -5,12 +5,30 @@ import React, { useState } from "react";
 import { trpc } from "../utils/trpc";
 
 export default function Providers({ children }: { children: React.ReactNode }) {
-  const [queryClient] = useState(() => new QueryClient());
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            retry: false,
+          },
+        },
+      }),
+  );
   const [trpcClient] = useState(() =>
     trpc.createClient({
       links: [
         httpBatchLink({
           url: "http://localhost:4000/trpc",
+          async headers() {
+            return {};
+          },
+          fetch(url, options) {
+            return fetch(url, {
+              ...(options as any),
+              credentials: "include",
+            });
+          },
         }),
       ],
     }),
