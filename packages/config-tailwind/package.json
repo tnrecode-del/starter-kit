@@ -5,5 +5,8 @@
   "sideEffects": true,
   "exports": {
     "./theme.css": "./theme.css"
+  },
+  "dependencies": {
+    "zod": "3.24.1"
   }
 }

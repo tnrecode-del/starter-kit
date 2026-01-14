@@ -11,6 +11,7 @@ model User {
   id        String   @id @default(cuid())
   email     String   @unique
   name      String?
+  role      ROLE?    @default(USER)
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 }
@@ -20,4 +21,9 @@ model VerificationToken {
   token String @unique
   expires DateTime
   @@unique([identifier, token])
+}
+
+enum ROLE {
+  ADMIN
+  USER
 }

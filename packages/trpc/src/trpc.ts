@@ -1,9 +1,9 @@
 import { initTRPC, TRPCError } from "@trpc/server";
 import { db } from "@core/database";
 import type { Request, Response } from "express";
-import * as jwt from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 
-const JWT_SECRET = process.env.JWT_SECRET || "super-secret-key";
+const JWT_SECRET = process.env.JWT_SECRET || "change_me";
 
 export const createTRPCContext = async ({
   req,
@@ -12,11 +12,14 @@ export const createTRPCContext = async ({
   req: Request;
   res: Response;
 }) => {
-  const token = req.cookies("auth-token");
+  const token = req.cookies?.["auth-token"];
   let user = null;
 
   if (token) {
     try {
+      // 2. Добавь лог, чтобы увидеть, доходит ли токен до сервера
+      console.log("Token found in context:", token);
+
       const decoded = jwt.verify(token, JWT_SECRET) as {
         id: string;
         email: string;
@@ -39,7 +42,6 @@ export const createTRPCContext = async ({
   };
 };
 
-// В v11 рекомендуется явно указывать контекст через функцию
 const t = initTRPC.context<typeof createTRPCContext>().create();
 
 export const router = t.router;

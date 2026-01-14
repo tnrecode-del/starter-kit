@@ -1,24 +1,19 @@
-import { router, publicProcedure, protectedProcedure } from "../trpc.js";
+import { router, publicProcedure } from "../trpc.js";
+import { LoginInputSchema } from "@core/shared/schemas/user.schema.js";
 
-import { TRPCError } from "@trpc/server";
-import { z } from "zod";
-import * as jwt from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 
 const JWT_SECRET = process.env.JWT_SECRET || "change_me";
 
 export const authRouter = router({
   login: publicProcedure
-    .input(z.object({ email: z.string().email(), password: z.string() }))
+    .input(LoginInputSchema)
     .mutation(async ({ input, ctx }) => {
-      let user = await ctx.db.user.findUnique({
+      const user = await ctx.db.user.findUnique({
         where: { email: input.email },
       });
 
-      if (!user) {
-        user = await ctx.db.user.create({
-          data: { email: input.email, name: input.email.split("@")[0] },
-        });
-      }
+      if (!user) throw new Error("No user found");
 
       const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, {
         expiresIn: "7d",

@@ -14,10 +14,11 @@
     "./types": "./src/types/index.ts",
     "./schemas": "./src/schemas/index.ts",
     "./utils": "./src/utils/index.ts",
-    "./constants": "./src/constants/index.ts"
+    "./constants": "./src/constants/index.ts",
+    "./package.json": "./package.json"
   },
   "peerDependencies": {
-    "zod": "^3.0.0"
+    "zod": "^3.24.1"
   },
   "devDependencies": {
     "typescript": "^5.9.3"

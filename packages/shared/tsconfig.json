@@ -1,9 +1,9 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "composite": true, // Важно для Turbo кэширования
-    "declaration": true, // Генерируем типы
-    "emitDeclarationOnly": true, // Нам не нужен JS в этой папке, его соберет потребитель
+    "composite": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
     "rootDir": "src",
     "outDir": "dist"
   },
