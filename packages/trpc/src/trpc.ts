@@ -17,9 +17,6 @@ export const createTRPCContext = async ({
 
   if (token) {
     try {
-      // 2. Добавь лог, чтобы увидеть, доходит ли токен до сервера
-      console.log("Token found in context:", token);
-
       const decoded = jwt.verify(token, JWT_SECRET) as {
         id: string;
         email: string;
@@ -30,7 +27,7 @@ export const createTRPCContext = async ({
       });
     } catch (err) {
       const message = err instanceof Error ? err.message : "Unknown error";
-      console.error("JWT Verification failed:", message);
+      console.error("JWT ошибка:", message);
     }
   }
 

@@ -1,8 +1,6 @@
 import { db } from "../src/index.js";
 
 async function main() {
-  console.log("🌱 Starting seeding...");
-
   const user = await db.user.upsert({
     where: { email: "admin@starter.kit" },
     update: {},
@@ -13,7 +11,7 @@ async function main() {
   });
 
   console.log({ user });
-  console.log("✅ Seeding finished.");
+  console.log("✅ Админ создан");
 }
 
 main()

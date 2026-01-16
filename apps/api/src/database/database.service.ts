@@ -6,8 +6,6 @@ export class DatabaseService implements OnModuleInit, OnModuleDestroy {
   public client!: dbPackage.PrismaClient;
 
   async onModuleInit() {
-    // Присваиваем только в момент инициализации модуля NestJS
-    // Это гарантирует, что @core/database уже полностью загружен в память
     this.client = dbPackage.db;
 
     if (!this.client) {

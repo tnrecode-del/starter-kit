@@ -5,7 +5,7 @@ export default [
   ...baseConfig,
   {
     rules: {
-      "react/react-in-jsx-scope": "off", // Next.js не требует React в scope
+      "react/react-in-jsx-scope": "off",
     },
   },
 ];
