@@ -35,3 +35,12 @@ packages/database/prisma/generated
 !.vscode/extensions.json
 !.vscode/settings.json
 .idea
+
+
+# ai
+.claude
+.claude*
+.agents
+.gemini
+
+.husky

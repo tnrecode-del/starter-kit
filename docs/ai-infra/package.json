@@ -1,0 +1,72 @@
+{
+  "name": "mvp-agent-system",
+  "version": "4.0.0",
+  "description": "Production multi-agent MVP system with real MCP integration, vector persistence, and 24/7 autonomous operation",
+  "main": "dist/orchestrator_v4.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc --project tsconfig.json",
+    "start": "node dist/orchestrator_v4.js",
+    "start:dev": "tsx --watch src/orchestrator_v4.ts",
+    "start:queue": "node dist/task_queue.js",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "node dist/regression_testing_v4.js",
+    "test:regression": "node dist/regression_testing_v4.js",
+    "lint": "eslint src/ --ext .ts",
+    "lint:fix": "eslint src/ --ext .ts --fix",
+    "format": "prettier --write \"src/**/*.{ts,md,json}\"",
+    "typecheck": "tsc --noEmit",
+    "validate": "npm run typecheck && npm run lint && npm run test",
+    "report:costs": "tsx src/scripts/report-costs.ts",
+    "report:daily": "tsx src/scripts/report-daily.ts",
+    "mcp:start": "tsx src/mcp/server.ts",
+    "db:setup": "tsx src/scripts/setup-vector-db.ts",
+    "clean": "rm -rf dist node_modules"
+  },
+  "keywords": [
+    "ai-agents", "multi-agent", "mcp", "model-context-protocol",
+    "claude", "gemini", "automation", "typescript", "agentic-coding"
+  ],
+  "author": "tnrecode",
+  "license": "MIT",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.39.0",
+    "@google/generative-ai": "^0.24.0",
+    "@modelcontextprotocol/sdk": "^1.12.0",
+    "axios": "^1.7.9",
+    "bullmq": "^5.34.0",
+    "chromadb": "^1.9.0",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.0",
+    "ioredis": "^5.4.2",
+    "nanoid": "^5.0.9",
+    "openai": "^4.77.0",
+    "pino": "^9.6.0",
+    "playwright": "^1.50.0",
+    "pixelmatch": "^6.0.0",
+    "pngjs": "^7.0.0",
+    "zod": "^3.24.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.10.0",
+    "@types/pixelmatch": "^5.2.6",
+    "@types/pngjs": "^6.0.5",
+    "@typescript-eslint/eslint-plugin": "^8.18.0",
+    "@typescript-eslint/parser": "^8.18.0",
+    "eslint": "^9.16.0",
+    "prettier": "^3.4.2",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0",
+    "vitest": "^2.1.0"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
+  },
+  "volta": {
+    "node": "22.12.0",
+    "npm": "10.9.0"
+  }
+}
