@@ -22,6 +22,7 @@
     "type-check": { "cache": true },
     "typecheck": { "cache": true },
     "start:queue": {
+      "dependsOn": ["build"],
       "cache": false,
       "persistent": true
     }

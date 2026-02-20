@@ -69,7 +69,7 @@ export const FRONTEND_UI_AGENT: SubAgentConfig = {
   useExtendedThinking: false,
   thinkingBudgetTokens: 0,
 
-  mcpServers: ["filesystem-mcp-server", "shadcn"],
+  mcpServers: ["filesystem-mcp-server", "shadcn-mcp-server"],
   skills: ["dynamic-briefing-provided-by-context-manager"],
   taskTypes: [
     "create-component",

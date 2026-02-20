@@ -240,7 +240,7 @@ export class VectorStore {
   // ─── Helpers ────────────────────────────────────────────────────
 
   private getAgentCollection(agentId: AgentId): Collection {
-    const name = `agent_${agentId.replace("-", "_")}`;
+    const name = `agent_${agentId.replaceAll("-", "_")}`;
     const collection = this.collections.get(name);
     if (!collection) throw new Error(`Collection not found: ${name}`);
     return collection;

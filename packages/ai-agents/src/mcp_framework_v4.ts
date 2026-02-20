@@ -69,7 +69,15 @@ export const MCP_SERVER_CONFIGS: Record<string, MCPServerConfig> = {
       "Browser automation: navigate, click, fill forms, take screenshots",
     transport: "stdio",
     command: "npx",
-    args: ["-y", "@anthropic/mcp-playwright"],
+    args: ["-y", "@playwright/mcp@latest"],
+  },
+
+  "shadcn-mcp-server": {
+    name: "shadcn-mcp-server",
+    description: "shadcn/ui component browser, search and usage examples",
+    transport: "stdio",
+    command: "npx",
+    args: ["-y", "@jpisnice/shadcn-ui-mcp-server"],
   },
 };
 

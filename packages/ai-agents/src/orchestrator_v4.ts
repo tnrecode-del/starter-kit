@@ -383,8 +383,11 @@ export class MVPOrchestrator {
           task.thinkingBudget &&
           task.thinkingBudget > 0
         ) {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          (params as any).thinking = {
+          (
+            params as Anthropic.MessageCreateParamsNonStreaming & {
+              thinking: { type: "enabled"; budget_tokens: number };
+            }
+          ).thinking = {
             type: "enabled",
             budget_tokens: task.thinkingBudget,
           };
@@ -514,7 +517,12 @@ export class MVPOrchestrator {
       output: usage?.candidatesTokenCount ?? 0,
     };
 
-    const cost = calculateCost("sonnet", { ...tokens, cacheRead: 0 }); // approximate
+    const geminiPricing = MODEL_PRICING.gemini;
+    const cost = {
+      total:
+        (geminiPricing.input / 1_000_000) * tokens.input +
+        (geminiPricing.output / 1_000_000) * tokens.output,
+    };
 
     log.info(
       { agent: "orchestrator", model: "gemini", tokens, duration },
@@ -579,15 +587,28 @@ Complexity: ${feature.complexity}
 Acceptance Criteria:
 ${feature.acceptanceCriteria.map((c, i) => `${i + 1}. ${c}`).join("\n")}
 
-Respond with a JSON object:
+Respond with exactly this JSON structure:
 {
-  "approved": true/false,
-  "risks": ["risk1", ...],
-  "guidelines": { "frontend": "...", "backend": "...", "database": "...", "security": "..." },
-  "notes": "summary"
+  "approved": true | false,
+  "risks": [
+    { "level": "critical | high | medium | low", "description": "...", "mitigation": "..." }
+  ],
+  "guidelines": {
+    "componentGuidelines": "UI component structure and a11y requirements",
+    "stateGuidelines": "State management and validation approach",
+    "apiContracts": "API endpoint contracts and auth requirements",
+    "apiDesign": "REST design decisions and versioning",
+    "securityRequirements": "Auth guards, input validation, OWASP concerns",
+    "dataRequirements": "Data models and relationships needed",
+    "indexHints": "DB indexes to add for this feature",
+    "performanceTargets": "LCP/FID targets, caching strategy",
+    "testScenarios": ["critical user flow 1", "edge case 2"],
+    "criticalPaths": ["happy path", "auth failure path"]
+  },
+  "notes": "brief summary for the team"
 }
 
-If you find critical security or performance risks, set approved: false.`;
+Set approved: false if you find: SQL injection risk, auth bypass, N+1 queries, breaking API contracts, secrets in code.`;
 
     if (similarPatterns.length > 0) {
       prompt += `\n\nSimilar past features found in knowledge base (use for consistency):
@@ -831,40 +852,4 @@ function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-// ─── Main ───────────────────────────────────────────────────────────
-
-async function main(): Promise<void> {
-  log.info("🤖 MVP Agent System v4.0 — Production");
-  log.info("═".repeat(60));
-
-  const config = loadConfig();
-  const orchestrator = new MVPOrchestrator(config);
-  await orchestrator.initialize();
-
-  // Example: process a single feature
-  const testFeature: FeatureRequest = {
-    id: "FEAT-001",
-    title: "User Authentication with JWT",
-    description:
-      "JWT-based auth with login, signup, password reset, and refresh tokens",
-    acceptanceCriteria: [
-      "Users register with email/password",
-      "Login returns access + refresh JWT tokens",
-      "Access tokens expire in 15 minutes",
-      "Refresh tokens expire in 7 days",
-      "Password reset via email link",
-    ],
-    complexity: "medium",
-    priority: "critical",
-    businessValue: "Core security for user access control",
-  };
-
-  await orchestrator.runLoop([testFeature]);
-}
-
-main().catch((err) => {
-  console.error("Fatal error:", err);
-  process.exit(1);
-});
-
-// // export { MVPOrchestrator };
+export { MVPOrchestrator };

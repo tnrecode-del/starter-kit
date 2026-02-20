@@ -233,37 +233,4 @@ export class FeatureQueue {
   }
 }
 
-// ─── Main (standalone queue runner) ─────────────────────────────────
-
-async function main(): Promise<void> {
-  log.info("🔄 MVP Agent Queue — 24/7 Processing");
-  log.info("═".repeat(60));
-
-  const redisUrl = process.env.REDIS_URL ?? "redis://localhost:6379";
-  const queue = new FeatureQueue(redisUrl);
-
-  // Start worker
-  await queue.startWorker();
-
-  // Handle shutdown
-  process.on("SIGINT", async () => {
-    log.info("Shutting down queue worker");
-    await queue.shutdown();
-    process.exit(0);
-  });
-
-  process.on("SIGTERM", async () => {
-    await queue.shutdown();
-    process.exit(0);
-  });
-
-  // Keep alive
-  log.info("Queue worker running. Press Ctrl+C to stop.");
-}
-
-main().catch((err) => {
-  console.error("Queue fatal error:", err);
-  process.exit(1);
-});
-
-// export { FeatureQueue };
+export { FeatureQueue };
