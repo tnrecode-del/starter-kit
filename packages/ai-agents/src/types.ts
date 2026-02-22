@@ -34,7 +34,12 @@ export type AgentId =
   | "orchestrator"
   | "context-manager";
 
-export type ModelTier = "haiku" | "sonnet" | "opus";
+export type ModelTier =
+  | "haiku"
+  | "sonnet"
+  | "opus"
+  | "gemini-flash"
+  | "gemini-pro";
 
 export interface AgentTask {
   agent: AgentId;
@@ -78,7 +83,13 @@ export const MODEL_PRICING = {
   haiku: { input: 0.25, output: 1.25, cacheRead: 0.025, cacheWrite: 0.3 },
   sonnet: { input: 3.0, output: 15.0, cacheRead: 0.3, cacheWrite: 3.75 },
   opus: { input: 15.0, output: 75.0, cacheRead: 1.5, cacheWrite: 18.75 },
-  gemini: { input: 0.075, output: 0.3, cacheRead: 0.0, cacheWrite: 0.0 },
+  "gemini-flash": {
+    input: 0.075,
+    output: 0.3,
+    cacheRead: 0.0,
+    cacheWrite: 0.0,
+  },
+  "gemini-pro": { input: 1.25, output: 5.0, cacheRead: 0.0, cacheWrite: 0.0 },
 } as const;
 
 export interface CostBreakdown {

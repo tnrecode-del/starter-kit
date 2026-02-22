@@ -17,6 +17,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import pino from "pino";
 import dotenv from "dotenv";
+import { Redis } from "ioredis";
 
 dotenv.config();
 
@@ -29,7 +30,7 @@ import type {
   ModelTier,
   SystemConfig,
 } from "./types.js";
-import { loadConfig } from "./types.js";
+import { MODEL_PRICING } from "./types.js";
 import {
   ALL_AGENTS,
   HANDOFF_RULES,
@@ -42,9 +43,10 @@ import { TelegramNotifier } from "./telegram_bot_handler.js";
 
 const log = pino({ name: "orchestrator" });
 
-// ─── Model ID Mapping ───────────────────────────────────────────────
-
-const CLAUDE_MODELS: Record<ModelTier, string> = {
+const CLAUDE_MODELS: Record<
+  Extract<ModelTier, "haiku" | "sonnet" | "opus">,
+  string
+> = {
   haiku: "claude-haiku-4-5-20251001",
   sonnet: "claude-sonnet-4-5-20250929",
   opus: "claude-opus-4-6",
@@ -59,6 +61,7 @@ export class MVPOrchestrator {
   private vectorStore: VectorStore;
   private telegram: TelegramNotifier;
   private config: SystemConfig;
+  private redis: Redis;
 
   // Budget tracking
   private monthlySpend = 0;
@@ -84,20 +87,34 @@ export class MVPOrchestrator {
       config.telegramBotToken,
       config.telegramChatId,
     );
+    this.redis = new Redis(process.env.REDIS_URL || "redis://localhost:6379");
   }
 
   async initialize(): Promise<void> {
     await this.vectorStore.initialize();
 
-    // Try to recover previous session
-    const prevState = await this.vectorStore.loadSession(this.sessionId);
-    if (prevState) {
-      this.monthlySpend = (prevState.monthlySpend as number) ?? 0;
-      this.featureCount = (prevState.featureCount as number) ?? 0;
+    // Try to recover previous session budget and state
+    const now = new Date();
+    const budgetKey = `budget:monthly:${now.getFullYear()}:${now.getMonth() + 1}`;
+
+    try {
+      const storedBudget = await this.redis.get(budgetKey);
+      if (storedBudget) {
+        this.monthlySpend = parseFloat(storedBudget);
+      }
+
+      const sessionData = await this.redis.get(`session:${this.sessionId}`);
+      if (sessionData) {
+        const parsed = JSON.parse(sessionData);
+        this.featureCount = parsed.featureCount ?? 0;
+      }
+
       log.info(
         { monthlySpend: this.monthlySpend, featureCount: this.featureCount },
-        "Recovered session state",
+        "Recovered session state from Redis",
       );
+    } catch (err) {
+      log.error({ err }, "Failed to recover session state from Redis");
     }
 
     log.info("Orchestrator initialized");
@@ -284,12 +301,30 @@ export class MVPOrchestrator {
     await this.saveCheckpoints(request, metrics);
     this.featureCount++;
 
-    // Persist session
-    await this.vectorStore.saveSession(this.sessionId, {
-      monthlySpend: this.monthlySpend,
-      featureCount: this.featureCount,
-      lastFeatureAt: new Date().toISOString(),
-    });
+    // Persist session and budget
+    const now = new Date();
+    const budgetKey = `budget:monthly:${now.getFullYear()}:${now.getMonth() + 1}`;
+
+    // Set TTL to end of month
+    const nextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+    const ttlSeconds = Math.floor((nextMonth.getTime() - now.getTime()) / 1000);
+
+    await this.redis.set(
+      budgetKey,
+      this.monthlySpend.toString(),
+      "EX",
+      ttlSeconds,
+    );
+
+    await this.redis.set(
+      `session:${this.sessionId}`,
+      JSON.stringify({
+        featureCount: this.featureCount,
+        lastFeatureAt: now.toISOString(),
+      }),
+      "EX",
+      86_400,
+    ); // 24h TTL for session info
 
     // Report
     this.logMetrics(metrics, request);
@@ -329,13 +364,17 @@ export class MVPOrchestrator {
       const startTime = Date.now();
 
       try {
-        // Route orchestrator tasks to Gemini
-        if (task.agent === "orchestrator") {
-          return await this.dispatchToGemini(task, startTime);
-        }
-
         // Select model based on complexity + budget pressure
         const model = this.selectModel(task.agent, task.feature.complexity);
+
+        // Route to Gemini
+        if (
+          model === "gemini-flash" ||
+          model === "gemini-pro" ||
+          task.agent === "orchestrator"
+        ) {
+          return await this.dispatchToGemini(task, startTime, model);
+        }
 
         // Load MCP tools for this agent
         const tools =
@@ -491,13 +530,17 @@ export class MVPOrchestrator {
   private async dispatchToGemini(
     task: AgentTask,
     startTime: number,
+    modelTier: ModelTier = "gemini-flash",
   ): Promise<AgentResult> {
-    const model = this.gemini.getGenerativeModel({ model: "gemini-2.0-flash" });
+    const geminiModelId =
+      modelTier === "gemini-pro" ? "gemini-2.5-pro" : "gemini-2.0-flash";
+    const model = this.gemini.getGenerativeModel({ model: geminiModelId });
 
     const contextStr = Object.entries(task.context)
       .map(([k, v]) => `${k}: ${typeof v === "string" ? v : JSON.stringify(v)}`)
       .join("\n\n");
 
+    const agentConfig = ALL_AGENTS[task.agent] ?? ALL_AGENTS.orchestrator;
     const result = await model.generateContent({
       contents: [
         {
@@ -505,7 +548,7 @@ export class MVPOrchestrator {
           parts: [{ text: `${task.prompt}\n\nContext:\n${contextStr}` }],
         },
       ],
-      systemInstruction: ALL_AGENTS.orchestrator.systemPrompt,
+      systemInstruction: agentConfig.systemPrompt,
     });
 
     const outputText = result.response.text();
@@ -517,7 +560,8 @@ export class MVPOrchestrator {
       output: usage?.candidatesTokenCount ?? 0,
     };
 
-    const geminiPricing = MODEL_PRICING.gemini;
+    const geminiPricing =
+      MODEL_PRICING[modelTier === "gemini-pro" ? "gemini-pro" : "gemini-flash"];
     const cost = {
       total:
         (geminiPricing.input / 1_000_000) * tokens.input +
@@ -525,7 +569,7 @@ export class MVPOrchestrator {
     };
 
     log.info(
-      { agent: "orchestrator", model: "gemini", tokens, duration },
+      { agent: task.agent, model: modelTier, tokens, duration },
       "Gemini completed",
     );
 
@@ -812,11 +856,15 @@ Provide: Vitest unit tests + Playwright E2E tests.`;
     for (const feature of features) {
       if (this.shuttingDown) {
         log.info("Shutdown requested, saving state");
-        await this.vectorStore.saveSession(this.sessionId, {
-          monthlySpend: this.monthlySpend,
-          featureCount: this.featureCount,
-          stoppedAt: new Date().toISOString(),
-        });
+        await this.redis.set(
+          `session:${this.sessionId}`,
+          JSON.stringify({
+            featureCount: this.featureCount,
+            stoppedAt: new Date().toISOString(),
+          }),
+          "EX",
+          86_400,
+        );
         break;
       }
 
@@ -843,6 +891,7 @@ Provide: Vitest unit tests + Playwright E2E tests.`;
   private shutdown(): void {
     log.info("Graceful shutdown initiated");
     this.shuttingDown = true;
+    this.redis.disconnect();
   }
 }
 
@@ -851,5 +900,3 @@ Provide: Vitest unit tests + Playwright E2E tests.`;
 function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
-
-export { MVPOrchestrator };

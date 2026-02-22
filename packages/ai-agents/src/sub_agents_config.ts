@@ -63,8 +63,12 @@ export const FRONTEND_UI_AGENT: SubAgentConfig = {
 - Never import from backend or database layers
 </rules>`,
 
-  defaultModel: "sonnet",
-  modelByComplexity: { simple: "haiku", medium: "sonnet", complex: "sonnet" },
+  defaultModel: "gemini-pro",
+  modelByComplexity: {
+    simple: "gemini-flash",
+    medium: "gemini-pro",
+    complex: "sonnet",
+  },
   maxOutputTokens: 16_000,
   useExtendedThinking: false,
   thinkingBudgetTokens: 0,
@@ -135,8 +139,12 @@ export const BACKEND_API_AGENT: SubAgentConfig = {
 - Never touch frontend or database schema directly
 </rules>`,
 
-  defaultModel: "sonnet",
-  modelByComplexity: { simple: "sonnet", medium: "sonnet", complex: "opus" },
+  defaultModel: "gemini-pro",
+  modelByComplexity: {
+    simple: "gemini-flash",
+    medium: "gemini-pro",
+    complex: "opus",
+  },
   maxOutputTokens: 20_000,
   useExtendedThinking: true,
   thinkingBudgetTokens: 8_000, // cap thinking for cost control
@@ -171,8 +179,12 @@ export const BACKEND_DATABASE_AGENT: SubAgentConfig = {
 - Never touch frontend or API controller code
 </rules>`,
 
-  defaultModel: "sonnet",
-  modelByComplexity: { simple: "haiku", medium: "sonnet", complex: "sonnet" },
+  defaultModel: "gemini-pro",
+  modelByComplexity: {
+    simple: "gemini-flash",
+    medium: "gemini-pro",
+    complex: "sonnet",
+  },
   maxOutputTokens: 16_000,
   useExtendedThinking: true,
   thinkingBudgetTokens: 6_000,
@@ -207,8 +219,12 @@ export const QA_AGENT: SubAgentConfig = {
 - Never write application code, only test code
 </rules>`,
 
-  defaultModel: "sonnet",
-  modelByComplexity: { simple: "haiku", medium: "sonnet", complex: "sonnet" },
+  defaultModel: "gemini-flash",
+  modelByComplexity: {
+    simple: "gemini-flash",
+    medium: "gemini-flash",
+    complex: "haiku",
+  },
   maxOutputTokens: 20_000,
   useExtendedThinking: false,
   thinkingBudgetTokens: 0,
