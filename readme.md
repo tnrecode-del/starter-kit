@@ -9,6 +9,7 @@
 ## Содержание
 
 1. [Обзор архитектуры](#1-обзор-архитектуры)
+   - [👉 Подробная техническая документация (Starter Kit Implementation)](./docs/starter-kit-implementation.md)
 2. [Монорепозиторий: структура и логика](#2-монорепозиторий-структура-и-логика)
 3. [Технологический стек — почему именно эти инструменты](#3-технологический-стек--почему-именно-эти-инструменты)
 4. [Поток данных (Data Flow)](#4-поток-данных-data-flow)
@@ -488,24 +489,25 @@ export type TRPCContext = {
 
 ## 9. Что уже реализовано
 
-| Функциональность    | Статус      | Файлы                                      |
-| ------------------- | ----------- | ------------------------------------------ |
-| Монорепо структура  | ✅ Готово   | `turbo.json`, `pnpm-workspace.yaml`        |
-| PostgreSQL + Prisma | ✅ Готово   | `packages/database/`                       |
-| NestJS API сервер   | ✅ Готово   | `apps/api/`                                |
-| Next.js фронтенд    | ✅ Готово   | `apps/web/`                                |
-| tRPC соединение     | ✅ Готово   | `packages/trpc/`                           |
-| JWT аутентификация  | ✅ Готово   | `apps/api/src/auth/`                       |
-| httpOnly cookies    | ✅ Готово   | `packages/trpc/src/router/auth.router.ts`  |
-| Shared Zod схемы    | ✅ Готово   | `packages/shared/`                         |
-| ESLint + Prettier   | ✅ Готово   | `packages/config-eslint/`                  |
-| Tailwind CSS v4     | ✅ Готово   | `packages/config-tailwind/`                |
-| Git hooks (Husky)   | ✅ Готово   | `.husky/pre-commit`                        |
-| Commit lint         | ✅ Готово   | `commitlint.config.cjs`                    |
-| Docker (PostgreSQL) | ✅ Готово   | `docker-compose.yml`                       |
-| Seed данные         | ✅ Готово   | `packages/database/prisma/seed.ts`         |
-| User CRUD           | ✅ Частично | `packages/trpc/src/router/users.router.ts` |
-| Роли (ADMIN/USER)   | ✅ В схеме  | `packages/database/prisma/schema.prisma`   |
+| Функциональность     | Статус      | Файлы                                      |
+| -------------------- | ----------- | ------------------------------------------ |
+| Монорепо структура   | ✅ Готово   | `turbo.json`, `pnpm-workspace.yaml`        |
+| PostgreSQL + Prisma  | ✅ Готово   | `packages/database/`                       |
+| NestJS API сервер    | ✅ Готово   | `apps/api/`                                |
+| Next.js фронтенд     | ✅ Готово   | `apps/web/`                                |
+| tRPC соединение      | ✅ Готово   | `packages/trpc/`                           |
+| JWT аутентификация   | ✅ Готово   | `apps/api/src/auth/`                       |
+| Интеграция AI Agents | ✅ ФАЗА 2   | `packages/ai-agents/`                      |
+| httpOnly cookies     | ✅ Готово   | `packages/trpc/src/router/auth.router.ts`  |
+| Shared Zod схемы     | ✅ Готово   | `packages/shared/`                         |
+| ESLint + Prettier    | ✅ Готово   | `packages/config-eslint/`                  |
+| Tailwind CSS v4      | ✅ Готово   | `packages/config-tailwind/`                |
+| Git hooks (Husky)    | ✅ Готово   | `.husky/pre-commit`                        |
+| Commit lint          | ✅ Готово   | `commitlint.config.cjs`                    |
+| Docker (PostgreSQL)  | ✅ Готово   | `docker-compose.yml`                       |
+| Seed данные          | ✅ Готово   | `packages/database/prisma/seed.ts`         |
+| User CRUD            | ✅ Частично | `packages/trpc/src/router/users.router.ts` |
+| Роли (ADMIN/USER)    | ✅ В схеме  | `packages/database/prisma/schema.prisma`   |
 
 ---
 
