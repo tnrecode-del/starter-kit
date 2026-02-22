@@ -27,3 +27,15 @@ enum ROLE {
   ADMIN
   USER
 }
+
+model FeatureQueue {
+  id           String   @id @default(cuid())
+  featureId    Int      @unique
+  name         String
+  category     String
+  status       String   @default("PENDING")
+  dependsOnIds Int[]
+  testSteps    String
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+}
