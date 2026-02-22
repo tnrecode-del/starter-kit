@@ -29,6 +29,8 @@ import type {
   AgentId,
   ModelTier,
   SystemConfig,
+  FeatureSpec,
+  SpecTask,
 } from "./types.js";
 import { MODEL_PRICING } from "./types.js";
 import {
@@ -121,6 +123,60 @@ export class MVPOrchestrator {
   }
 
   // ═══════════════════════════════════════════════════════════════════
+  // PHASE 0: SPEC GENERATOR
+  // ═══════════════════════════════════════════════════════════════════
+
+  private async generateSpec(request: FeatureRequest): Promise<FeatureSpec> {
+    log.info(
+      { featureId: request.id },
+      "Generating strict JSON specification (Phase 0)",
+    );
+    const model = this.gemini.getGenerativeModel({
+      model: "gemini-2.5-pro",
+      generationConfig: { responseMimeType: "application/json" },
+    });
+
+    const prompt = `You are a Technical Product Manager & Architect.
+Convert the following feature request into a strict JSON specification.
+Break it down into atomic tasks for specialized agents.
+
+Feature: ${request.title}
+Description: ${request.description}
+Acceptance Criteria:
+${request.acceptanceCriteria.map((c, i) => `${i + 1}. ${c}`).join("\n")}
+
+Agents available:
+- "frontend-ui": React/Tailwind components
+- "frontend-bizlogic": Zustand/Zod/API hooks
+- "backend-api": NestJS controllers/services
+- "backend-database": Prisma schema/migrations
+- "qa-testing": Playwright/Vitest (must depend on all others)
+
+Rules for DAG Dependencies:
+- Backend Database tasks must have no dependencies.
+- Backend API tasks MUST depend on Backend Database tasks.
+- Frontend UI can have no dependencies, but Frontend BizLogic MUST depend on Frontend UI and Backend API.
+- QA Testing MUST depend on everything.
+
+Output ONLY valid JSON matching this schema:
+{
+  "scope": "Brief technical summary",
+  "tasks": [
+    {
+      "id": "unique-task-string",
+      "agent": "agent-id-from-list",
+      "description": "Clear actionable instruction",
+      "dependencies": ["id-of-task-this-depends-on"]
+    }
+  ]
+}`;
+
+    const result = await model.generateContent(prompt);
+    const text = result.response.text();
+    return JSON.parse(text) as FeatureSpec;
+  }
+
+  // ═══════════════════════════════════════════════════════════════════
   // MAIN FEATURE PIPELINE
   // ═══════════════════════════════════════════════════════════════════
 
@@ -173,6 +229,20 @@ export class MVPOrchestrator {
       regressionDetected: false,
       readyForProduction: false,
     };
+
+    // ── Phase 0: Spec Generator ─────────────────────────────────────
+    try {
+      metrics.featureSpec = await this.generateSpec(request);
+      log.info(
+        { taskCount: metrics.featureSpec.tasks.length },
+        "Generated strict feature specification",
+      );
+    } catch (error) {
+      log.warn(
+        { err: (error as Error).message },
+        "Failed to generate feature spec",
+      );
+    }
 
     // ── Phase 1: Architect Review (with similar pattern enrichment) ──
     log.info("Phase 1: Architect review");
@@ -233,58 +303,98 @@ export class MVPOrchestrator {
     metrics.agentResults.push(contextManagerResult);
     this.addCost(metrics, contextManagerResult);
 
-    // ── Phase 2: Parallel Agent Execution ────────────────────────────
-    log.info("Phase 2: Parallel execution");
+    // ── Phase 2: Supervisor DAG Execution ───────────────────────────
+    log.info("Phase 2: Supervisor DAG execution");
 
-    const parallelAgents: AgentId[] = [
-      "frontend-ui",
-      "frontend-bizlogic",
-      "backend-api",
-      "backend-database",
-    ];
-    const parallelTasks = parallelAgents.map((agentId) =>
-      this.dispatchAgent({
-        agent: agentId,
-        taskId: `${request.id}-${agentId.toUpperCase()}`,
-        feature: request,
-        prompt: this.buildAgentPrompt(agentId, request),
-        context: this.buildHandoffContext(
-          "architect",
-          agentId,
-          architectResult,
-          contextManagerResult, // Inject skill briefings
-        ),
-        timestamp: new Date(),
-        useExtendedThinking: ALL_AGENTS[agentId].useExtendedThinking,
-        thinkingBudget: ALL_AGENTS[agentId].thinkingBudgetTokens,
-      }),
-    );
+    if (!metrics.featureSpec) {
+      log.error("FeatureSpec missing, aborting execution");
+      throw new Error("FeatureSpec generation failed");
+    }
 
-    const parallelResults = await Promise.allSettled(parallelTasks);
-    for (const result of parallelResults) {
-      if (result.status === "fulfilled") {
-        metrics.agentResults.push(result.value);
-        this.addCost(metrics, result.value);
+    const pendingTasks = [...metrics.featureSpec.tasks];
+    const completedTasks = new Set<string>();
+    const failedTasks = new Set<string>();
+
+    while (pendingTasks.length > 0) {
+      // Find tasks whose dependencies are all completed
+      const readyTasks = pendingTasks.filter((t: SpecTask) =>
+        t.dependencies.every((d: string) => completedTasks.has(d)),
+      );
+
+      if (readyTasks.length === 0) {
+        if (failedTasks.size > 0) {
+          log.warn("DAG execution blocked due to failed upstream dependencies");
+          break;
+        } else {
+          log.error("DAG deadlock detected! Dependencies cannot be resolved.");
+          break;
+        }
+      }
+
+      // Execute ready tasks concurrently
+      const executions = readyTasks.map(async (t: SpecTask) => {
+        const result = await this.dispatchAgent({
+          agent: t.agent,
+          taskId: `${request.id}-${t.id}`,
+          feature: request,
+          prompt:
+            t.agent === "qa-testing"
+              ? this.buildQAPrompt(request, metrics.agentResults)
+              : `Task: ${t.description}\nScope: ${metrics.featureSpec?.scope}`,
+          context:
+            t.agent === "qa-testing"
+              ? this.buildQAContext(metrics.agentResults)
+              : this.buildHandoffContext(
+                  "architect",
+                  t.agent,
+                  architectResult,
+                  contextManagerResult,
+                ),
+          timestamp: new Date(),
+          useExtendedThinking:
+            ALL_AGENTS[t.agent]?.useExtendedThinking ?? false,
+          thinkingBudget: ALL_AGENTS[t.agent]?.thinkingBudgetTokens ?? 0,
+        });
+        return { specTask: t, result };
+      });
+
+      const finishedBatch = await Promise.allSettled(executions);
+
+      // Remove finished tasks from pending queue
+      for (const t of readyTasks) {
+        const index = pendingTasks.findIndex((pt: SpecTask) => pt.id === t.id);
+        if (index > -1) pendingTasks.splice(index, 1);
+      }
+
+      for (const outcome of finishedBatch) {
+        if (outcome.status === "fulfilled") {
+          const { specTask, result } = outcome.value;
+          metrics.agentResults.push(result);
+          this.addCost(metrics, result);
+
+          if (result.status === "success") {
+            completedTasks.add(specTask.id);
+          } else {
+            failedTasks.add(specTask.id);
+          }
+        } else {
+          log.error(
+            { err: outcome.reason },
+            "Task execution promise rejected completely",
+          );
+          failedTasks.add("unknown-failure");
+        }
       }
     }
 
-    // ── Phase 3: QA Testing ─────────────────────────────────────────
-    log.info("Phase 3: QA testing");
-
-    const qaResult = await this.dispatchAgent({
-      agent: "qa-testing",
-      taskId: `${request.id}-QA`,
-      feature: request,
-      prompt: this.buildQAPrompt(request, metrics.agentResults),
-      context: this.buildQAContext(metrics.agentResults),
-      timestamp: new Date(),
-      useExtendedThinking: false,
-    });
-
-    metrics.agentResults.push(qaResult);
-    this.addCost(metrics, qaResult);
-
-    if (qaResult.output.risks?.some((r) => r.includes("regression"))) {
+    // Evaluate regression from QA agent if it ran
+    if (
+      metrics.agentResults.some(
+        (r) =>
+          r.agent === "qa-testing" &&
+          r.output.risks?.some((risk) => risk.includes("regression")),
+      )
+    ) {
       metrics.regressionDetected = true;
     }
 
@@ -660,17 +770,6 @@ ${JSON.stringify(similarPatterns, null, 2)}`;
     }
 
     return prompt;
-  }
-
-  private buildAgentPrompt(agentId: AgentId, feature: FeatureRequest): string {
-    const prompts: Record<string, string> = {
-      "frontend-ui": `Build React/Next.js components for: "${feature.title}"\n\n${feature.description}\n\nProvide complete, production-ready TSX files.`,
-      "frontend-bizlogic": `Design state management and validation for: "${feature.title}"\n\n${feature.description}\n\nProvide Zustand stores, Zod schemas, and API hooks.`,
-      "backend-api": `Design NestJS API endpoints for: "${feature.title}"\n\n${feature.description}\n\nProvide controllers, services, DTOs, and guards.`,
-      "backend-database": `Design database schema and migrations for: "${feature.title}"\n\n${feature.description}\n\nProvide Prisma schema, migration SQL, and seed data.`,
-    };
-
-    return prompts[agentId] ?? `Process task for: "${feature.title}"`;
   }
 
   private buildQAPrompt(

@@ -10,6 +10,18 @@
 export type Complexity = "simple" | "medium" | "complex";
 export type Priority = "low" | "medium" | "high" | "critical";
 
+export interface SpecTask {
+  id: string;
+  agent: AgentId;
+  description: string;
+  dependencies: string[];
+}
+
+export interface FeatureSpec {
+  scope: string;
+  tasks: SpecTask[];
+}
+
 export interface FeatureRequest {
   id: string;
   title: string;
@@ -112,6 +124,7 @@ export interface ExecutionMetrics {
   regressionDetected: boolean;
   readyForProduction: boolean;
   vectorCheckpointId?: string;
+  featureSpec?: FeatureSpec;
 }
 
 // ─── MCP / Tools ────────────────────────────────────────────────────
