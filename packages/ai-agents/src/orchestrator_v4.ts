@@ -85,7 +85,7 @@ export class MVPOrchestrator {
     this.claude = new Anthropic({ apiKey: config.anthropicApiKey });
     this.gemini = new GoogleGenerativeAI(config.googleApiKey);
     this.mcpManager = new MCPClientManager();
-    this.vectorStore = new VectorStore(config.chromaUrl);
+    this.vectorStore = new VectorStore(config.chromaUrl, config.googleApiKey);
     this.telegram = new TelegramNotifier(
       config.telegramBotToken,
       config.telegramChatId,
@@ -476,7 +476,22 @@ Output ONLY valid JSON matching this schema:
 
       try {
         // Select model based on complexity + budget pressure
-        const model = this.selectModel(task.agent, task.feature.complexity);
+        let model = this.selectModel(task.agent, task.feature.complexity);
+
+        // Global provider override mapping
+        if (this.config.defaultAiProvider === "gemini") {
+          if (model === "opus" || model === "sonnet") {
+            model = "gemini-pro";
+          } else if (model === "haiku") {
+            model = "gemini-flash";
+          }
+        } else if (this.config.defaultAiProvider === "anthropic") {
+          if (model === "gemini-pro") {
+            model = "sonnet";
+          } else if (model === "gemini-flash") {
+            model = "haiku";
+          }
+        }
 
         // Route to Gemini
         if (
@@ -644,7 +659,7 @@ Output ONLY valid JSON matching this schema:
     modelTier: ModelTier = "gemini-flash",
   ): Promise<AgentResult> {
     const geminiModelId =
-      modelTier === "gemini-pro" ? "gemini-2.5-pro" : "gemini-2.0-flash";
+      modelTier === "gemini-pro" ? "gemini-2.5-pro" : "gemini-2.5-flash";
     const model = this.gemini.getGenerativeModel({ model: geminiModelId });
 
     const contextStr = Object.entries(task.context)

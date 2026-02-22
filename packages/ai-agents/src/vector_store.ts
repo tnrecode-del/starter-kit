@@ -16,6 +16,7 @@
 import { ChromaClient, Collection } from "chromadb";
 import { nanoid } from "nanoid";
 import pino from "pino";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 import type { AgentId, VectorCheckpoint, SimilarPattern } from "./types.js";
 
@@ -27,9 +28,33 @@ export class VectorStore {
   private client: ChromaClient;
   private collections = new Map<string, Collection>();
   private initialized = false;
+  private embedder: any;
 
-  constructor(chromaUrl: string = "http://localhost:8000") {
+  constructor(
+    chromaUrl: string = "http://localhost:8000",
+    geminiApiKey?: string,
+  ) {
     this.client = new ChromaClient({ path: chromaUrl });
+
+    if (geminiApiKey) {
+      const genAI = new GoogleGenerativeAI(geminiApiKey);
+      const model = genAI.getGenerativeModel({ model: "text-embedding-004" });
+      this.embedder = {
+        generate: async (texts: string[]) => {
+          return await Promise.all(
+            texts.map(async (text) => {
+              try {
+                const result = await model.embedContent(text);
+                return result.embedding.values;
+              } catch (e) {
+                // Return dummy zeroes on error
+                return new Array(768).fill(0);
+              }
+            }),
+          );
+        },
+      };
+    }
   }
 
   /** Initialize collections for each agent + a global session collection */
@@ -43,13 +68,18 @@ export class VectorStore {
       "agent_backend_database",
       "agent_qa_testing",
       "agent_architect",
+      "agent_orchestrator",
+      "agent_context_manager",
       "sessions",
       "features",
     ];
 
     for (const name of collectionNames) {
       try {
-        const collection = await this.client.getOrCreateCollection({ name });
+        const collection = await this.client.getOrCreateCollection({
+          name,
+          ...(this.embedder ? { embeddingFunction: this.embedder } : {}),
+        });
         this.collections.set(name, collection);
       } catch (err) {
         log.error({ err, collection: name }, "Failed to init collection");

@@ -1,0 +1,93 @@
+
+> @core/ai-agents@4.0.0 start /Users/me/Desktop/code/starter-kit/packages/ai-agents
+> node dist/main.js
+
+{"level":30,"time":1771791230418,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"main","msg":"🤖 MVP Agent System v4.0 — Production"}
+{"level":40,"time":1771791230418,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"telegram","msg":"Telegram disabled — missing TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID"}
+{"level":30,"time":1771791230477,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"vector-store","msg":"Vector store initialized with 10 collections"}
+{"level":30,"time":1771791230478,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","monthlySpend":0,"featureCount":0,"msg":"Recovered session state from Redis"}
+{"level":30,"time":1771791230478,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","msg":"Orchestrator initialized"}
+{"level":30,"time":1771791230479,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","msg":"Starting autonomous processing loop via Prisma FeatureQueue polling"}
+{"level":30,"time":1771791230533,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","taskId":0,"name":"Database connection established","msg":"Claimed ready task from FeatureQueue"}
+{"level":30,"time":1771791230533,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","featureId":"feat-0","title":"Database connection established","msg":"Processing feature"}
+{"level":30,"time":1771791230533,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","featureId":"feat-0","msg":"Generating strict JSON specification (Phase 0)"}
+{"level":30,"time":1771791244075,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","taskCount":3,"msg":"Generated strict feature specification"}
+{"level":30,"time":1771791244076,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","msg":"Phase 1: Architect review"}
+{"level":30,"time":1771791260629,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","agent":"architect","model":"gemini-pro","tokens":{"input":525,"output":610},"duration":16376,"msg":"Gemini completed"}
+{"level":30,"time":1771791260629,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","msg":"Phase 1.5: Context manager skills briefing"}
+{"level":30,"time":1771791280222,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","agent":"context-manager","model":"gemini-pro","tokens":{"input":395,"output":733},"duration":19593,"msg":"Gemini completed"}
+{"level":30,"time":1771791280226,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","msg":"Phase 2: Supervisor DAG execution"}
+{"level":30,"time":1771791296288,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","agent":"backend-database","model":"gemini-pro","tokens":{"input":1215,"output":683},"duration":16059,"msg":"Gemini completed"}
+{"level":30,"time":1771791328442,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","agent":"backend-api","model":"gemini-pro","tokens":{"input":1229,"output":1847},"duration":32152,"msg":"Gemini completed"}
+{"level":30,"time":1771791401659,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","agent":"qa-testing","model":"gemini-flash","tokens":{"input":2270,"output":6781},"duration":73215,"msg":"Gemini completed"}
+{"level":30,"time":1771791401948,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"vector-store","id":"cp_breR8rfjktaw","agentId":"orchestrator","featureId":"feat-0","msg":"Checkpoint saved"}
+{"level":30,"time":1771791402118,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"vector-store","id":"cp_4Q2DmH0eFOry","agentId":"orchestrator","featureId":"feat-0","msg":"Checkpoint saved"}
+{"level":30,"time":1771791402300,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"vector-store","id":"cp_xRDiXZVX9ifi","agentId":"orchestrator","featureId":"feat-0","msg":"Checkpoint saved"}
+{"level":30,"time":1771791402465,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"vector-store","id":"cp_rC9L9v3Buu9C","agentId":"orchestrator","featureId":"feat-0","msg":"Checkpoint saved"}
+{"level":30,"time":1771791402677,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"vector-store","id":"cp_EAtPCGAbOOuf","agentId":"orchestrator","featureId":"feat-0","msg":"Checkpoint saved"}
+{"level":30,"time":1771791402854,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","feature":"Database connection established","cost":"$0.0258","time":"2.9m","successRate":"100%","prodReady":true,"monthlySpend":"$0.03","msg":"Feature metrics"}
+{"level":30,"time":1771791402890,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","taskId":1,"name":"Database schema applied correctly","msg":"Claimed ready task from FeatureQueue"}
+{"level":30,"time":1771791402890,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","featureId":"feat-1","title":"Database schema applied correctly","msg":"Processing feature"}
+{"level":30,"time":1771791402891,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","featureId":"feat-1","msg":"Generating strict JSON specification (Phase 0)"}
+{"level":30,"time":1771791418720,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","taskCount":3,"msg":"Generated strict feature specification"}
+{"level":30,"time":1771791418720,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","msg":"Phase 1: Architect review"}
+{"level":30,"time":1771791437458,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","agent":"architect","model":"gemini-pro","tokens":{"input":642,"output":500},"duration":18504,"msg":"Gemini completed"}
+{"level":30,"time":1771791437458,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","msg":"Phase 1.5: Context manager skills briefing"}
+{"level":30,"time":1771791461971,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","agent":"context-manager","model":"gemini-pro","tokens":{"input":431,"output":671},"duration":24512,"msg":"Gemini completed"}
+{"level":30,"time":1771791461972,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","msg":"Phase 2: Supervisor DAG execution"}
+{"level":30,"time":1771791492488,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","agent":"backend-database","model":"gemini-pro","tokens":{"input":1210,"output":1803},"duration":30516,"msg":"Gemini completed"}
+{"level":30,"time":1771791519103,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","agent":"backend-api","model":"gemini-pro","tokens":{"input":1220,"output":1049},"duration":26614,"msg":"Gemini completed"}
+{"level":30,"time":1771791592223,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","agent":"qa-testing","model":"gemini-flash","tokens":{"input":2315,"output":11688},"duration":73119,"msg":"Gemini completed"}
+{"level":30,"time":1771791592407,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"vector-store","id":"cp_t3_Kf8ApBjBK","agentId":"orchestrator","featureId":"feat-1","msg":"Checkpoint saved"}
+{"level":30,"time":1771791592572,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"vector-store","id":"cp__26aBHLZiEuM","agentId":"orchestrator","featureId":"feat-1","msg":"Checkpoint saved"}
+{"level":30,"time":1771791592742,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"vector-store","id":"cp_v7nXyJ1An95W","agentId":"orchestrator","featureId":"feat-1","msg":"Checkpoint saved"}
+{"level":30,"time":1771791592976,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"vector-store","id":"cp_TGzRY_6qFqtu","agentId":"orchestrator","featureId":"feat-1","msg":"Checkpoint saved"}
+{"level":30,"time":1771791593142,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"vector-store","id":"cp_5zESGXmQM_kq","agentId":"orchestrator","featureId":"feat-1","msg":"Checkpoint saved"}
+{"level":30,"time":1771791593326,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","feature":"Database schema applied correctly","cost":"$0.0282","time":"3.2m","successRate":"100%","prodReady":true,"monthlySpend":"$0.05","msg":"Feature metrics"}
+{"level":30,"time":1771791593346,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","taskId":2,"name":"Data persists across server restart","msg":"Claimed ready task from FeatureQueue"}
+{"level":30,"time":1771791593346,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","featureId":"feat-2","title":"Data persists across server restart","msg":"Processing feature"}
+{"level":30,"time":1771791593346,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","featureId":"feat-2","msg":"Generating strict JSON specification (Phase 0)"}
+{"level":30,"time":1771791617030,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","taskCount":3,"msg":"Generated strict feature specification"}
+{"level":30,"time":1771791617030,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","msg":"Phase 1: Architect review"}
+{"level":30,"time":1771791640539,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","agent":"architect","model":"gemini-pro","tokens":{"input":695,"output":893},"duration":23326,"msg":"Gemini completed"}
+{"level":30,"time":1771791640540,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","msg":"Phase 1.5: Context manager skills briefing"}
+{"level":30,"time":1771791660931,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","agent":"context-manager","model":"gemini-pro","tokens":{"input":642,"output":782},"duration":20391,"msg":"Gemini completed"}
+{"level":30,"time":1771791660932,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","msg":"Phase 2: Supervisor DAG execution"}
+{"level":30,"time":1771791676494,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","agent":"backend-database","model":"gemini-pro","tokens":{"input":1561,"output":618},"duration":15562,"msg":"Gemini completed"}
+{"level":30,"time":1771791707424,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","agent":"backend-api","model":"gemini-pro","tokens":{"input":1577,"output":1924},"duration":30929,"msg":"Gemini completed"}
+{"level":30,"time":1771791737390,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","agent":"qa-testing","model":"gemini-flash","tokens":{"input":2486,"output":2575},"duration":29965,"msg":"Gemini completed"}
+{"level":30,"time":1771791737626,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"vector-store","id":"cp_N1x8SbOBRN61","agentId":"orchestrator","featureId":"feat-2","msg":"Checkpoint saved"}
+{"level":30,"time":1771791737791,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"vector-store","id":"cp_yFc47wJ1abpX","agentId":"orchestrator","featureId":"feat-2","msg":"Checkpoint saved"}
+{"level":30,"time":1771791737948,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"vector-store","id":"cp_94uLWyK7mCLu","agentId":"orchestrator","featureId":"feat-2","msg":"Checkpoint saved"}
+{"level":30,"time":1771791738138,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"vector-store","id":"cp_xu3gHOzpH0Jx","agentId":"orchestrator","featureId":"feat-2","msg":"Checkpoint saved"}
+{"level":30,"time":1771791738306,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"vector-store","id":"cp_GlF0MvwmvrDk","agentId":"orchestrator","featureId":"feat-2","msg":"Checkpoint saved"}
+{"level":30,"time":1771791738463,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","feature":"Data persists across server restart","cost":"$0.0276","time":"2.4m","successRate":"100%","prodReady":true,"monthlySpend":"$0.08","msg":"Feature metrics"}
+{"level":30,"time":1771791738485,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","taskId":3,"name":"No mock data patterns in codebase","msg":"Claimed ready task from FeatureQueue"}
+{"level":30,"time":1771791738485,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","featureId":"feat-3","title":"No mock data patterns in codebase","msg":"Processing feature"}
+{"level":30,"time":1771791738485,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","featureId":"feat-3","msg":"Generating strict JSON specification (Phase 0)"}
+{"level":30,"time":1771791764764,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","taskCount":5,"msg":"Generated strict feature specification"}
+{"level":30,"time":1771791764765,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","msg":"Phase 1: Architect review"}
+{"level":30,"time":1771791786601,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","agent":"architect","model":"gemini-pro","tokens":{"input":763,"output":670},"duration":21658,"msg":"Gemini completed"}
+{"level":30,"time":1771791786602,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","msg":"Phase 1.5: Context manager skills briefing"}
+{"level":30,"time":1771791809577,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","agent":"context-manager","model":"gemini-pro","tokens":{"input":482,"output":645},"duration":22975,"msg":"Gemini completed"}
+{"level":30,"time":1771791809577,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","msg":"Phase 2: Supervisor DAG execution"}
+{"level":30,"time":1771791815821,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","agent":"frontend-ui","model":"gemini-pro","tokens":{"input":1211,"output":49},"duration":6243,"msg":"Gemini completed"}
+{"level":30,"time":1771791847124,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","agent":"backend-database","model":"gemini-pro","tokens":{"input":1206,"output":2673},"duration":37546,"msg":"Gemini completed"}
+{"level":30,"time":1771791880067,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","agent":"backend-api","model":"gemini-pro","tokens":{"input":1223,"output":2480},"duration":32941,"msg":"Gemini completed"}
+{"level":30,"time":1771791884394,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","agent":"frontend-bizlogic","model":"gemini-pro","tokens":{"input":1200,"output":53},"duration":4326,"msg":"Gemini completed"}
+{"level":30,"time":1771791920214,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","agent":"qa-testing","model":"gemini-flash","tokens":{"input":2293,"output":6228},"duration":35819,"msg":"Gemini completed"}
+{"level":30,"time":1771791920399,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"vector-store","id":"cp_busfXoDPIop_","agentId":"orchestrator","featureId":"feat-3","msg":"Checkpoint saved"}
+{"level":30,"time":1771791920561,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"vector-store","id":"cp_cyuE7yw6ojmH","agentId":"orchestrator","featureId":"feat-3","msg":"Checkpoint saved"}
+{"level":30,"time":1771791920753,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"vector-store","id":"cp_V4QpbERyixS9","agentId":"orchestrator","featureId":"feat-3","msg":"Checkpoint saved"}
+{"level":30,"time":1771791920913,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"vector-store","id":"cp_PdySe8nMc8UO","agentId":"orchestrator","featureId":"feat-3","msg":"Checkpoint saved"}
+{"level":30,"time":1771791921092,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"vector-store","id":"cp_GlFJkE-XQ99e","agentId":"orchestrator","featureId":"feat-3","msg":"Checkpoint saved"}
+{"level":30,"time":1771791921265,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"vector-store","id":"cp_C7heXywJ53Hc","agentId":"orchestrator","featureId":"feat-3","msg":"Checkpoint saved"}
+{"level":30,"time":1771791921424,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"vector-store","id":"cp_Ib9-dSb-5LWu","agentId":"orchestrator","featureId":"feat-3","msg":"Checkpoint saved"}
+{"level":30,"time":1771791921614,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","feature":"No mock data patterns in codebase","cost":"$0.0425","time":"3.0m","successRate":"100%","prodReady":true,"monthlySpend":"$0.12","msg":"Feature metrics"}
+{"level":30,"time":1771791921629,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","taskId":4,"name":"Backend API queries real database","msg":"Claimed ready task from FeatureQueue"}
+{"level":30,"time":1771791921629,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","featureId":"feat-4","title":"Backend API queries real database","msg":"Processing feature"}
+{"level":30,"time":1771791921629,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","featureId":"feat-4","msg":"Generating strict JSON specification (Phase 0)"}
+{"level":30,"time":1771791938175,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","taskCount":3,"msg":"Generated strict feature specification"}
+{"level":30,"time":1771791938175,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","msg":"Phase 1: Architect review"}
+{"level":30,"time":1771791962388,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","agent":"architect","model":"gemini-pro","tokens":{"input":763,"output":808},"duration":24053,"msg":"Gemini completed"}
+{"level":30,"time":1771791962389,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","msg":"Phase 1.5: Context manager skills briefing"}

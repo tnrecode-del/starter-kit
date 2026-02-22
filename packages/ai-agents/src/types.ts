@@ -248,6 +248,7 @@ export interface SystemConfig {
   redisUrl: string;
   chromaUrl: string;
   baseUrl: string;
+  defaultAiProvider?: "anthropic" | "gemini";
   budgetLimitMonthly: number;
   budgetAlertThreshold: number;
   maxRetries: number;
@@ -263,6 +264,10 @@ export function loadConfig(): SystemConfig {
     redisUrl: process.env.REDIS_URL ?? "redis://localhost:6379",
     chromaUrl: process.env.CHROMA_URL ?? "http://localhost:8000",
     baseUrl: process.env.BASE_URL ?? "http://localhost:3000",
+    defaultAiProvider: process.env.DEFAULT_AI_PROVIDER as
+      | "anthropic"
+      | "gemini"
+      | undefined,
     budgetLimitMonthly: Number(process.env.BUDGET_LIMIT ?? 20),
     budgetAlertThreshold: Number(process.env.BUDGET_ALERT ?? 18),
     maxRetries: Number(process.env.MAX_RETRIES ?? 3),

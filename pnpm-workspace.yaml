@@ -1,8 +1,3 @@
 packages:
   - apps/*
   - packages/*
-
-patchedDependencies:
-  '@modelcontextprotocol/sdk@1.26.0': patches/@modelcontextprotocol__sdk@1.26.0.patch
-  zod@3.24.1: patches/zod@3.24.1.patch
-  zod@3.24.2: patches/zod@3.24.2.patch
