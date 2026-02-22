@@ -232,5 +232,3 @@ export class FeatureQueue {
     log.info("Queue shut down gracefully");
   }
 }
-
-export { FeatureQueue };

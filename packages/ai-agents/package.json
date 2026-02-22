@@ -20,6 +20,8 @@
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.39.0",
+    "@core/database": "workspace:*",
+    "@core/shared": "workspace:*",
     "@google/generative-ai": "^0.24.1",
     "@modelcontextprotocol/sdk": "^1.12.0",
     "axios": "^1.13.5",

@@ -1,5 +1,5 @@
 import { router, publicProcedure } from "../trpc.js";
-import { LoginInputSchema } from "@core/shared/schemas/user.schema.js";
+import { LoginInputSchema } from "@core/shared/schemas";
 
 import jwt from "jsonwebtoken";
 

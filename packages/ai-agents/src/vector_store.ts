@@ -131,44 +131,6 @@ export class VectorStore {
     }
   }
 
-  // ─── Session Management ─────────────────────────────────────────
-
-  /** Save full session state for recovery after restart */
-  async saveSession(
-    sessionId: string,
-    state: Record<string, unknown>,
-  ): Promise<void> {
-    const collection = this.collections.get("sessions");
-    if (!collection) throw new Error("Sessions collection not initialized");
-
-    const content = JSON.stringify(state);
-
-    // Upsert — ChromaDB handles duplicates
-    await collection.upsert({
-      ids: [sessionId],
-      documents: [content],
-      metadatas: [{ createdAt: new Date().toISOString(), type: "session" }],
-    });
-
-    log.info({ sessionId }, "Session state saved");
-  }
-
-  /** Load session state for recovery */
-  async loadSession(
-    sessionId: string,
-  ): Promise<Record<string, unknown> | null> {
-    const collection = this.collections.get("sessions");
-    if (!collection) return null;
-
-    try {
-      const result = await collection.get({ ids: [sessionId] });
-      if (!result.documents?.[0]) return null;
-      return JSON.parse(result.documents[0] as string);
-    } catch {
-      return null;
-    }
-  }
-
   // ─── Feature Tracking ──────────────────────────────────────────
 
   /** Record completed feature for batch learning */

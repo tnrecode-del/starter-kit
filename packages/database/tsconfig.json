@@ -5,6 +5,8 @@
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "types": ["node"],
+    "composite": true,
+    "declaration": true,
     "skipLibCheck": true,
     "baseUrl": ".",
     "paths": {
