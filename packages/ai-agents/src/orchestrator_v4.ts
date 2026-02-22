@@ -42,6 +42,7 @@ import {
 import { MCPClientManager } from "./mcp_framework_v4.js";
 import { VectorStore } from "./vector_store.js";
 import { TelegramNotifier } from "./telegram_bot_handler.js";
+import { db } from "@core/database";
 
 const log = pino({ name: "orchestrator" });
 
@@ -939,43 +940,125 @@ Provide: Vitest unit tests + Playwright E2E tests.`;
   }
 
   // ═══════════════════════════════════════════════════════════════════
-  // 24/7 AUTONOMOUS LOOP
+  // 24/7 AUTONOMOUS LOOP (FEATURE QUEUE POLLING)
   // ═══════════════════════════════════════════════════════════════════
 
-  async runLoop(features: FeatureRequest[]): Promise<void> {
+  async runLoop(): Promise<void> {
     log.info(
-      { features: features.length },
-      "Starting autonomous processing loop",
+      "Starting autonomous processing loop via Prisma FeatureQueue polling",
     );
 
     // Graceful shutdown handlers
     process.on("SIGINT", () => this.shutdown());
     process.on("SIGTERM", () => this.shutdown());
 
-    for (const feature of features) {
-      if (this.shuttingDown) {
-        log.info("Shutdown requested, saving state");
-        await this.redis.set(
-          `session:${this.sessionId}`,
-          JSON.stringify({
-            featureCount: this.featureCount,
-            stoppedAt: new Date().toISOString(),
-          }),
-          "EX",
-          86_400,
-        );
-        break;
-      }
-
+    while (!this.shuttingDown) {
       try {
-        await this.processFeature(feature);
-      } catch (err) {
-        log.error({ err, featureId: feature.id }, "Feature processing failed");
-      }
+        // Find all pending tasks
+        const pendingTasks = await db.featureQueue.findMany({
+          where: { status: "PENDING" },
+          orderBy: { featureId: "asc" },
+        });
 
-      // Brief pause between features to respect rate limits
-      await sleep(2000);
+        let executedTask = false;
+
+        for (const task of pendingTasks) {
+          if (this.shuttingDown) break;
+
+          // Check if dependencies are resolved
+          let isReady = true;
+          if (task.dependsOnIds && task.dependsOnIds.length > 0) {
+            const dependencies = await db.featureQueue.findMany({
+              where: { featureId: { in: task.dependsOnIds } },
+              select: { status: true },
+            });
+            // If any dependency is NOT COMPLETED, we cannot run this task yet
+            isReady = dependencies.every((dep) => dep.status === "COMPLETED");
+          }
+
+          if (isReady) {
+            // Claim task
+            await db.featureQueue.update({
+              where: { id: task.id },
+              data: { status: "IN_PROGRESS" },
+            });
+
+            log.info(
+              { taskId: task.featureId, name: task.name },
+              "Claimed ready task from FeatureQueue",
+            );
+            executedTask = true;
+
+            // Map DB record to Orchestrator's internal FeatureRequest
+            const featureReq: FeatureRequest = {
+              id: `feat-${task.featureId}`,
+              title: task.name,
+              description: `Category: ${task.category}. Implement this atomic feature.`,
+              acceptanceCriteria: task.testSteps
+                .split("\n")
+                .map((s) => s.trim())
+                .filter(Boolean),
+              complexity: "medium", // Default assumption, could be mapped or enhanced later
+              businessValue: "Required for MVP completion",
+              priority: "high",
+            };
+
+            try {
+              const metrics = await this.processFeature(featureReq);
+
+              // Mark done or failed based on regression/success rate
+              if (metrics.readyForProduction) {
+                await db.featureQueue.update({
+                  where: { id: task.id },
+                  data: { status: "COMPLETED" },
+                });
+              } else {
+                log.warn(
+                  { featureId: task.featureId },
+                  "Feature processed but not ready for production",
+                );
+                await db.featureQueue.update({
+                  where: { id: task.id },
+                  data: { status: "FAILED" },
+                });
+              }
+            } catch (err) {
+              log.error(
+                { err, featureId: task.featureId },
+                "Feature processing threw an error",
+              );
+              await db.featureQueue.update({
+                where: { id: task.id },
+                data: { status: "FAILED" },
+              });
+            }
+
+            // Only process one queue item completely before checking queue again
+            // to ensure strict dependency sequence and budget limits.
+            break;
+          }
+        }
+
+        // If no tasks were executed in this iteration, sleep longer to avoid DB spam
+        if (!executedTask) {
+          await sleep(5000); // 5s idle sleep
+        }
+      } catch (err) {
+        log.error({ err }, "FeatureQueue polling failed");
+        await sleep(5000);
+      }
     }
+
+    log.info("Saving orchestrator session state...");
+    await this.redis.set(
+      `session:${this.sessionId}`,
+      JSON.stringify({
+        featureCount: this.featureCount,
+        stoppedAt: new Date().toISOString(),
+      }),
+      "EX",
+      86_400,
+    );
 
     await this.mcpManager.disconnectAll();
     log.info(
@@ -983,7 +1066,7 @@ Provide: Vitest unit tests + Playwright E2E tests.`;
         totalCost: `$${this.monthlySpend.toFixed(2)}`,
         features: this.featureCount,
       },
-      "Loop completed",
+      "Loop completed shutting down",
     );
   }
 
@@ -998,4 +1081,32 @@ Provide: Vitest unit tests + Playwright E2E tests.`;
 
 function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+// ─── Execution ────────────────────────────────────────────────────────
+
+const isMainModule =
+  process.argv[1] && process.argv[1].endsWith("orchestrator_v4.ts");
+
+if (isMainModule) {
+  const orchestrator = new MVPOrchestrator({
+    anthropicApiKey: process.env.ANTHROPIC_API_KEY || "",
+    googleApiKey: process.env.GOOGLE_API_KEY || "",
+    chromaUrl: process.env.CHROMA_URL || "http://localhost:8000",
+    redisUrl: process.env.REDIS_URL || "redis://localhost:6379",
+    baseUrl: process.env.BASE_URL || "http://localhost:3000",
+    telegramBotToken: process.env.TELEGRAM_BOT_TOKEN || "",
+    telegramChatId: process.env.TELEGRAM_CHAT_ID || "",
+    budgetLimitMonthly: 50.0,
+    budgetAlertThreshold: 40.0,
+    maxRetries: 3,
+    retryBaseDelayMs: 2000,
+  });
+
+  orchestrator.initialize().then(() => {
+    orchestrator.runLoop().catch((err) => {
+      log.fatal({ err }, "Orchestrator loop crashed");
+      process.exit(1);
+    });
+  });
 }

@@ -14,6 +14,12 @@
   "author": "",
   "license": "ISC",
   "packageManager": "pnpm@10.27.0",
+  "overrides": {
+    "eslint": "^9.14.0",
+    "react-is": "^19.0.0-rc-69d4b800-20241021",
+    "@types/react": "npm:types-react@19.0.0-rc.1",
+    "@types/react-dom": "npm:types-react-dom@19.0.0-rc.1"
+  },
   "lint-staged": {
     "**/*.{ts,tsx,js}": [
       "eslint --fix --no-warn-ignored",
@@ -31,5 +37,8 @@
     "prettier": "^3.7.4",
     "turbo": "^2.7.3",
     "typescript": "5.7.3"
+  },
+  "dependencies": {
+    "zod": "3.24.2"
   }
 }

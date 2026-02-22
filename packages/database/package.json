@@ -2,12 +2,20 @@
   "name": "@core/database",
   "version": "1.0.0",
   "private": true,
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./dist/src/index.js",
+  "types": "./dist/src/index.d.ts",
   "type": "module",
   "exports": {
-    ".": "./src/index.ts",
-    "./client": "./prisma/generated/client.js"
+    ".": {
+      "types": "./dist/src/index.d.ts",
+      "import": "./dist/src/index.js",
+      "default": "./dist/src/index.js"
+    },
+    "./client": {
+      "types": "./dist/prisma/generated/client.d.ts",
+      "import": "./dist/prisma/generated/client.js",
+      "default": "./dist/prisma/generated/client.js"
+    }
   },
   "scripts": {
     "db:generate": "prisma generate",
