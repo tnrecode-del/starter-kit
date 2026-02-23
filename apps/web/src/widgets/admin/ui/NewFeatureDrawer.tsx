@@ -27,8 +27,6 @@ export function NewFeatureDrawer() {
   const [userStory, setUserStory] = useState("");
 
   const handleExpand = () => {
-    if (!userStory.trim()) return;
-
     setIsExpanding(true);
     // Simulate AI generation
     setTimeout(() => {
@@ -116,7 +114,7 @@ export function NewFeatureDrawer() {
                 <button
                   type="button"
                   onClick={handleExpand}
-                  disabled={isExpanding || !userStory.trim()}
+                  disabled={isExpanding}
                   className="text-xs font-semibold text-primary hover:text-primary/80 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5 px-2 py-1 rounded-md hover:bg-primary/10 transition-all"
                 >
                   {isExpanding ? (

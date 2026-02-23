@@ -578,3 +578,44 @@
 {"level":30,"time":1771888067492,"pid":21599,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","msg":"Starting autonomous processing loop via Prisma FeatureQueue polling"}
 {"level":30,"time":1771888067493,"pid":21602,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","sessionId":"session_1771888067388","monthlySpend":2.7531257500000024,"featureCount":0,"msg":"Orchestrator session recovered"}
 {"level":30,"time":1771888067493,"pid":21602,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","msg":"Starting autonomous processing loop via Prisma FeatureQueue polling"}
+{"level":30,"time":1771888192581,"pid":21602,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","msg":"Orchestrator shutting down gracefully..."}
+{"level":30,"time":1771888192585,"pid":21600,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","msg":"Orchestrator shutting down gracefully..."}
+{"level":30,"time":1771888192585,"pid":21601,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","msg":"Orchestrator shutting down gracefully..."}
+{"level":30,"time":1771888192591,"pid":21599,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","msg":"Orchestrator shutting down gracefully..."}
+{"level":30,"time":1771888194381,"pid":22585,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","sessionId":"session_1771888194351","monthlySpend":2.7531257500000024,"featureCount":0,"msg":"Orchestrator session recovered"}
+{"level":30,"time":1771888194381,"pid":22585,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","msg":"Starting autonomous processing loop via Prisma FeatureQueue polling"}
+{"level":30,"time":1771888194383,"pid":22587,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","sessionId":"session_1771888194362","monthlySpend":2.7531257500000024,"featureCount":0,"msg":"Orchestrator session recovered"}
+{"level":30,"time":1771888194383,"pid":22549,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","sessionId":"session_1771888194350","monthlySpend":2.7531257500000024,"featureCount":0,"msg":"Orchestrator session recovered"}
+{"level":30,"time":1771888194383,"pid":22587,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","msg":"Starting autonomous processing loop via Prisma FeatureQueue polling"}
+{"level":30,"time":1771888194384,"pid":22549,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","msg":"Starting autonomous processing loop via Prisma FeatureQueue polling"}
+{"level":30,"time":1771888194390,"pid":22586,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","sessionId":"session_1771888194373","monthlySpend":2.7531257500000024,"featureCount":0,"msg":"Orchestrator session recovered"}
+{"level":30,"time":1771888194390,"pid":22586,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","msg":"Starting autonomous processing loop via Prisma FeatureQueue polling"}
+{"level":30,"time":1771888212304,"pid":22586,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","msg":"Orchestrator shutting down gracefully..."}
+{"level":30,"time":1771888212304,"pid":22549,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","msg":"Orchestrator shutting down gracefully..."}
+{"level":30,"time":1771888212304,"pid":22585,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","msg":"Orchestrator shutting down gracefully..."}
+{"level":30,"time":1771888212306,"pid":22587,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","msg":"Orchestrator shutting down gracefully..."}
+{"level":30,"time":1771888213808,"pid":22740,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","sessionId":"session_1771888213736","monthlySpend":2.7531257500000024,"featureCount":0,"msg":"Orchestrator session recovered"}
+{"level":30,"time":1771888213808,"pid":22740,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","msg":"Starting autonomous processing loop via Prisma FeatureQueue polling"}
+{"level":30,"time":1771888213930,"pid":22742,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","sessionId":"session_1771888213858","monthlySpend":2.7531257500000024,"featureCount":0,"msg":"Orchestrator session recovered"}
+{"level":30,"time":1771888213930,"pid":22742,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","msg":"Starting autonomous processing loop via Prisma FeatureQueue polling"}
+{"level":30,"time":1771888214012,"pid":22741,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","sessionId":"session_1771888213874","monthlySpend":2.7531257500000024,"featureCount":0,"msg":"Orchestrator session recovered"}
+{"level":30,"time":1771888214012,"pid":22741,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","msg":"Starting autonomous processing loop via Prisma FeatureQueue polling"}
+{"level":30,"time":1771888214025,"pid":22743,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","sessionId":"session_1771888213885","monthlySpend":2.7531257500000024,"featureCount":0,"msg":"Orchestrator session recovered"}
+{"level":30,"time":1771888214026,"pid":22743,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","msg":"Starting autonomous processing loop via Prisma FeatureQueue polling"}
+{"level":30,"time":1771888214172,"pid":22778,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","sessionId":"session_1771888214132","monthlySpend":2.7531257500000024,"featureCount":0,"msg":"Orchestrator session recovered"}
+{"level":30,"time":1771888214172,"pid":22778,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","msg":"Starting autonomous processing loop via Prisma FeatureQueue polling"}
+{"level":30,"time":1771888240013,"pid":22740,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","msg":"Orchestrator shutting down gracefully..."}
+{"level":30,"time":1771888240015,"pid":22741,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","msg":"Orchestrator shutting down gracefully..."}
+{"level":30,"time":1771888240016,"pid":22743,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","msg":"Orchestrator shutting down gracefully..."}
+{"level":30,"time":1771888240016,"pid":22742,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","msg":"Orchestrator shutting down gracefully..."}
+{"level":30,"time":1771888240021,"pid":22778,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","msg":"Orchestrator shutting down gracefully..."}
+{"level":30,"time":1771888241754,"pid":22936,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","sessionId":"session_1771888241715","monthlySpend":2.7531257500000024,"featureCount":0,"msg":"Orchestrator session recovered"}
+{"level":30,"time":1771888241755,"pid":22936,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","msg":"Starting autonomous processing loop via Prisma FeatureQueue polling"}
+{"level":30,"time":1771888241867,"pid":22934,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","sessionId":"session_1771888241759","monthlySpend":2.7531257500000024,"featureCount":0,"msg":"Orchestrator session recovered"}
+{"level":30,"time":1771888241869,"pid":22934,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","msg":"Starting autonomous processing loop via Prisma FeatureQueue polling"}
+{"level":30,"time":1771888241881,"pid":22945,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","sessionId":"session_1771888241783","monthlySpend":2.7531257500000024,"featureCount":0,"msg":"Orchestrator session recovered"}
+{"level":30,"time":1771888241882,"pid":22945,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","msg":"Starting autonomous processing loop via Prisma FeatureQueue polling"}
+{"level":30,"time":1771888241959,"pid":22943,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","sessionId":"session_1771888241907","monthlySpend":2.7531257500000024,"featureCount":0,"msg":"Orchestrator session recovered"}
+{"level":30,"time":1771888241959,"pid":22943,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","msg":"Starting autonomous processing loop via Prisma FeatureQueue polling"}
+{"level":30,"time":1771888242058,"pid":22944,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","sessionId":"session_1771888242029","monthlySpend":2.7531257500000024,"featureCount":0,"msg":"Orchestrator session recovered"}
+{"level":30,"time":1771888242058,"pid":22944,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","msg":"Starting autonomous processing loop via Prisma FeatureQueue polling"}
