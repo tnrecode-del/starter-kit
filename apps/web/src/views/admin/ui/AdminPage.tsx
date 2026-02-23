@@ -5,8 +5,10 @@ import {
   CheckCircle2,
   ListTodo,
 } from "lucide-react";
+// @ts-expect-error - Using compiled dist directly to bypass Turbopack workspace TS constraints
 import { db } from "@core/database/dist/src/index.js";
 import { QueueList } from "@/widgets/queue-list/ui/QueueList";
+import { NewFeatureDrawer } from "@/widgets/admin/ui/NewFeatureDrawer";
 
 export default async function AdminPage() {
   const tasks = await db.featureQueue.findMany({
@@ -31,18 +33,21 @@ export default async function AdminPage() {
 
   return (
     <main className="container max-w-5xl mx-auto py-12 px-6 fade-in">
-      <div className="flex items-center gap-3 mb-8">
-        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
-          <Sparkles className="h-6 w-6" />
+      <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center gap-3">
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
+            <Sparkles className="h-6 w-6" />
+          </div>
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight">
+              Orchestrator Activity
+            </h1>
+            <p className="text-muted-foreground text-sm">
+              Monitor autonomous feature execution
+            </p>
+          </div>
         </div>
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">
-            Orchestrator Activity
-          </h1>
-          <p className="text-muted-foreground text-sm">
-            Monitor autonomous feature execution
-          </p>
-        </div>
+        <NewFeatureDrawer />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">

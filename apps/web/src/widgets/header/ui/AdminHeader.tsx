@@ -3,6 +3,7 @@ import { useAuth } from "@/shared/lib/hooks/useAuth";
 import { LogOut, Terminal, Settings, Bell } from "lucide-react";
 import Link from "next/link";
 import { ThemeToggle } from "./ThemeToggle";
+import { LocaleSwitcher } from "./LocaleSwitcher";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -33,6 +34,7 @@ export function AdminHeader() {
         </div>
 
         <div className="flex items-center gap-4">
+          <LocaleSwitcher />
           <ThemeToggle />
           <div className="h-4 w-px bg-border hidden sm:block"></div>
 
