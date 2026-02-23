@@ -11,40 +11,42 @@ import {
   CheckCircle2,
   Loader2,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 
-const STAGES = [
+const getStages = (t: any) => [
   {
     id: "idea",
-    label: "Analyze",
+    label: t("stages.analyze.label"),
     icon: <Lightbulb className="h-5 w-5" />,
-    description: "Analyzing user prompt & generating PRD",
+    description: t("stages.analyze.description"),
     content: (
       <div className="space-y-4 font-mono text-sm">
         <div className="flex items-center gap-3 text-foreground/90 bg-muted/30 p-3 rounded-lg border border-border/50 shadow-inner">
           <div className="h-2.5 w-2.5 rounded-full bg-blue-500 animate-pulse shadow-[0_0_8px_rgba(59,130,246,0.8)]" />
-          <span className="font-semibold">User Prompt Received</span>
+          <span className="font-semibold">{t("stages.analyze.promptMsg")}</span>
         </div>
         <div className="p-4 bg-background/50 rounded-lg border border-border shadow-sm relative overflow-hidden group">
           <div className="absolute inset-0 bg-linear-to-r from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
           <p className="text-muted-foreground leading-relaxed italic relative z-10">
-            "Create a sleek automated pipeline visualizer component for the
-            landing page with Tailwind animations and a live activity stream
-            feel."
+            {t("stages.analyze.promptText")}
           </p>
         </div>
         <div className="space-y-2 pt-2">
           <div className="flex items-center gap-3 text-muted-foreground">
             <Loader2 className="h-4 w-4 animate-spin text-primary" />
-            <span>Context Manager is parsing requirements...</span>
+            <span>{t("stages.analyze.parsing")}</span>
           </div>
           <div className="flex items-center gap-3 text-muted-foreground opacity-50">
             <ChevronRight className="h-4 w-4" />
-            <span>Searching vector database for relevant codebase context</span>
+            <span>{t("stages.analyze.searching")}</span>
           </div>
         </div>
         <div className="mt-4 pt-3 border-t border-border/50 flex items-center justify-between text-xs text-muted-foreground">
           <div className="flex items-center gap-4">
-            <span className="flex items-center gap-1.5" title="Execution Time">
+            <span
+              className="flex items-center gap-1.5"
+              title={t("stages.analyze.execTime")}
+            >
               <svg
                 width="12"
                 height="12"
@@ -60,7 +62,10 @@ const STAGES = [
               </svg>
               1.2s
             </span>
-            <span className="flex items-center gap-1.5" title="LLM Cost">
+            <span
+              className="flex items-center gap-1.5"
+              title={t("stages.analyze.llmCost")}
+            >
               <svg
                 width="12"
                 height="12"
@@ -87,14 +92,14 @@ const STAGES = [
   },
   {
     id: "design",
-    label: "Architect",
+    label: t("stages.architect.label"),
     icon: <Sparkles className="h-5 w-5" />,
-    description: "Proposing architecture & design system",
+    description: t("stages.architect.description"),
     content: (
       <div className="space-y-5 font-mono text-sm">
         <div className="flex items-center gap-3 text-emerald-500 bg-emerald-500/10 p-3 rounded-lg border border-emerald-500/20">
           <CheckCircle2 className="h-4 w-4" />
-          <span className="font-semibold">FSD Architecture Drafted</span>
+          <span className="font-semibold">{t("stages.architect.drafted")}</span>
         </div>
         <div className="p-4 bg-[#0d1117] rounded-lg border border-border shadow-inner text-emerald-400/90 leading-loose overflow-x-auto">
           <p className="text-emerald-300">├── apps/web/src/widgets/</p>
@@ -152,32 +157,32 @@ const STAGES = [
   },
   {
     id: "orchestrate",
-    label: "Orchestrate",
+    label: t("stages.orchestrate.label"),
     icon: <Network className="h-5 w-5" />,
-    description: "Sub-agents dispatched to execute tasks",
+    description: t("stages.orchestrate.description"),
     content: (
       <div className="space-y-4">
         <div className="flex items-center gap-3 text-primary text-sm font-semibold mb-4 bg-primary/10 p-3 rounded-lg border border-primary/20">
           <Network className="h-4 w-4 animate-pulse" />
-          <span>Spawning Agent Swarm (3 Active)</span>
+          <span>{t("stages.orchestrate.spawning")}</span>
         </div>
         <div className="grid gap-3">
           {[
             {
               agent: "frontend-ui-1",
-              task: "Build React Component Structure",
+              task: t("stages.orchestrate.task1"),
               progress: 100,
               status: "done",
             },
             {
               agent: "frontend-logic-1",
-              task: "Implement auto-cycling active hooks",
+              task: t("stages.orchestrate.task2"),
               progress: 85,
               status: "active",
             },
             {
               agent: "qa-testing-2",
-              task: "Write E2E visualizer tests",
+              task: t("stages.orchestrate.task3"),
               progress: 30,
               status: "pending",
             },
@@ -242,7 +247,7 @@ const STAGES = [
               >
                 <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
               </svg>
-              $0.012 / hr savings
+              {t("stages.orchestrate.savings")}
             </span>
           </div>
           <div className="flex gap-2">
@@ -259,9 +264,9 @@ const STAGES = [
   },
   {
     id: "execute",
-    label: "Execute",
+    label: t("stages.execute.label"),
     icon: <Terminal className="h-5 w-5" />,
-    description: "Writing code and resolving dependencies",
+    description: t("stages.execute.description"),
     content: (
       <div className="bg-[#0d1117] rounded-lg p-4 font-mono text-xs overflow-hidden relative shadow-inner border border-border/50 h-[280px] flex flex-col">
         {/* Editor Tab */}
@@ -269,7 +274,7 @@ const STAGES = [
           <Terminal className="h-3.5 w-3.5" />
           <span>PipelineVisualizer.tsx</span>
           <span className="ml-auto text-[10px] text-primary bg-primary/20 px-1.5 py-0.5 rounded">
-            Auto-saving...
+            {t("stages.execute.autosaving")}
           </span>
         </div>
 
@@ -392,30 +397,30 @@ const STAGES = [
   },
   {
     id: "test",
-    label: "Verify",
+    label: t("stages.verify.label"),
     icon: <ShieldCheck className="h-5 w-5" />,
-    description: "Running E2E tests and deployment checks",
+    description: t("stages.verify.description"),
     content: (
       <div className="space-y-3 font-mono text-sm h-[280px] flex flex-col justify-center">
         <div className="flex flex-col gap-3">
           <div className="flex items-center gap-3 text-emerald-500 bg-emerald-500/5 p-2.5 rounded border border-emerald-500/10">
             <CheckCircle2 className="h-4 w-4 shrink-0" />
-            <span className="truncate">PipelineVisualizer.test.tsx passes</span>
+            <span className="truncate">{t("stages.verify.test1")}</span>
             <span className="ml-auto text-xs opacity-60">12ms</span>
           </div>
           <div className="flex items-center gap-3 text-emerald-500 bg-emerald-500/5 p-2.5 rounded border border-emerald-500/10">
             <CheckCircle2 className="h-4 w-4 shrink-0" />
-            <span className="truncate">No accessibility violations (a11y)</span>
+            <span className="truncate">{t("stages.verify.test2")}</span>
             <span className="ml-auto text-xs opacity-60">8ms</span>
           </div>
           <div className="flex items-center gap-3 text-emerald-500 bg-emerald-500/5 p-2.5 rounded border border-emerald-500/10">
             <CheckCircle2 className="h-4 w-4 shrink-0" />
-            <span className="truncate">Web Vitals optimal (CLS ~0)</span>
+            <span className="truncate">{t("stages.verify.test3")}</span>
             <span className="ml-auto text-xs opacity-60">2ms</span>
           </div>
           <div className="flex items-center gap-3 text-emerald-500 bg-emerald-500/5 p-2.5 rounded border border-emerald-500/10">
             <CheckCircle2 className="h-4 w-4 shrink-0" />
-            <span className="truncate">Bundle size within limits (+2.4kb)</span>
+            <span className="truncate">{t("stages.verify.test4")}</span>
             <span className="ml-auto text-xs opacity-60">45ms</span>
           </div>
         </div>
@@ -423,7 +428,7 @@ const STAGES = [
         <div className="mt-4 p-4 bg-linear-to-r from-emerald-500/20 to-emerald-500/5 border border-emerald-500/30 rounded-xl text-center shadow-[0_0_20px_rgba(16,185,129,0.15)] transform hover:scale-[1.02] transition-transform">
           <span className="text-emerald-600 dark:text-emerald-400 font-bold text-base tracking-wide flex items-center justify-center gap-2">
             <RocketIcon />
-            Ready for Production
+            {t("stages.verify.ready")}
           </span>
         </div>
         <div className="mt-4 pt-3 flex items-center justify-between text-xs text-muted-foreground">
@@ -442,7 +447,7 @@ const STAGES = [
                 <circle cx="12" cy="12" r="10" />
                 <polyline points="12 6 12 12 16 14" />
               </svg>
-              Total Time: 5.4s
+              {t("stages.verify.totalTime")}
             </span>
             <span className="flex items-center gap-1.5 font-semibold">
               <svg
@@ -457,7 +462,7 @@ const STAGES = [
               >
                 <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
               </svg>
-              Total Cost: $0.015
+              {t("stages.verify.totalCost")}
             </span>
           </div>
         </div>
@@ -488,6 +493,9 @@ function RocketIcon() {
 }
 
 export function PipelineVisualizer() {
+  const t = useTranslations("PipelineVisualizer");
+  const STAGES = getStages(t);
+
   const [activeIndex, setActiveIndex] = useState(0);
   const [progress, setProgress] = useState(0);
 
@@ -581,7 +589,7 @@ export function PipelineVisualizer() {
                     {stage.label}
                   </h4>
                   <div className="text-[10px] text-muted-foreground uppercase tracking-wider mt-0.5 font-medium">
-                    Step {idx + 1}
+                    {t("step")} {idx + 1}
                   </div>
                 </div>
               </div>
@@ -597,7 +605,7 @@ export function PipelineVisualizer() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
               </span>
-              Live Activity Stream
+              {t("header.liveStream")}
             </h3>
             <span className="text-[10px] md:text-xs font-mono text-muted-foreground border border-border/50 px-2 py-1 rounded-full bg-background/50">
               {STAGES[activeIndex].id}.log
@@ -633,7 +641,7 @@ export function PipelineVisualizer() {
           <div className="mt-8 relative z-20">
             <div className="flex justify-between text-xs text-muted-foreground mb-2">
               <span className="font-medium">
-                Executing Stage • {STAGES[activeIndex].label}
+                {t("executingStage")} • {STAGES[activeIndex].label}
               </span>
               <span className="font-mono text-primary">
                 {Math.round(progress)}%

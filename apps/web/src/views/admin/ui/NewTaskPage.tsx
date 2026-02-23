@@ -13,10 +13,10 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-import { Button } from "@shared/ui/button";
-import { Input } from "@shared/ui/input";
-import { Label } from "@shared/ui/label";
-import { Textarea } from "@shared/ui/textarea";
+import { Button } from "@core/shared";
+import { Input } from "@core/shared";
+import { Label } from "@core/shared";
+import { Textarea } from "@core/shared";
 
 export function NewTaskPage() {
   const router = useRouter();
@@ -66,8 +66,14 @@ export function NewTaskPage() {
           "For authentication/emails, we should:\n- Setup Resend or AWS SES.\n- Create a magic link flow in Next.js.\n- Update Auth.js configuration.";
         isDraft = true;
       } else {
+        const mockResponses = [
+          "I can definitely help with that. Let's break it down into modular tickets.\n- Update schema definition.\n- Implement tRPC router endpoints.\n- Add UI components.",
+          "That sounds like a great feature! Here's a quick draft to get us started:\n- Define background jobs in Redis.\n- Build the administrative dashboard view.\n- Set up daily cron tasks.",
+          "Interesting approach. We should consider these architectural requirements:\n- Expand the API to support pagination.\n- Optimize PostgreSQL indexes for the new queries.\n- Add frontend caching with React Query.",
+          "Got it. Let's organize the work:\n- Design the Feature-Sliced Architecture layers.\n- Write end-to-end tests in Playwright.\n- Implement the core business logic in the Domain layer.",
+        ];
         aiResponse =
-          "I can definitely help with that. Let's break it down into modular tickets. Here is a draft requirement list:\n- Update schema definition.\n- Implement tRPC router endpoints.\n- Add UI components in the `@core/shared` library.";
+          mockResponses[Math.floor(Math.random() * mockResponses.length)];
         isDraft = true;
       }
 
@@ -139,7 +145,9 @@ export function NewTaskPage() {
                 id="title"
                 placeholder="e.g., Integrate Stripe Subscription"
                 value={featureName}
-                onChange={(e) => setFeatureName(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setFeatureName(e.target.value)
+                }
                 className="bg-background/50 border-border/50 shadow-sm focus-visible:ring-primary/20 transition-all text-lg py-6 rounded-xl"
                 required
               />
@@ -163,7 +171,9 @@ export function NewTaskPage() {
                 placeholder="Describe the exact requirements, or click 'Apply' on an AI generated draft..."
                 className="flex-1 resize-none bg-background/50 border-border/50 shadow-sm focus-visible:ring-primary/20 transition-all font-mono text-sm leading-relaxed rounded-xl p-4 min-h-[250px]"
                 value={requirements}
-                onChange={(e) => setRequirements(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                  setRequirements(e.target.value)
+                }
                 required
               />
             </div>
@@ -216,7 +226,7 @@ export function NewTaskPage() {
         </div>
 
         {/* Right Column: AI Assistant */}
-        <div className="md:col-span-2 flex flex-col bg-muted/10 border border-border/50 rounded-3xl overflow-hidden shadow-inner h-full">
+        <div className="md:col-span-2 flex flex-col bg-muted/10 border border-border/50 rounded-3xl overflow-hidden shadow-inner h-full min-h-0">
           <div className="p-5 border-b border-border/50 bg-background/80 backdrop-blur-md flex items-center gap-3">
             <div className="h-8 w-8 rounded-full bg-primary/20 flex items-center justify-center border border-primary/20">
               <Bot className="h-4 w-4 text-primary" />
@@ -297,7 +307,9 @@ export function NewTaskPage() {
               <Input
                 placeholder="Ask AI to brainstorm requirements..."
                 value={chatInput}
-                onChange={(e) => setChatInput(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setChatInput(e.target.value)
+                }
                 className="border-0 shadow-none focus-visible:ring-0 bg-transparent px-4 h-10"
                 disabled={isTyping}
               />
