@@ -1,4 +1,4 @@
-import AdminPage from "@/pages/admin/ui/AdminPage";
+import AdminPage from "@/views/admin/ui/AdminPage";
 
 export const dynamic = "force-dynamic";
 

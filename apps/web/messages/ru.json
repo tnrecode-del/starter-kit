@@ -1,0 +1,13 @@
+{
+  "AdminPage": {
+    "title": "Активность Оркестратора",
+    "subtitle": "Мониторинг автономного выполнения функций",
+    "aiSystemInsightTitle": "AI System Insight",
+    "tasksNotCreated": "задачи еще не созданы",
+    "tasksInProgress": "задачи в процессе",
+    "allTasksCompleted": "все задачи выполнены",
+    "totalTasks": "Всего задач",
+    "active": "В процессе",
+    "finished": "Завершено"
+  }
+}

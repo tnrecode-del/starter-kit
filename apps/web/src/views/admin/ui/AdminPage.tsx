@@ -5,7 +5,6 @@ import {
   CheckCircle2,
   ListTodo,
 } from "lucide-react";
-// @ts-expect-error - Using compiled dist directly to bypass Turbopack workspace TS constraints
 import { db } from "@core/database/dist/src/index.js";
 import { QueueList } from "@/widgets/queue-list/ui/QueueList";
 

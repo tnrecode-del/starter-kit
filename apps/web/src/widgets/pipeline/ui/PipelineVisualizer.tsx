@@ -42,6 +42,46 @@ const STAGES = [
             <span>Searching vector database for relevant codebase context</span>
           </div>
         </div>
+        <div className="mt-4 pt-3 border-t border-border/50 flex items-center justify-between text-xs text-muted-foreground">
+          <div className="flex items-center gap-4">
+            <span className="flex items-center gap-1.5" title="Execution Time">
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <polyline points="12 6 12 12 16 14" />
+              </svg>
+              1.2s
+            </span>
+            <span className="flex items-center gap-1.5" title="LLM Cost">
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <line x1="12" x2="12" y1="2" y2="22" />
+                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+              </svg>
+              $0.002
+            </span>
+          </div>
+          <div className="flex gap-2">
+            <span className="px-2 py-0.5 rounded bg-muted">ContextManager</span>
+            <span className="px-2 py-0.5 rounded bg-muted">VectorDB</span>
+          </div>
+        </div>
       </div>
     ),
   },
@@ -68,12 +108,44 @@ const STAGES = [
             └── shared/config/tokens.ts
           </p>
         </div>
-        <div className="flex items-center justify-between text-xs text-muted-foreground">
-          <span className="flex items-center gap-2">
-            <div className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-            Ready for Orchestration
-          </span>
-          <span className="opacity-50">0.4s</span>
+        <div className="mt-4 pt-3 border-t border-border/50 flex items-center justify-between text-xs text-muted-foreground">
+          <div className="flex items-center gap-4">
+            <span className="flex items-center gap-1.5">
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <polyline points="12 6 12 12 16 14" />
+              </svg>
+              0.8s
+            </span>
+            <span className="flex items-center gap-1.5">
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <line x1="12" x2="12" y1="2" y2="22" />
+                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+              </svg>
+              $0.005
+            </span>
+          </div>
+          <div className="flex gap-2">
+            <span className="px-2 py-0.5 rounded bg-muted">ArchitectAgent</span>
+          </div>
         </div>
       </div>
     ),
@@ -154,6 +226,33 @@ const STAGES = [
               </div>
             </div>
           ))}
+        </div>
+        <div className="mt-2 pt-3 border-t border-border/50 flex items-center justify-between text-xs text-muted-foreground">
+          <div className="flex items-center gap-4">
+            <span className="flex items-center gap-1.5 truncate">
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+              </svg>
+              $0.012 / hr savings
+            </span>
+          </div>
+          <div className="flex gap-2">
+            <span className="px-2 py-0.5 rounded bg-muted text-[10px] hidden sm:block">
+              AgentSwarm
+            </span>
+            <span className="px-2 py-0.5 rounded bg-muted text-[10px]">
+              PlannerAgent
+            </span>
+          </div>
         </div>
       </div>
     ),
@@ -245,6 +344,49 @@ const STAGES = [
           </div>
           <div className="absolute bottom-0 w-full h-12 bg-linear-to-t from-[#0d1117] to-transparent z-10" />
         </div>
+        <div className="mt-2 pt-2 border-t border-white/10 flex items-center justify-between text-[#8b949e] opacity-70 flex-shrink-0 z-20">
+          <div className="flex items-center gap-4 text-[10px]">
+            <span className="flex items-center gap-1.5">
+              <svg
+                width="10"
+                height="10"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <polyline points="12 6 12 12 16 14" />
+              </svg>
+              3.4s
+            </span>
+            <span className="flex items-center gap-1.5">
+              <svg
+                width="10"
+                height="10"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+              </svg>
+              $0.008
+            </span>
+          </div>
+          <div className="flex gap-1.5">
+            <span className="px-1.5 py-0.5 rounded bg-white/5 text-[9px] border border-white/10">
+              CodeWriter
+            </span>
+            <span className="px-1.5 py-0.5 rounded bg-white/5 text-[9px] border border-white/10 hidden sm:block">
+              LinterTool
+            </span>
+          </div>
+        </div>
       </div>
     ),
   },
@@ -278,11 +420,46 @@ const STAGES = [
           </div>
         </div>
 
-        <div className="mt-4 p-4 bg-gradient-to-r from-emerald-500/20 to-emerald-500/5 border border-emerald-500/30 rounded-xl text-center shadow-[0_0_20px_rgba(16,185,129,0.15)] transform hover:scale-[1.02] transition-transform">
+        <div className="mt-4 p-4 bg-linear-to-r from-emerald-500/20 to-emerald-500/5 border border-emerald-500/30 rounded-xl text-center shadow-[0_0_20px_rgba(16,185,129,0.15)] transform hover:scale-[1.02] transition-transform">
           <span className="text-emerald-600 dark:text-emerald-400 font-bold text-base tracking-wide flex items-center justify-center gap-2">
             <RocketIcon />
             Ready for Production
           </span>
+        </div>
+        <div className="mt-4 pt-3 flex items-center justify-between text-xs text-muted-foreground">
+          <div className="flex items-center gap-4 text-emerald-600/70 dark:text-emerald-400/70">
+            <span className="flex items-center gap-1.5 font-semibold">
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <polyline points="12 6 12 12 16 14" />
+              </svg>
+              Total Time: 5.4s
+            </span>
+            <span className="flex items-center gap-1.5 font-semibold">
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+              </svg>
+              Total Cost: $0.015
+            </span>
+          </div>
         </div>
       </div>
     ),
@@ -467,7 +644,7 @@ export function PipelineVisualizer() {
                 className="h-full bg-primary relative"
                 style={{ width: `${progress}%` }}
               >
-                <div className="absolute top-0 right-0 bottom-0 left-0 bg-linear-to-r from-transparent via-white/30 to-transparent translate-x-[-100%] animate-[shimmer_2s_infinite]" />
+                <div className="absolute top-0 right-0 bottom-0 left-0 bg-linear-to-r from-transparent via-white/30 to-transparent -translate-x-full animate-[shimmer_2s_infinite]" />
               </div>
             </div>
           </div>

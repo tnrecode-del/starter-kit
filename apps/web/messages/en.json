@@ -1,0 +1,13 @@
+{
+  "AdminPage": {
+    "title": "Orchestrator Activity",
+    "subtitle": "Monitor autonomous feature execution",
+    "aiSystemInsightTitle": "AI System Insight",
+    "tasksNotCreated": "no tasks created yet",
+    "tasksInProgress": "tasks in progress",
+    "allTasksCompleted": "all tasks completed",
+    "totalTasks": "Total Tasks",
+    "active": "Active",
+    "finished": "Finished"
+  }
+}
