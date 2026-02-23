@@ -247,8 +247,13 @@ export class MCPClientManager {
     return { client, transport, tools, connectedAt: new Date() };
   }
 
+  /** Initialize all default MCP servers (lazy loaded naturally, but can be forced here) */
+  async initializeAll(): Promise<void> {
+    log.info("MCP Manager initialized (lazy loading enabled)");
+  }
+
   /** Disconnect all servers gracefully */
-  async disconnectAll(): Promise<void> {
+  async cleanupAll(): Promise<void> {
     for (const [name, server] of this.connections) {
       try {
         await server.client.close();

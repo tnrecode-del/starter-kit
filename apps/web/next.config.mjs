@@ -7,6 +7,7 @@ const __dirname = path.dirname(__filename);
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   transpilePackages: ["@core/shared", "@core/trpc", "@core/config-tailwind"],
+  serverExternalPackages: ["@core/database", "pg", "@prisma/adapter-pg"],
 };
 
 export default nextConfig;

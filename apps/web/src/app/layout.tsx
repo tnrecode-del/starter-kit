@@ -1,5 +1,4 @@
-import Providers from "../components/Provider";
-import { Header } from "../components/Header";
+import Providers from "@/app/providers/Provider";
 
 import "./globals.css";
 
@@ -9,12 +8,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body>
-        <Providers>
-          <Header />
-          {children}
-        </Providers>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

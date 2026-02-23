@@ -34,8 +34,43 @@ model FeatureQueue {
   name         String
   category     String
   status       String   @default("PENDING")
+  priority     String   @default("MEDIUM")
   dependsOnIds Int[]
   testSteps    String
+  resultData   String?
+  executionLog String?
+  
+  executionMetric ExecutionMetric?
+  roiMetric       RoiMetric?
+  
   createdAt    DateTime @default(now()) @map("created_at")
   updatedAt    DateTime @updatedAt @map("updated_at")
+}
+
+model ExecutionMetric {
+  id               String   @id @default(cuid())
+  featureId        String   @unique
+  feature          FeatureQueue @relation(fields: [featureId], references: [id], onDelete: Cascade)
+  
+  totalCostUsd     Float
+  durationSeconds  Int
+  successRate      Int
+  readyForProduction Boolean
+  promptTokens     Int
+  completionTokens Int
+  cachedTokens     Int
+  agentsUsed       Json
+  createdAt        DateTime @default(now())
+}
+
+model RoiMetric {
+  id               String   @id @default(cuid())
+  featureId        String   @unique
+  feature          FeatureQueue @relation(fields: [featureId], references: [id], onDelete: Cascade)
+  
+  filesModified    Int?
+  gitBranch        String?
+  toolsCalled      Int?
+  estimatedHumanHoursSaved Float?
+  createdAt        DateTime @default(now())
 }

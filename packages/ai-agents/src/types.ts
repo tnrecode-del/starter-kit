@@ -116,6 +116,7 @@ export interface CostBreakdown {
 
 export interface ExecutionMetrics {
   featureId: string;
+  totalTokens: number;
   totalCost: number;
   costBreakdown: CostBreakdown;
   totalTime: number;

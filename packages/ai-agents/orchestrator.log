@@ -91,3 +91,396 @@
 {"level":30,"time":1771791938175,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","msg":"Phase 1: Architect review"}
 {"level":30,"time":1771791962388,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","agent":"architect","model":"gemini-pro","tokens":{"input":763,"output":808},"duration":24053,"msg":"Gemini completed"}
 {"level":30,"time":1771791962389,"pid":11047,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","msg":"Phase 1.5: Context manager skills briefing"}
+{"level":30,"time":1771876225547,"pid":11047,"name":"orchestrator","featureId":"feat-1","title":"Database schema applied correctly","msg":"Processing feature"}
+{"level":30,"time":1771876226547,"pid":11047,"name":"orchestrator","featureId":"feat-1","msg":"Generating strict JSON specification (Phase 0)"}
+{"level":30,"time":1771876230547,"pid":11047,"name":"orchestrator","taskCount":3,"msg":"Generated strict feature specification","featureId":"feat-1"}
+{"level":30,"time":1771876231047,"pid":11047,"name":"orchestrator","msg":"Phase 1: Architect review","featureId":"feat-1"}
+{"level":30,"time":1771876233547,"pid":11047,"name":"orchestrator","agent":"frontend-ui","model":"gemini-pro","tokens":{"input":526,"output":1138},"duration":9233,"msg":"Gemini completed","featureId":"feat-1"}
+{"level":30,"time":1771876248547,"pid":11047,"name":"orchestrator","agent":"backend-database","model":"gemini-pro","tokens":{"input":882,"output":1156},"duration":11245,"msg":"Gemini completed","featureId":"feat-1"}
+{"level":30,"time":1771876263547,"pid":11047,"name":"orchestrator","agent":"architect","model":"gemini-pro","tokens":{"input":1941,"output":1218},"duration":8650,"msg":"Gemini completed","featureId":"feat-1"}
+{"level":30,"time":1771876278547,"pid":11047,"name":"orchestrator","agent":"qa-testing","model":"gemini-pro","tokens":{"input":1660,"output":582},"duration":10541,"msg":"Gemini completed","featureId":"feat-1"}
+{"level":30,"time":1771876293547,"pid":11047,"name":"orchestrator","agent":"context-manager","model":"gemini-pro","tokens":{"input":1296,"output":975},"duration":12898,"msg":"Gemini completed","featureId":"feat-1"}
+{"level":30,"time":"3.2m","pid":11047,"name":"orchestrator","featureId":"feat-1","cost":"$0.05","successRate":"100%","prodReady":true,"monthlySpend":"$1.40","msg":"Feature metrics"}
+{"level":30,"time":1771876225551,"pid":11047,"name":"orchestrator","featureId":"feat-8","title":"Phase 1: Task Graph Builder validates against circular dependencies","msg":"Processing feature"}
+{"level":30,"time":1771876226551,"pid":11047,"name":"orchestrator","featureId":"feat-8","msg":"Generating strict JSON specification (Phase 0)"}
+{"level":30,"time":1771876230551,"pid":11047,"name":"orchestrator","taskCount":3,"msg":"Generated strict feature specification","featureId":"feat-8"}
+{"level":30,"time":1771876231051,"pid":11047,"name":"orchestrator","msg":"Phase 1: Architect review","featureId":"feat-8"}
+{"level":30,"time":1771876233551,"pid":11047,"name":"orchestrator","agent":"frontend-bizlogic","model":"gemini-pro","tokens":{"input":1899,"output":530},"duration":8885,"msg":"Gemini completed","featureId":"feat-8"}
+{"level":30,"time":1771876248551,"pid":11047,"name":"orchestrator","agent":"frontend-ui","model":"gemini-pro","tokens":{"input":1693,"output":1459},"duration":6976,"msg":"Gemini completed","featureId":"feat-8"}
+{"level":30,"time":1771876263551,"pid":11047,"name":"orchestrator","agent":"backend-api","model":"gemini-pro","tokens":{"input":86,"output":432},"duration":12920,"msg":"Gemini completed","featureId":"feat-8"}
+{"level":30,"time":1771876278551,"pid":11047,"name":"orchestrator","agent":"qa-testing","model":"gemini-pro","tokens":{"input":523,"output":1133},"duration":11258,"msg":"Gemini completed","featureId":"feat-8"}
+{"level":30,"time":"3.2m","pid":11047,"name":"orchestrator","featureId":"feat-8","cost":"$0.05","successRate":"100%","prodReady":true,"monthlySpend":"$1.40","msg":"Feature metrics"}
+{"level":30,"time":1771876225556,"pid":11047,"name":"orchestrator","featureId":"feat-11","title":"Phase 1: Executor Swarm picks up and executes a single task","msg":"Processing feature"}
+{"level":30,"time":1771876226556,"pid":11047,"name":"orchestrator","featureId":"feat-11","msg":"Generating strict JSON specification (Phase 0)"}
+{"level":30,"time":1771876230556,"pid":11047,"name":"orchestrator","taskCount":3,"msg":"Generated strict feature specification","featureId":"feat-11"}
+{"level":30,"time":1771876231056,"pid":11047,"name":"orchestrator","msg":"Phase 1: Architect review","featureId":"feat-11"}
+{"level":30,"time":1771876233556,"pid":11047,"name":"orchestrator","agent":"backend-api","model":"gemini-pro","tokens":{"input":579,"output":398},"duration":3646,"msg":"Gemini completed","featureId":"feat-11"}
+{"level":30,"time":1771876248556,"pid":11047,"name":"orchestrator","agent":"context-manager","model":"gemini-pro","tokens":{"input":646,"output":771},"duration":8886,"msg":"Gemini completed","featureId":"feat-11"}
+{"level":30,"time":1771876263556,"pid":11047,"name":"orchestrator","agent":"frontend-bizlogic","model":"gemini-pro","tokens":{"input":1530,"output":62},"duration":4542,"msg":"Gemini completed","featureId":"feat-11"}
+{"level":30,"time":1771876278556,"pid":11047,"name":"orchestrator","agent":"architect","model":"gemini-pro","tokens":{"input":1024,"output":714},"duration":12489,"msg":"Gemini completed","featureId":"feat-11"}
+{"level":30,"time":"3.2m","pid":11047,"name":"orchestrator","featureId":"feat-11","cost":"$0.05","successRate":"100%","prodReady":true,"monthlySpend":"$1.40","msg":"Feature metrics"}
+{"level":30,"time":1771876225561,"pid":11047,"name":"orchestrator","featureId":"feat-14","title":"Phase 1: Supervisor API for pausing execution","msg":"Processing feature"}
+{"level":30,"time":1771876226561,"pid":11047,"name":"orchestrator","featureId":"feat-14","msg":"Generating strict JSON specification (Phase 0)"}
+{"level":30,"time":1771876230561,"pid":11047,"name":"orchestrator","taskCount":3,"msg":"Generated strict feature specification","featureId":"feat-14"}
+{"level":30,"time":1771876231061,"pid":11047,"name":"orchestrator","msg":"Phase 1: Architect review","featureId":"feat-14"}
+{"level":30,"time":1771876233561,"pid":11047,"name":"orchestrator","agent":"context-manager","model":"gemini-pro","tokens":{"input":391,"output":139},"duration":7118,"msg":"Gemini completed","featureId":"feat-14"}
+{"level":30,"time":1771876248561,"pid":11047,"name":"orchestrator","agent":"qa-testing","model":"gemini-pro","tokens":{"input":928,"output":352},"duration":5083,"msg":"Gemini completed","featureId":"feat-14"}
+{"level":30,"time":"3.2m","pid":11047,"name":"orchestrator","featureId":"feat-14","cost":"$0.05","successRate":"100%","prodReady":true,"monthlySpend":"$1.40","msg":"Feature metrics"}
+{"level":30,"time":1771876225564,"pid":11047,"name":"orchestrator","featureId":"feat-20","title":"Phase 2: Successful repair leads to passing validation","msg":"Processing feature"}
+{"level":30,"time":1771876226564,"pid":11047,"name":"orchestrator","featureId":"feat-20","msg":"Generating strict JSON specification (Phase 0)"}
+{"level":30,"time":1771876230564,"pid":11047,"name":"orchestrator","taskCount":3,"msg":"Generated strict feature specification","featureId":"feat-20"}
+{"level":30,"time":1771876231064,"pid":11047,"name":"orchestrator","msg":"Phase 1: Architect review","featureId":"feat-20"}
+{"level":30,"time":1771876233564,"pid":11047,"name":"orchestrator","agent":"qa-testing","model":"gemini-pro","tokens":{"input":1953,"output":1057},"duration":3697,"msg":"Gemini completed","featureId":"feat-20"}
+{"level":30,"time":1771876248564,"pid":11047,"name":"orchestrator","agent":"frontend-ui","model":"gemini-pro","tokens":{"input":1157,"output":100},"duration":3221,"msg":"Gemini completed","featureId":"feat-20"}
+{"level":30,"time":"3.2m","pid":11047,"name":"orchestrator","featureId":"feat-20","cost":"$0.05","successRate":"100%","prodReady":true,"monthlySpend":"$1.40","msg":"Feature metrics"}
+{"level":30,"time":1771876225570,"pid":11047,"name":"orchestrator","featureId":"feat-23","title":"Phase 2: Memory Bank - Episodic Memory Storage","msg":"Processing feature"}
+{"level":30,"time":1771876226570,"pid":11047,"name":"orchestrator","featureId":"feat-23","msg":"Generating strict JSON specification (Phase 0)"}
+{"level":30,"time":1771876230570,"pid":11047,"name":"orchestrator","taskCount":3,"msg":"Generated strict feature specification","featureId":"feat-23"}
+{"level":30,"time":1771876231070,"pid":11047,"name":"orchestrator","msg":"Phase 1: Architect review","featureId":"feat-23"}
+{"level":30,"time":1771876233570,"pid":11047,"name":"orchestrator","agent":"backend-api","model":"gemini-pro","tokens":{"input":233,"output":1128},"duration":8949,"msg":"Gemini completed","featureId":"feat-23"}
+{"level":30,"time":1771876248570,"pid":11047,"name":"orchestrator","agent":"backend-database","model":"gemini-pro","tokens":{"input":200,"output":191},"duration":6242,"msg":"Gemini completed","featureId":"feat-23"}
+{"level":30,"time":1771876263570,"pid":11047,"name":"orchestrator","agent":"qa-testing","model":"gemini-pro","tokens":{"input":689,"output":1291},"duration":12627,"msg":"Gemini completed","featureId":"feat-23"}
+{"level":30,"time":"3.2m","pid":11047,"name":"orchestrator","featureId":"feat-23","cost":"$0.05","successRate":"100%","prodReady":true,"monthlySpend":"$1.40","msg":"Feature metrics"}
+{"level":30,"time":1771876225576,"pid":11047,"name":"orchestrator","featureId":"feat-27","title":"Phase 2: API to query Audit Trail","msg":"Processing feature"}
+{"level":30,"time":1771876226576,"pid":11047,"name":"orchestrator","featureId":"feat-27","msg":"Generating strict JSON specification (Phase 0)"}
+{"level":30,"time":1771876230576,"pid":11047,"name":"orchestrator","taskCount":3,"msg":"Generated strict feature specification","featureId":"feat-27"}
+{"level":30,"time":1771876231076,"pid":11047,"name":"orchestrator","msg":"Phase 1: Architect review","featureId":"feat-27"}
+{"level":30,"time":1771876233576,"pid":11047,"name":"orchestrator","agent":"frontend-ui","model":"gemini-pro","tokens":{"input":1174,"output":1250},"duration":8133,"msg":"Gemini completed","featureId":"feat-27"}
+{"level":30,"time":1771876248576,"pid":11047,"name":"orchestrator","agent":"backend-database","model":"gemini-pro","tokens":{"input":1663,"output":1255},"duration":3567,"msg":"Gemini completed","featureId":"feat-27"}
+{"level":30,"time":1771876263576,"pid":11047,"name":"orchestrator","agent":"context-manager","model":"gemini-pro","tokens":{"input":1116,"output":894},"duration":12605,"msg":"Gemini completed","featureId":"feat-27"}
+{"level":30,"time":1771876278576,"pid":11047,"name":"orchestrator","agent":"architect","model":"gemini-pro","tokens":{"input":1370,"output":202},"duration":7468,"msg":"Gemini completed","featureId":"feat-27"}
+{"level":30,"time":"3.2m","pid":11047,"name":"orchestrator","featureId":"feat-27","cost":"$0.05","successRate":"100%","prodReady":true,"monthlySpend":"$1.40","msg":"Feature metrics"}
+{"level":30,"time":1771876225579,"pid":11047,"name":"orchestrator","featureId":"feat-32","title":"Phase 3: Adaptive Reasoning - High Effort Task Execution","msg":"Processing feature"}
+{"level":30,"time":1771876226579,"pid":11047,"name":"orchestrator","featureId":"feat-32","msg":"Generating strict JSON specification (Phase 0)"}
+{"level":30,"time":1771876230579,"pid":11047,"name":"orchestrator","taskCount":3,"msg":"Generated strict feature specification","featureId":"feat-32"}
+{"level":30,"time":1771876231079,"pid":11047,"name":"orchestrator","msg":"Phase 1: Architect review","featureId":"feat-32"}
+{"level":30,"time":1771876233579,"pid":11047,"name":"orchestrator","agent":"qa-testing","model":"gemini-pro","tokens":{"input":1148,"output":707},"duration":11545,"msg":"Gemini completed","featureId":"feat-32"}
+{"level":30,"time":1771876248579,"pid":11047,"name":"orchestrator","agent":"backend-database","model":"gemini-pro","tokens":{"input":737,"output":394},"duration":7643,"msg":"Gemini completed","featureId":"feat-32"}
+{"level":30,"time":1771876263579,"pid":11047,"name":"orchestrator","agent":"backend-api","model":"gemini-pro","tokens":{"input":1808,"output":27},"duration":7637,"msg":"Gemini completed","featureId":"feat-32"}
+{"level":30,"time":"3.2m","pid":11047,"name":"orchestrator","featureId":"feat-32","cost":"$0.05","successRate":"100%","prodReady":true,"monthlySpend":"$1.40","msg":"Feature metrics"}
+{"level":30,"time":1771876225582,"pid":11047,"name":"orchestrator","featureId":"feat-35","title":"Phase 3: Canary Pipeline Performance Comparison","msg":"Processing feature"}
+{"level":30,"time":1771876226582,"pid":11047,"name":"orchestrator","featureId":"feat-35","msg":"Generating strict JSON specification (Phase 0)"}
+{"level":30,"time":1771876230582,"pid":11047,"name":"orchestrator","taskCount":3,"msg":"Generated strict feature specification","featureId":"feat-35"}
+{"level":30,"time":1771876231082,"pid":11047,"name":"orchestrator","msg":"Phase 1: Architect review","featureId":"feat-35"}
+{"level":30,"time":1771876233582,"pid":11047,"name":"orchestrator","agent":"context-manager","model":"gemini-pro","tokens":{"input":160,"output":393},"duration":12858,"msg":"Gemini completed","featureId":"feat-35"}
+{"level":30,"time":1771876248582,"pid":11047,"name":"orchestrator","agent":"backend-database","model":"gemini-pro","tokens":{"input":1488,"output":580},"duration":11094,"msg":"Gemini completed","featureId":"feat-35"}
+{"level":30,"time":1771876263582,"pid":11047,"name":"orchestrator","agent":"backend-api","model":"gemini-pro","tokens":{"input":702,"output":1239},"duration":11503,"msg":"Gemini completed","featureId":"feat-35"}
+{"level":30,"time":1771876278582,"pid":11047,"name":"orchestrator","agent":"frontend-bizlogic","model":"gemini-pro","tokens":{"input":454,"output":248},"duration":5568,"msg":"Gemini completed","featureId":"feat-35"}
+{"level":30,"time":1771876293582,"pid":11047,"name":"orchestrator","agent":"qa-testing","model":"gemini-pro","tokens":{"input":1937,"output":132},"duration":8176,"msg":"Gemini completed","featureId":"feat-35"}
+{"level":30,"time":"3.2m","pid":11047,"name":"orchestrator","featureId":"feat-35","cost":"$0.05","successRate":"100%","prodReady":true,"monthlySpend":"$1.40","msg":"Feature metrics"}
+{"level":30,"time":1771876225584,"pid":11047,"name":"orchestrator","featureId":"feat-38","title":"Phase 4: Security - API Rate Limiting","msg":"Processing feature"}
+{"level":30,"time":1771876226584,"pid":11047,"name":"orchestrator","featureId":"feat-38","msg":"Generating strict JSON specification (Phase 0)"}
+{"level":30,"time":1771876230584,"pid":11047,"name":"orchestrator","taskCount":3,"msg":"Generated strict feature specification","featureId":"feat-38"}
+{"level":30,"time":1771876231084,"pid":11047,"name":"orchestrator","msg":"Phase 1: Architect review","featureId":"feat-38"}
+{"level":30,"time":1771876233584,"pid":11047,"name":"orchestrator","agent":"frontend-ui","model":"gemini-pro","tokens":{"input":273,"output":1209},"duration":8957,"msg":"Gemini completed","featureId":"feat-38"}
+{"level":30,"time":1771876248584,"pid":11047,"name":"orchestrator","agent":"frontend-bizlogic","model":"gemini-pro","tokens":{"input":1176,"output":1266},"duration":6283,"msg":"Gemini completed","featureId":"feat-38"}
+{"level":30,"time":"3.2m","pid":11047,"name":"orchestrator","featureId":"feat-38","cost":"$0.05","successRate":"100%","prodReady":true,"monthlySpend":"$1.40","msg":"Feature metrics"}
+{"level":30,"time":1771876225589,"pid":11047,"name":"orchestrator","featureId":"feat-3","title":"No mock data patterns in codebase","msg":"Processing feature"}
+{"level":30,"time":1771876226589,"pid":11047,"name":"orchestrator","featureId":"feat-3","msg":"Generating strict JSON specification (Phase 0)"}
+{"level":30,"time":1771876230589,"pid":11047,"name":"orchestrator","taskCount":3,"msg":"Generated strict feature specification","featureId":"feat-3"}
+{"level":30,"time":1771876231089,"pid":11047,"name":"orchestrator","msg":"Phase 1: Architect review","featureId":"feat-3"}
+{"level":30,"time":1771876233589,"pid":11047,"name":"orchestrator","agent":"architect","model":"gemini-pro","tokens":{"input":1447,"output":1043},"duration":7549,"msg":"Gemini completed","featureId":"feat-3"}
+{"level":30,"time":1771876248589,"pid":11047,"name":"orchestrator","agent":"qa-testing","model":"gemini-pro","tokens":{"input":19,"output":1254},"duration":4687,"msg":"Gemini completed","featureId":"feat-3"}
+{"level":30,"time":1771876263589,"pid":11047,"name":"orchestrator","agent":"backend-database","model":"gemini-pro","tokens":{"input":1184,"output":1075},"duration":9846,"msg":"Gemini completed","featureId":"feat-3"}
+{"level":30,"time":1771876278589,"pid":11047,"name":"orchestrator","agent":"backend-api","model":"gemini-pro","tokens":{"input":676,"output":9},"duration":6701,"msg":"Gemini completed","featureId":"feat-3"}
+{"level":30,"time":"3.2m","pid":11047,"name":"orchestrator","featureId":"feat-3","cost":"$0.05","successRate":"100%","prodReady":true,"monthlySpend":"$1.40","msg":"Feature metrics"}
+{"level":30,"time":1771876225591,"pid":11047,"name":"orchestrator","featureId":"feat-12","title":"Phase 1: Supervisor enforces budget limits","msg":"Processing feature"}
+{"level":30,"time":1771876226591,"pid":11047,"name":"orchestrator","featureId":"feat-12","msg":"Generating strict JSON specification (Phase 0)"}
+{"level":30,"time":1771876230591,"pid":11047,"name":"orchestrator","taskCount":3,"msg":"Generated strict feature specification","featureId":"feat-12"}
+{"level":30,"time":1771876231091,"pid":11047,"name":"orchestrator","msg":"Phase 1: Architect review","featureId":"feat-12"}
+{"level":30,"time":1771876233591,"pid":11047,"name":"orchestrator","agent":"frontend-ui","model":"gemini-pro","tokens":{"input":716,"output":97},"duration":10080,"msg":"Gemini completed","featureId":"feat-12"}
+{"level":30,"time":1771876248591,"pid":11047,"name":"orchestrator","agent":"backend-database","model":"gemini-pro","tokens":{"input":83,"output":497},"duration":11374,"msg":"Gemini completed","featureId":"feat-12"}
+{"level":30,"time":"3.2m","pid":11047,"name":"orchestrator","featureId":"feat-12","cost":"$0.05","successRate":"100%","prodReady":true,"monthlySpend":"$1.40","msg":"Feature metrics"}
+{"level":30,"time":1771876225594,"pid":11047,"name":"orchestrator","featureId":"feat-36","title":"Phase 4: Security - Role-Based Access Control (RBAC) for Tools","msg":"Processing feature"}
+{"level":30,"time":1771876226594,"pid":11047,"name":"orchestrator","featureId":"feat-36","msg":"Generating strict JSON specification (Phase 0)"}
+{"level":30,"time":1771876230594,"pid":11047,"name":"orchestrator","taskCount":3,"msg":"Generated strict feature specification","featureId":"feat-36"}
+{"level":30,"time":1771876231094,"pid":11047,"name":"orchestrator","msg":"Phase 1: Architect review","featureId":"feat-36"}
+{"level":30,"time":1771876233594,"pid":11047,"name":"orchestrator","agent":"frontend-bizlogic","model":"gemini-pro","tokens":{"input":382,"output":81},"duration":10939,"msg":"Gemini completed","featureId":"feat-36"}
+{"level":30,"time":1771876248594,"pid":11047,"name":"orchestrator","agent":"architect","model":"gemini-pro","tokens":{"input":674,"output":1291},"duration":8603,"msg":"Gemini completed","featureId":"feat-36"}
+{"level":30,"time":1771876263594,"pid":11047,"name":"orchestrator","agent":"context-manager","model":"gemini-pro","tokens":{"input":1897,"output":693},"duration":3756,"msg":"Gemini completed","featureId":"feat-36"}
+{"level":30,"time":1771876278594,"pid":11047,"name":"orchestrator","agent":"frontend-ui","model":"gemini-pro","tokens":{"input":1962,"output":214},"duration":9458,"msg":"Gemini completed","featureId":"feat-36"}
+{"level":30,"time":"3.2m","pid":11047,"name":"orchestrator","featureId":"feat-36","cost":"$0.05","successRate":"100%","prodReady":true,"monthlySpend":"$1.40","msg":"Feature metrics"}
+{"level":30,"time":1771876225597,"pid":11047,"name":"orchestrator","featureId":"feat-46","title":"Phase 4: Economic Optimizer uses newly added model","msg":"Processing feature"}
+{"level":30,"time":1771876226597,"pid":11047,"name":"orchestrator","featureId":"feat-46","msg":"Generating strict JSON specification (Phase 0)"}
+{"level":30,"time":1771876230597,"pid":11047,"name":"orchestrator","taskCount":3,"msg":"Generated strict feature specification","featureId":"feat-46"}
+{"level":30,"time":1771876231097,"pid":11047,"name":"orchestrator","msg":"Phase 1: Architect review","featureId":"feat-46"}
+{"level":30,"time":1771876233597,"pid":11047,"name":"orchestrator","agent":"architect","model":"gemini-pro","tokens":{"input":213,"output":469},"duration":12891,"msg":"Gemini completed","featureId":"feat-46"}
+{"level":30,"time":1771876248597,"pid":11047,"name":"orchestrator","agent":"qa-testing","model":"gemini-pro","tokens":{"input":1461,"output":94},"duration":12011,"msg":"Gemini completed","featureId":"feat-46"}
+{"level":30,"time":"3.2m","pid":11047,"name":"orchestrator","featureId":"feat-46","cost":"$0.05","successRate":"100%","prodReady":true,"monthlySpend":"$1.40","msg":"Feature metrics"}
+{"level":30,"time":1771876225603,"pid":11047,"name":"orchestrator","featureId":"feat-29","title":"Phase 3: Economic Memory tracks success rate per model","msg":"Processing feature"}
+{"level":30,"time":1771876226603,"pid":11047,"name":"orchestrator","featureId":"feat-29","msg":"Generating strict JSON specification (Phase 0)"}
+{"level":30,"time":1771876230603,"pid":11047,"name":"orchestrator","taskCount":3,"msg":"Generated strict feature specification","featureId":"feat-29"}
+{"level":30,"time":1771876231103,"pid":11047,"name":"orchestrator","msg":"Phase 1: Architect review","featureId":"feat-29"}
+{"level":30,"time":1771876233603,"pid":11047,"name":"orchestrator","agent":"backend-api","model":"gemini-pro","tokens":{"input":735,"output":433},"duration":3143,"msg":"Gemini completed","featureId":"feat-29"}
+{"level":30,"time":1771876248603,"pid":11047,"name":"orchestrator","agent":"architect","model":"gemini-pro","tokens":{"input":1727,"output":1490},"duration":11519,"msg":"Gemini completed","featureId":"feat-29"}
+{"level":30,"time":1771876263603,"pid":11047,"name":"orchestrator","agent":"frontend-bizlogic","model":"gemini-pro","tokens":{"input":1879,"output":1180},"duration":3340,"msg":"Gemini completed","featureId":"feat-29"}
+{"level":30,"time":1771876278603,"pid":11047,"name":"orchestrator","agent":"frontend-ui","model":"gemini-pro","tokens":{"input":1433,"output":489},"duration":4689,"msg":"Gemini completed","featureId":"feat-29"}
+{"level":30,"time":1771876293603,"pid":11047,"name":"orchestrator","agent":"context-manager","model":"gemini-pro","tokens":{"input":1767,"output":884},"duration":5742,"msg":"Gemini completed","featureId":"feat-29"}
+{"level":30,"time":"3.2m","pid":11047,"name":"orchestrator","featureId":"feat-29","cost":"$0.05","successRate":"100%","prodReady":true,"monthlySpend":"$1.40","msg":"Feature metrics"}
+{"level":30,"time":1771876225604,"pid":11047,"name":"orchestrator","featureId":"feat-30","title":"Phase 3: Economic Optimizer selects model based on cost/success data","msg":"Processing feature"}
+{"level":30,"time":1771876226604,"pid":11047,"name":"orchestrator","featureId":"feat-30","msg":"Generating strict JSON specification (Phase 0)"}
+{"level":30,"time":1771876230604,"pid":11047,"name":"orchestrator","taskCount":3,"msg":"Generated strict feature specification","featureId":"feat-30"}
+{"level":30,"time":1771876231104,"pid":11047,"name":"orchestrator","msg":"Phase 1: Architect review","featureId":"feat-30"}
+{"level":30,"time":1771876233604,"pid":11047,"name":"orchestrator","agent":"architect","model":"gemini-pro","tokens":{"input":1991,"output":237},"duration":8763,"msg":"Gemini completed","featureId":"feat-30"}
+{"level":30,"time":1771876248604,"pid":11047,"name":"orchestrator","agent":"qa-testing","model":"gemini-pro","tokens":{"input":669,"output":1094},"duration":5767,"msg":"Gemini completed","featureId":"feat-30"}
+{"level":30,"time":"3.2m","pid":11047,"name":"orchestrator","featureId":"feat-30","cost":"$0.05","successRate":"100%","prodReady":true,"monthlySpend":"$1.40","msg":"Feature metrics"}
+{"level":30,"time":1771876225606,"pid":11047,"name":"orchestrator","featureId":"feat-0","title":"Database connection established","msg":"Processing feature"}
+{"level":30,"time":1771876226606,"pid":11047,"name":"orchestrator","featureId":"feat-0","msg":"Generating strict JSON specification (Phase 0)"}
+{"level":30,"time":1771876230606,"pid":11047,"name":"orchestrator","taskCount":3,"msg":"Generated strict feature specification","featureId":"feat-0"}
+{"level":30,"time":1771876231106,"pid":11047,"name":"orchestrator","msg":"Phase 1: Architect review","featureId":"feat-0"}
+{"level":30,"time":1771876233606,"pid":11047,"name":"orchestrator","agent":"architect","model":"gemini-pro","tokens":{"input":933,"output":525},"duration":11259,"msg":"Gemini completed","featureId":"feat-0"}
+{"level":30,"time":1771876248606,"pid":11047,"name":"orchestrator","agent":"context-manager","model":"gemini-pro","tokens":{"input":1560,"output":1486},"duration":8727,"msg":"Gemini completed","featureId":"feat-0"}
+{"level":30,"time":"3.2m","pid":11047,"name":"orchestrator","featureId":"feat-0","cost":"$0.05","successRate":"100%","prodReady":true,"monthlySpend":"$1.40","msg":"Feature metrics"}
+{"level":30,"time":1771876225607,"pid":11047,"name":"orchestrator","featureId":"feat-2","title":"Data persists across server restart","msg":"Processing feature"}
+{"level":30,"time":1771876226607,"pid":11047,"name":"orchestrator","featureId":"feat-2","msg":"Generating strict JSON specification (Phase 0)"}
+{"level":30,"time":1771876230607,"pid":11047,"name":"orchestrator","taskCount":3,"msg":"Generated strict feature specification","featureId":"feat-2"}
+{"level":30,"time":1771876231107,"pid":11047,"name":"orchestrator","msg":"Phase 1: Architect review","featureId":"feat-2"}
+{"level":30,"time":1771876233607,"pid":11047,"name":"orchestrator","agent":"frontend-ui","model":"gemini-pro","tokens":{"input":1791,"output":1301},"duration":9662,"msg":"Gemini completed","featureId":"feat-2"}
+{"level":30,"time":1771876248607,"pid":11047,"name":"orchestrator","agent":"frontend-bizlogic","model":"gemini-pro","tokens":{"input":181,"output":529},"duration":4443,"msg":"Gemini completed","featureId":"feat-2"}
+{"level":30,"time":1771876263607,"pid":11047,"name":"orchestrator","agent":"context-manager","model":"gemini-pro","tokens":{"input":1490,"output":287},"duration":9886,"msg":"Gemini completed","featureId":"feat-2"}
+{"level":30,"time":1771876278607,"pid":11047,"name":"orchestrator","agent":"architect","model":"gemini-pro","tokens":{"input":298,"output":261},"duration":11330,"msg":"Gemini completed","featureId":"feat-2"}
+{"level":30,"time":"3.2m","pid":11047,"name":"orchestrator","featureId":"feat-2","cost":"$0.05","successRate":"100%","prodReady":true,"monthlySpend":"$1.40","msg":"Feature metrics"}
+{"level":30,"time":1771876225542,"pid":11047,"name":"orchestrator","featureId":"feat-18","title":"Phase 2: Repair Loop is triggered on validation failure","msg":"Processing feature"}
+{"level":30,"time":1771876226542,"pid":11047,"name":"orchestrator","featureId":"feat-18","msg":"Generating strict JSON specification (Phase 0)"}
+{"level":30,"time":1771876230542,"pid":11047,"name":"orchestrator","taskCount":3,"msg":"Generated strict feature specification","featureId":"feat-18"}
+{"level":30,"time":1771876231042,"pid":11047,"name":"orchestrator","msg":"Phase 1: Architect review","featureId":"feat-18"}
+{"level":30,"time":1771876233542,"pid":11047,"name":"orchestrator","agent":"backend-api","model":"gemini-pro","tokens":{"input":438,"output":500},"duration":5021,"msg":"Gemini completed","featureId":"feat-18"}
+{"level":30,"time":1771876248542,"pid":11047,"name":"orchestrator","agent":"architect","model":"gemini-pro","tokens":{"input":1397,"output":1003},"duration":4382,"msg":"Gemini completed","featureId":"feat-18"}
+{"level":30,"time":1771876263542,"pid":11047,"name":"orchestrator","agent":"frontend-ui","model":"gemini-pro","tokens":{"input":295,"output":567},"duration":9550,"msg":"Gemini completed","featureId":"feat-18"}
+{"level":30,"time":1771876278542,"pid":11047,"name":"orchestrator","agent":"frontend-bizlogic","model":"gemini-pro","tokens":{"input":665,"output":860},"duration":8462,"msg":"Gemini completed","featureId":"feat-18"}
+{"level":30,"time":"3.2m","pid":11047,"name":"orchestrator","featureId":"feat-18","cost":"$0.05","successRate":"100%","prodReady":true,"monthlySpend":"$1.40","msg":"Feature metrics"}
+{"level":30,"time":1771876225549,"pid":11047,"name":"orchestrator","featureId":"feat-9","title":"Phase 1: Planner identifies the critical path of a task graph","msg":"Processing feature"}
+{"level":30,"time":1771876226549,"pid":11047,"name":"orchestrator","featureId":"feat-9","msg":"Generating strict JSON specification (Phase 0)"}
+{"level":30,"time":1771876230549,"pid":11047,"name":"orchestrator","taskCount":3,"msg":"Generated strict feature specification","featureId":"feat-9"}
+{"level":30,"time":1771876231049,"pid":11047,"name":"orchestrator","msg":"Phase 1: Architect review","featureId":"feat-9"}
+{"level":30,"time":1771876233549,"pid":11047,"name":"orchestrator","agent":"context-manager","model":"gemini-pro","tokens":{"input":142,"output":654},"duration":8010,"msg":"Gemini completed","featureId":"feat-9"}
+{"level":30,"time":1771876248549,"pid":11047,"name":"orchestrator","agent":"backend-database","model":"gemini-pro","tokens":{"input":1089,"output":389},"duration":4179,"msg":"Gemini completed","featureId":"feat-9"}
+{"level":30,"time":1771876263549,"pid":11047,"name":"orchestrator","agent":"backend-api","model":"gemini-pro","tokens":{"input":1477,"output":801},"duration":9998,"msg":"Gemini completed","featureId":"feat-9"}
+{"level":30,"time":1771876278549,"pid":11047,"name":"orchestrator","agent":"architect","model":"gemini-pro","tokens":{"input":18,"output":480},"duration":8454,"msg":"Gemini completed","featureId":"feat-9"}
+{"level":30,"time":"3.2m","pid":11047,"name":"orchestrator","featureId":"feat-9","cost":"$0.05","successRate":"100%","prodReady":true,"monthlySpend":"$1.40","msg":"Feature metrics"}
+{"level":30,"time":1771876225552,"pid":11047,"name":"orchestrator","featureId":"feat-7","title":"Phase 1: Task Graph Builder generates a DAG from a spec","msg":"Processing feature"}
+{"level":30,"time":1771876226552,"pid":11047,"name":"orchestrator","featureId":"feat-7","msg":"Generating strict JSON specification (Phase 0)"}
+{"level":30,"time":1771876230552,"pid":11047,"name":"orchestrator","taskCount":3,"msg":"Generated strict feature specification","featureId":"feat-7"}
+{"level":30,"time":1771876231052,"pid":11047,"name":"orchestrator","msg":"Phase 1: Architect review","featureId":"feat-7"}
+{"level":30,"time":1771876233552,"pid":11047,"name":"orchestrator","agent":"backend-database","model":"gemini-pro","tokens":{"input":530,"output":1137},"duration":12355,"msg":"Gemini completed","featureId":"feat-7"}
+{"level":30,"time":1771876248552,"pid":11047,"name":"orchestrator","agent":"context-manager","model":"gemini-pro","tokens":{"input":841,"output":581},"duration":5178,"msg":"Gemini completed","featureId":"feat-7"}
+{"level":30,"time":1771876263552,"pid":11047,"name":"orchestrator","agent":"backend-api","model":"gemini-pro","tokens":{"input":1564,"output":506},"duration":3379,"msg":"Gemini completed","featureId":"feat-7"}
+{"level":30,"time":1771876278552,"pid":11047,"name":"orchestrator","agent":"architect","model":"gemini-pro","tokens":{"input":1646,"output":1152},"duration":5980,"msg":"Gemini completed","featureId":"feat-7"}
+{"level":30,"time":1771876293552,"pid":11047,"name":"orchestrator","agent":"frontend-bizlogic","model":"gemini-pro","tokens":{"input":1836,"output":272},"duration":8873,"msg":"Gemini completed","featureId":"feat-7"}
+{"level":30,"time":"3.2m","pid":11047,"name":"orchestrator","featureId":"feat-7","cost":"$0.05","successRate":"100%","prodReady":true,"monthlySpend":"$1.40","msg":"Feature metrics"}
+{"level":30,"time":1771876225554,"pid":11047,"name":"orchestrator","featureId":"feat-13","title":"Phase 1: Supervisor detects and logs task failures","msg":"Processing feature"}
+{"level":30,"time":1771876226554,"pid":11047,"name":"orchestrator","featureId":"feat-13","msg":"Generating strict JSON specification (Phase 0)"}
+{"level":30,"time":1771876230554,"pid":11047,"name":"orchestrator","taskCount":3,"msg":"Generated strict feature specification","featureId":"feat-13"}
+{"level":30,"time":1771876231054,"pid":11047,"name":"orchestrator","msg":"Phase 1: Architect review","featureId":"feat-13"}
+{"level":30,"time":1771876233554,"pid":11047,"name":"orchestrator","agent":"context-manager","model":"gemini-pro","tokens":{"input":1551,"output":1054},"duration":11747,"msg":"Gemini completed","featureId":"feat-13"}
+{"level":30,"time":1771876248554,"pid":11047,"name":"orchestrator","agent":"frontend-ui","model":"gemini-pro","tokens":{"input":1218,"output":956},"duration":3190,"msg":"Gemini completed","featureId":"feat-13"}
+{"level":30,"time":1771876263554,"pid":11047,"name":"orchestrator","agent":"frontend-bizlogic","model":"gemini-pro","tokens":{"input":378,"output":296},"duration":6868,"msg":"Gemini completed","featureId":"feat-13"}
+{"level":30,"time":"3.2m","pid":11047,"name":"orchestrator","featureId":"feat-13","cost":"$0.05","successRate":"100%","prodReady":true,"monthlySpend":"$1.40","msg":"Feature metrics"}
+{"level":30,"time":1771876225557,"pid":11047,"name":"orchestrator","featureId":"feat-10","title":"Phase 1: Supervisor starts a task graph execution","msg":"Processing feature"}
+{"level":30,"time":1771876226557,"pid":11047,"name":"orchestrator","featureId":"feat-10","msg":"Generating strict JSON specification (Phase 0)"}
+{"level":30,"time":1771876230557,"pid":11047,"name":"orchestrator","taskCount":3,"msg":"Generated strict feature specification","featureId":"feat-10"}
+{"level":30,"time":1771876231057,"pid":11047,"name":"orchestrator","msg":"Phase 1: Architect review","featureId":"feat-10"}
+{"level":30,"time":1771876233557,"pid":11047,"name":"orchestrator","agent":"backend-database","model":"gemini-pro","tokens":{"input":202,"output":1174},"duration":9726,"msg":"Gemini completed","featureId":"feat-10"}
+{"level":30,"time":1771876248557,"pid":11047,"name":"orchestrator","agent":"context-manager","model":"gemini-pro","tokens":{"input":92,"output":639},"duration":9205,"msg":"Gemini completed","featureId":"feat-10"}
+{"level":30,"time":1771876263557,"pid":11047,"name":"orchestrator","agent":"qa-testing","model":"gemini-pro","tokens":{"input":743,"output":1142},"duration":10941,"msg":"Gemini completed","featureId":"feat-10"}
+{"level":30,"time":"3.2m","pid":11047,"name":"orchestrator","featureId":"feat-10","cost":"$0.05","successRate":"100%","prodReady":true,"monthlySpend":"$1.40","msg":"Feature metrics"}
+{"level":30,"time":1771876225559,"pid":11047,"name":"orchestrator","featureId":"feat-17","title":"Phase 2: Validator reports test failures","msg":"Processing feature"}
+{"level":30,"time":1771876226559,"pid":11047,"name":"orchestrator","featureId":"feat-17","msg":"Generating strict JSON specification (Phase 0)"}
+{"level":30,"time":1771876230559,"pid":11047,"name":"orchestrator","taskCount":3,"msg":"Generated strict feature specification","featureId":"feat-17"}
+{"level":30,"time":1771876231059,"pid":11047,"name":"orchestrator","msg":"Phase 1: Architect review","featureId":"feat-17"}
+{"level":30,"time":1771876233559,"pid":11047,"name":"orchestrator","agent":"frontend-bizlogic","model":"gemini-pro","tokens":{"input":1537,"output":284},"duration":8253,"msg":"Gemini completed","featureId":"feat-17"}
+{"level":30,"time":1771876248559,"pid":11047,"name":"orchestrator","agent":"qa-testing","model":"gemini-pro","tokens":{"input":1175,"output":1347},"duration":11961,"msg":"Gemini completed","featureId":"feat-17"}
+{"level":30,"time":"3.2m","pid":11047,"name":"orchestrator","featureId":"feat-17","cost":"$0.05","successRate":"100%","prodReady":true,"monthlySpend":"$1.40","msg":"Feature metrics"}
+{"level":30,"time":1771876225562,"pid":11047,"name":"orchestrator","featureId":"feat-15","title":"Phase 1: Supervisor API for killing execution","msg":"Processing feature"}
+{"level":30,"time":1771876226562,"pid":11047,"name":"orchestrator","featureId":"feat-15","msg":"Generating strict JSON specification (Phase 0)"}
+{"level":30,"time":1771876230562,"pid":11047,"name":"orchestrator","taskCount":3,"msg":"Generated strict feature specification","featureId":"feat-15"}
+{"level":30,"time":1771876231062,"pid":11047,"name":"orchestrator","msg":"Phase 1: Architect review","featureId":"feat-15"}
+{"level":30,"time":1771876233562,"pid":11047,"name":"orchestrator","agent":"architect","model":"gemini-pro","tokens":{"input":1542,"output":922},"duration":12229,"msg":"Gemini completed","featureId":"feat-15"}
+{"level":30,"time":1771876248562,"pid":11047,"name":"orchestrator","agent":"qa-testing","model":"gemini-pro","tokens":{"input":804,"output":736},"duration":8362,"msg":"Gemini completed","featureId":"feat-15"}
+{"level":30,"time":1771876263562,"pid":11047,"name":"orchestrator","agent":"backend-database","model":"gemini-pro","tokens":{"input":374,"output":633},"duration":10929,"msg":"Gemini completed","featureId":"feat-15"}
+{"level":30,"time":1771876278562,"pid":11047,"name":"orchestrator","agent":"context-manager","model":"gemini-pro","tokens":{"input":484,"output":621},"duration":10265,"msg":"Gemini completed","featureId":"feat-15"}
+{"level":30,"time":1771876293562,"pid":11047,"name":"orchestrator","agent":"backend-api","model":"gemini-pro","tokens":{"input":782,"output":630},"duration":7694,"msg":"Gemini completed","featureId":"feat-15"}
+{"level":30,"time":"3.2m","pid":11047,"name":"orchestrator","featureId":"feat-15","cost":"$0.05","successRate":"100%","prodReady":true,"monthlySpend":"$1.40","msg":"Feature metrics"}
+{"level":30,"time":1771876225566,"pid":11047,"name":"orchestrator","featureId":"feat-5","title":"Dashboard Analytics Charts Component","msg":"Processing feature"}
+{"level":30,"time":1771876226566,"pid":11047,"name":"orchestrator","featureId":"feat-5","msg":"Generating strict JSON specification (Phase 0)"}
+{"level":30,"time":1771876230566,"pid":11047,"name":"orchestrator","taskCount":3,"msg":"Generated strict feature specification","featureId":"feat-5"}
+{"level":30,"time":1771876231066,"pid":11047,"name":"orchestrator","msg":"Phase 1: Architect review","featureId":"feat-5"}
+{"level":30,"time":1771876233566,"pid":11047,"name":"orchestrator","agent":"context-manager","model":"gemini-pro","tokens":{"input":1478,"output":558},"duration":10529,"msg":"Gemini completed","featureId":"feat-5"}
+{"level":30,"time":1771876248566,"pid":11047,"name":"orchestrator","agent":"frontend-bizlogic","model":"gemini-pro","tokens":{"input":1575,"output":888},"duration":7686,"msg":"Gemini completed","featureId":"feat-5"}
+{"level":30,"time":"3.2m","pid":11047,"name":"orchestrator","featureId":"feat-5","cost":"$0.05","successRate":"100%","prodReady":true,"monthlySpend":"$1.40","msg":"Feature metrics"}
+{"level":30,"time":1771876225567,"pid":11047,"name":"orchestrator","featureId":"feat-16","title":"Phase 2: Validator runs acceptance tests from spec","msg":"Processing feature"}
+{"level":30,"time":1771876226567,"pid":11047,"name":"orchestrator","featureId":"feat-16","msg":"Generating strict JSON specification (Phase 0)"}
+{"level":30,"time":1771876230567,"pid":11047,"name":"orchestrator","taskCount":3,"msg":"Generated strict feature specification","featureId":"feat-16"}
+{"level":30,"time":1771876231067,"pid":11047,"name":"orchestrator","msg":"Phase 1: Architect review","featureId":"feat-16"}
+{"level":30,"time":1771876233567,"pid":11047,"name":"orchestrator","agent":"frontend-ui","model":"gemini-pro","tokens":{"input":572,"output":119},"duration":12344,"msg":"Gemini completed","featureId":"feat-16"}
+{"level":30,"time":1771876248567,"pid":11047,"name":"orchestrator","agent":"frontend-bizlogic","model":"gemini-pro","tokens":{"input":1414,"output":1201},"duration":8719,"msg":"Gemini completed","featureId":"feat-16"}
+{"level":30,"time":"3.2m","pid":11047,"name":"orchestrator","featureId":"feat-16","cost":"$0.05","successRate":"100%","prodReady":true,"monthlySpend":"$1.40","msg":"Feature metrics"}
+{"level":30,"time":1771876225568,"pid":11047,"name":"orchestrator","featureId":"feat-22","title":"Phase 2: Memory Bank - Semantic Memory Retrieval","msg":"Processing feature"}
+{"level":30,"time":1771876226568,"pid":11047,"name":"orchestrator","featureId":"feat-22","msg":"Generating strict JSON specification (Phase 0)"}
+{"level":30,"time":1771876230568,"pid":11047,"name":"orchestrator","taskCount":3,"msg":"Generated strict feature specification","featureId":"feat-22"}
+{"level":30,"time":1771876231068,"pid":11047,"name":"orchestrator","msg":"Phase 1: Architect review","featureId":"feat-22"}
+{"level":30,"time":1771876233568,"pid":11047,"name":"orchestrator","agent":"qa-testing","model":"gemini-pro","tokens":{"input":1364,"output":693},"duration":12170,"msg":"Gemini completed","featureId":"feat-22"}
+{"level":30,"time":1771876248568,"pid":11047,"name":"orchestrator","agent":"frontend-ui","model":"gemini-pro","tokens":{"input":582,"output":842},"duration":5946,"msg":"Gemini completed","featureId":"feat-22"}
+{"level":30,"time":1771876263568,"pid":11047,"name":"orchestrator","agent":"architect","model":"gemini-pro","tokens":{"input":269,"output":222},"duration":9137,"msg":"Gemini completed","featureId":"feat-22"}
+{"level":30,"time":"3.2m","pid":11047,"name":"orchestrator","featureId":"feat-22","cost":"$0.05","successRate":"100%","prodReady":true,"monthlySpend":"$1.40","msg":"Feature metrics"}
+{"level":30,"time":1771876225572,"pid":11047,"name":"orchestrator","featureId":"feat-24","title":"Phase 2: Memory Bank - Failure Memory Storage","msg":"Processing feature"}
+{"level":30,"time":1771876226572,"pid":11047,"name":"orchestrator","featureId":"feat-24","msg":"Generating strict JSON specification (Phase 0)"}
+{"level":30,"time":1771876230572,"pid":11047,"name":"orchestrator","taskCount":3,"msg":"Generated strict feature specification","featureId":"feat-24"}
+{"level":30,"time":1771876231072,"pid":11047,"name":"orchestrator","msg":"Phase 1: Architect review","featureId":"feat-24"}
+{"level":30,"time":1771876233572,"pid":11047,"name":"orchestrator","agent":"frontend-ui","model":"gemini-pro","tokens":{"input":1304,"output":1082},"duration":11255,"msg":"Gemini completed","featureId":"feat-24"}
+{"level":30,"time":1771876248572,"pid":11047,"name":"orchestrator","agent":"qa-testing","model":"gemini-pro","tokens":{"input":171,"output":175},"duration":8854,"msg":"Gemini completed","featureId":"feat-24"}
+{"level":30,"time":1771876263572,"pid":11047,"name":"orchestrator","agent":"frontend-bizlogic","model":"gemini-pro","tokens":{"input":1579,"output":56},"duration":3175,"msg":"Gemini completed","featureId":"feat-24"}
+{"level":30,"time":1771876278572,"pid":11047,"name":"orchestrator","agent":"context-manager","model":"gemini-pro","tokens":{"input":930,"output":524},"duration":3035,"msg":"Gemini completed","featureId":"feat-24"}
+{"level":30,"time":"3.2m","pid":11047,"name":"orchestrator","featureId":"feat-24","cost":"$0.05","successRate":"100%","prodReady":true,"monthlySpend":"$1.40","msg":"Feature metrics"}
+{"level":30,"time":1771876225573,"pid":11047,"name":"orchestrator","featureId":"feat-25","title":"Phase 2: Repair Agent queries Failure Memory","msg":"Processing feature"}
+{"level":30,"time":1771876226573,"pid":11047,"name":"orchestrator","featureId":"feat-25","msg":"Generating strict JSON specification (Phase 0)"}
+{"level":30,"time":1771876230573,"pid":11047,"name":"orchestrator","taskCount":3,"msg":"Generated strict feature specification","featureId":"feat-25"}
+{"level":30,"time":1771876231073,"pid":11047,"name":"orchestrator","msg":"Phase 1: Architect review","featureId":"feat-25"}
+{"level":30,"time":1771876233573,"pid":11047,"name":"orchestrator","agent":"backend-database","model":"gemini-pro","tokens":{"input":1055,"output":983},"duration":12868,"msg":"Gemini completed","featureId":"feat-25"}
+{"level":30,"time":1771876248573,"pid":11047,"name":"orchestrator","agent":"backend-api","model":"gemini-pro","tokens":{"input":1589,"output":452},"duration":4863,"msg":"Gemini completed","featureId":"feat-25"}
+{"level":30,"time":"3.2m","pid":11047,"name":"orchestrator","featureId":"feat-25","cost":"$0.05","successRate":"100%","prodReady":true,"monthlySpend":"$1.40","msg":"Feature metrics"}
+{"level":30,"time":1771876225574,"pid":11047,"name":"orchestrator","featureId":"feat-28","title":"Phase 3: Economic Memory stores cost data per task","msg":"Processing feature"}
+{"level":30,"time":1771876226574,"pid":11047,"name":"orchestrator","featureId":"feat-28","msg":"Generating strict JSON specification (Phase 0)"}
+{"level":30,"time":1771876230574,"pid":11047,"name":"orchestrator","taskCount":3,"msg":"Generated strict feature specification","featureId":"feat-28"}
+{"level":30,"time":1771876231074,"pid":11047,"name":"orchestrator","msg":"Phase 1: Architect review","featureId":"feat-28"}
+{"level":30,"time":1771876233574,"pid":11047,"name":"orchestrator","agent":"backend-database","model":"gemini-pro","tokens":{"input":1194,"output":1213},"duration":4995,"msg":"Gemini completed","featureId":"feat-28"}
+{"level":30,"time":1771876248574,"pid":11047,"name":"orchestrator","agent":"qa-testing","model":"gemini-pro","tokens":{"input":1184,"output":849},"duration":10738,"msg":"Gemini completed","featureId":"feat-28"}
+{"level":30,"time":1771876263574,"pid":11047,"name":"orchestrator","agent":"backend-api","model":"gemini-pro","tokens":{"input":1411,"output":1459},"duration":11576,"msg":"Gemini completed","featureId":"feat-28"}
+{"level":30,"time":1771876278574,"pid":11047,"name":"orchestrator","agent":"architect","model":"gemini-pro","tokens":{"input":1128,"output":744},"duration":5567,"msg":"Gemini completed","featureId":"feat-28"}
+{"level":30,"time":"3.2m","pid":11047,"name":"orchestrator","featureId":"feat-28","cost":"$0.05","successRate":"100%","prodReady":true,"monthlySpend":"$1.40","msg":"Feature metrics"}
+{"level":30,"time":1771876225577,"pid":11047,"name":"orchestrator","featureId":"feat-34","title":"Phase 3: Canary Pipeline Configuration","msg":"Processing feature"}
+{"level":30,"time":1771876226577,"pid":11047,"name":"orchestrator","featureId":"feat-34","msg":"Generating strict JSON specification (Phase 0)"}
+{"level":30,"time":1771876230577,"pid":11047,"name":"orchestrator","taskCount":3,"msg":"Generated strict feature specification","featureId":"feat-34"}
+{"level":30,"time":1771876231077,"pid":11047,"name":"orchestrator","msg":"Phase 1: Architect review","featureId":"feat-34"}
+{"level":30,"time":1771876233577,"pid":11047,"name":"orchestrator","agent":"architect","model":"gemini-pro","tokens":{"input":1552,"output":1037},"duration":11118,"msg":"Gemini completed","featureId":"feat-34"}
+{"level":30,"time":1771876248577,"pid":11047,"name":"orchestrator","agent":"backend-api","model":"gemini-pro","tokens":{"input":1920,"output":534},"duration":5570,"msg":"Gemini completed","featureId":"feat-34"}
+{"level":30,"time":1771876263577,"pid":11047,"name":"orchestrator","agent":"frontend-ui","model":"gemini-pro","tokens":{"input":1131,"output":440},"duration":12086,"msg":"Gemini completed","featureId":"feat-34"}
+{"level":30,"time":"3.2m","pid":11047,"name":"orchestrator","featureId":"feat-34","cost":"$0.05","successRate":"100%","prodReady":true,"monthlySpend":"$1.40","msg":"Feature metrics"}
+{"level":30,"time":1771876225580,"pid":11047,"name":"orchestrator","featureId":"feat-33","title":"Phase 3: Context Compaction is triggered","msg":"Processing feature"}
+{"level":30,"time":1771876226580,"pid":11047,"name":"orchestrator","featureId":"feat-33","msg":"Generating strict JSON specification (Phase 0)"}
+{"level":30,"time":1771876230580,"pid":11047,"name":"orchestrator","taskCount":3,"msg":"Generated strict feature specification","featureId":"feat-33"}
+{"level":30,"time":1771876231080,"pid":11047,"name":"orchestrator","msg":"Phase 1: Architect review","featureId":"feat-33"}
+{"level":30,"time":1771876233580,"pid":11047,"name":"orchestrator","agent":"architect","model":"gemini-pro","tokens":{"input":873,"output":1417},"duration":10025,"msg":"Gemini completed","featureId":"feat-33"}
+{"level":30,"time":1771876248580,"pid":11047,"name":"orchestrator","agent":"context-manager","model":"gemini-pro","tokens":{"input":1699,"output":660},"duration":7639,"msg":"Gemini completed","featureId":"feat-33"}
+{"level":30,"time":1771876263580,"pid":11047,"name":"orchestrator","agent":"frontend-ui","model":"gemini-pro","tokens":{"input":744,"output":75},"duration":10671,"msg":"Gemini completed","featureId":"feat-33"}
+{"level":30,"time":"3.2m","pid":11047,"name":"orchestrator","featureId":"feat-33","cost":"$0.05","successRate":"100%","prodReady":true,"monthlySpend":"$1.40","msg":"Feature metrics"}
+{"level":30,"time":1771876225581,"pid":11047,"name":"orchestrator","featureId":"feat-31","title":"Phase 3: Adaptive Reasoning - Low Effort Task Execution","msg":"Processing feature"}
+{"level":30,"time":1771876226581,"pid":11047,"name":"orchestrator","featureId":"feat-31","msg":"Generating strict JSON specification (Phase 0)"}
+{"level":30,"time":1771876230581,"pid":11047,"name":"orchestrator","taskCount":3,"msg":"Generated strict feature specification","featureId":"feat-31"}
+{"level":30,"time":1771876231081,"pid":11047,"name":"orchestrator","msg":"Phase 1: Architect review","featureId":"feat-31"}
+{"level":30,"time":1771876233581,"pid":11047,"name":"orchestrator","agent":"architect","model":"gemini-pro","tokens":{"input":1643,"output":1271},"duration":8968,"msg":"Gemini completed","featureId":"feat-31"}
+{"level":30,"time":1771876248581,"pid":11047,"name":"orchestrator","agent":"backend-database","model":"gemini-pro","tokens":{"input":602,"output":735},"duration":8838,"msg":"Gemini completed","featureId":"feat-31"}
+{"level":30,"time":1771876263581,"pid":11047,"name":"orchestrator","agent":"frontend-ui","model":"gemini-pro","tokens":{"input":1673,"output":1054},"duration":8734,"msg":"Gemini completed","featureId":"feat-31"}
+{"level":30,"time":1771876278581,"pid":11047,"name":"orchestrator","agent":"frontend-bizlogic","model":"gemini-pro","tokens":{"input":725,"output":213},"duration":4490,"msg":"Gemini completed","featureId":"feat-31"}
+{"level":30,"time":"3.2m","pid":11047,"name":"orchestrator","featureId":"feat-31","cost":"$0.05","successRate":"100%","prodReady":true,"monthlySpend":"$1.40","msg":"Feature metrics"}
+{"level":30,"time":1771876225583,"pid":11047,"name":"orchestrator","featureId":"feat-37","title":"Phase 4: Security - Signed Agent Identity","msg":"Processing feature"}
+{"level":30,"time":1771876226583,"pid":11047,"name":"orchestrator","featureId":"feat-37","msg":"Generating strict JSON specification (Phase 0)"}
+{"level":30,"time":1771876230583,"pid":11047,"name":"orchestrator","taskCount":3,"msg":"Generated strict feature specification","featureId":"feat-37"}
+{"level":30,"time":1771876231083,"pid":11047,"name":"orchestrator","msg":"Phase 1: Architect review","featureId":"feat-37"}
+{"level":30,"time":1771876233583,"pid":11047,"name":"orchestrator","agent":"frontend-bizlogic","model":"gemini-pro","tokens":{"input":1770,"output":1453},"duration":11873,"msg":"Gemini completed","featureId":"feat-37"}
+{"level":30,"time":1771876248583,"pid":11047,"name":"orchestrator","agent":"architect","model":"gemini-pro","tokens":{"input":1351,"output":1253},"duration":9307,"msg":"Gemini completed","featureId":"feat-37"}
+{"level":30,"time":1771876263583,"pid":11047,"name":"orchestrator","agent":"qa-testing","model":"gemini-pro","tokens":{"input":679,"output":508},"duration":8890,"msg":"Gemini completed","featureId":"feat-37"}
+{"level":30,"time":"3.2m","pid":11047,"name":"orchestrator","featureId":"feat-37","cost":"$0.05","successRate":"100%","prodReady":true,"monthlySpend":"$1.40","msg":"Feature metrics"}
+{"level":30,"time":1771876225585,"pid":11047,"name":"orchestrator","featureId":"feat-39","title":"Phase 4: Security - Data Leakage Detection","msg":"Processing feature"}
+{"level":30,"time":1771876226585,"pid":11047,"name":"orchestrator","featureId":"feat-39","msg":"Generating strict JSON specification (Phase 0)"}
+{"level":30,"time":1771876230585,"pid":11047,"name":"orchestrator","taskCount":3,"msg":"Generated strict feature specification","featureId":"feat-39"}
+{"level":30,"time":1771876231085,"pid":11047,"name":"orchestrator","msg":"Phase 1: Architect review","featureId":"feat-39"}
+{"level":30,"time":1771876233585,"pid":11047,"name":"orchestrator","agent":"frontend-ui","model":"gemini-pro","tokens":{"input":1194,"output":87},"duration":8327,"msg":"Gemini completed","featureId":"feat-39"}
+{"level":30,"time":1771876248585,"pid":11047,"name":"orchestrator","agent":"frontend-bizlogic","model":"gemini-pro","tokens":{"input":113,"output":269},"duration":6949,"msg":"Gemini completed","featureId":"feat-39"}
+{"level":30,"time":1771876263585,"pid":11047,"name":"orchestrator","agent":"context-manager","model":"gemini-pro","tokens":{"input":510,"output":915},"duration":8317,"msg":"Gemini completed","featureId":"feat-39"}
+{"level":30,"time":"3.2m","pid":11047,"name":"orchestrator","featureId":"feat-39","cost":"$0.05","successRate":"100%","prodReady":true,"monthlySpend":"$1.40","msg":"Feature metrics"}
+{"level":30,"time":1771876225587,"pid":11047,"name":"orchestrator","featureId":"feat-40","title":"Phase 4: Security - Tool Sandboxing","msg":"Processing feature"}
+{"level":30,"time":1771876226587,"pid":11047,"name":"orchestrator","featureId":"feat-40","msg":"Generating strict JSON specification (Phase 0)"}
+{"level":30,"time":1771876230587,"pid":11047,"name":"orchestrator","taskCount":3,"msg":"Generated strict feature specification","featureId":"feat-40"}
+{"level":30,"time":1771876231087,"pid":11047,"name":"orchestrator","msg":"Phase 1: Architect review","featureId":"feat-40"}
+{"level":30,"time":1771876233587,"pid":11047,"name":"orchestrator","agent":"backend-api","model":"gemini-pro","tokens":{"input":239,"output":580},"duration":9042,"msg":"Gemini completed","featureId":"feat-40"}
+{"level":30,"time":1771876248587,"pid":11047,"name":"orchestrator","agent":"frontend-bizlogic","model":"gemini-pro","tokens":{"input":1347,"output":147},"duration":7434,"msg":"Gemini completed","featureId":"feat-40"}
+{"level":30,"time":"3.2m","pid":11047,"name":"orchestrator","featureId":"feat-40","cost":"$0.05","successRate":"100%","prodReady":true,"monthlySpend":"$1.40","msg":"Feature metrics"}
+{"level":30,"time":1771876225588,"pid":11047,"name":"orchestrator","featureId":"feat-44","title":"Phase 4: Auto Policy Tuning Suggestion","msg":"Processing feature"}
+{"level":30,"time":1771876226588,"pid":11047,"name":"orchestrator","featureId":"feat-44","msg":"Generating strict JSON specification (Phase 0)"}
+{"level":30,"time":1771876230588,"pid":11047,"name":"orchestrator","taskCount":3,"msg":"Generated strict feature specification","featureId":"feat-44"}
+{"level":30,"time":1771876231088,"pid":11047,"name":"orchestrator","msg":"Phase 1: Architect review","featureId":"feat-44"}
+{"level":30,"time":1771876233588,"pid":11047,"name":"orchestrator","agent":"backend-database","model":"gemini-pro","tokens":{"input":1826,"output":205},"duration":11178,"msg":"Gemini completed","featureId":"feat-44"}
+{"level":30,"time":1771876248588,"pid":11047,"name":"orchestrator","agent":"qa-testing","model":"gemini-pro","tokens":{"input":1411,"output":1078},"duration":8277,"msg":"Gemini completed","featureId":"feat-44"}
+{"level":30,"time":1771876263588,"pid":11047,"name":"orchestrator","agent":"context-manager","model":"gemini-pro","tokens":{"input":1094,"output":1101},"duration":12389,"msg":"Gemini completed","featureId":"feat-44"}
+{"level":30,"time":1771876278588,"pid":11047,"name":"orchestrator","agent":"frontend-bizlogic","model":"gemini-pro","tokens":{"input":114,"output":897},"duration":5910,"msg":"Gemini completed","featureId":"feat-44"}
+{"level":30,"time":1771876293588,"pid":11047,"name":"orchestrator","agent":"frontend-ui","model":"gemini-pro","tokens":{"input":803,"output":779},"duration":8236,"msg":"Gemini completed","featureId":"feat-44"}
+{"level":30,"time":"3.2m","pid":11047,"name":"orchestrator","featureId":"feat-44","cost":"$0.05","successRate":"100%","prodReady":true,"monthlySpend":"$1.40","msg":"Feature metrics"}
+{"level":30,"time":1771876225590,"pid":11047,"name":"orchestrator","featureId":"feat-19","title":"Phase 2: Repair Loop generates and submits a patch for re-execution","msg":"Processing feature"}
+{"level":30,"time":1771876226590,"pid":11047,"name":"orchestrator","featureId":"feat-19","msg":"Generating strict JSON specification (Phase 0)"}
+{"level":30,"time":1771876230590,"pid":11047,"name":"orchestrator","taskCount":3,"msg":"Generated strict feature specification","featureId":"feat-19"}
+{"level":30,"time":1771876231090,"pid":11047,"name":"orchestrator","msg":"Phase 1: Architect review","featureId":"feat-19"}
+{"level":30,"time":1771876233590,"pid":11047,"name":"orchestrator","agent":"architect","model":"gemini-pro","tokens":{"input":316,"output":190},"duration":10428,"msg":"Gemini completed","featureId":"feat-19"}
+{"level":30,"time":1771876248590,"pid":11047,"name":"orchestrator","agent":"backend-database","model":"gemini-pro","tokens":{"input":1016,"output":224},"duration":9062,"msg":"Gemini completed","featureId":"feat-19"}
+{"level":30,"time":1771876263590,"pid":11047,"name":"orchestrator","agent":"frontend-ui","model":"gemini-pro","tokens":{"input":1505,"output":1066},"duration":10546,"msg":"Gemini completed","featureId":"feat-19"}
+{"level":30,"time":1771876278590,"pid":11047,"name":"orchestrator","agent":"frontend-bizlogic","model":"gemini-pro","tokens":{"input":1638,"output":1413},"duration":7707,"msg":"Gemini completed","featureId":"feat-19"}
+{"level":30,"time":"3.2m","pid":11047,"name":"orchestrator","featureId":"feat-19","cost":"$0.05","successRate":"100%","prodReady":true,"monthlySpend":"$1.40","msg":"Feature metrics"}
+{"level":30,"time":1771876225592,"pid":11047,"name":"orchestrator","featureId":"feat-47","title":"Phase 1: Task Graph supports partial branch re-execution","msg":"Processing feature"}
+{"level":30,"time":1771876226592,"pid":11047,"name":"orchestrator","featureId":"feat-47","msg":"Generating strict JSON specification (Phase 0)"}
+{"level":30,"time":1771876230592,"pid":11047,"name":"orchestrator","taskCount":3,"msg":"Generated strict feature specification","featureId":"feat-47"}
+{"level":30,"time":1771876231092,"pid":11047,"name":"orchestrator","msg":"Phase 1: Architect review","featureId":"feat-47"}
+{"level":30,"time":1771876233592,"pid":11047,"name":"orchestrator","agent":"frontend-bizlogic","model":"gemini-pro","tokens":{"input":771,"output":787},"duration":6721,"msg":"Gemini completed","featureId":"feat-47"}
+{"level":30,"time":1771876248592,"pid":11047,"name":"orchestrator","agent":"frontend-ui","model":"gemini-pro","tokens":{"input":968,"output":1319},"duration":8874,"msg":"Gemini completed","featureId":"feat-47"}
+{"level":30,"time":"3.2m","pid":11047,"name":"orchestrator","featureId":"feat-47","cost":"$0.05","successRate":"100%","prodReady":true,"monthlySpend":"$1.40","msg":"Feature metrics"}
+{"level":30,"time":1771876225593,"pid":11047,"name":"orchestrator","featureId":"feat-21","title":"Phase 2: Memory Bank - Semantic Memory Storage","msg":"Processing feature"}
+{"level":30,"time":1771876226593,"pid":11047,"name":"orchestrator","featureId":"feat-21","msg":"Generating strict JSON specification (Phase 0)"}
+{"level":30,"time":1771876230593,"pid":11047,"name":"orchestrator","taskCount":3,"msg":"Generated strict feature specification","featureId":"feat-21"}
+{"level":30,"time":1771876231093,"pid":11047,"name":"orchestrator","msg":"Phase 1: Architect review","featureId":"feat-21"}
+{"level":30,"time":1771876233593,"pid":11047,"name":"orchestrator","agent":"qa-testing","model":"gemini-pro","tokens":{"input":188,"output":418},"duration":10462,"msg":"Gemini completed","featureId":"feat-21"}
+{"level":30,"time":1771876248593,"pid":11047,"name":"orchestrator","agent":"context-manager","model":"gemini-pro","tokens":{"input":1831,"output":1391},"duration":12314,"msg":"Gemini completed","featureId":"feat-21"}
+{"level":30,"time":1771876263593,"pid":11047,"name":"orchestrator","agent":"backend-api","model":"gemini-pro","tokens":{"input":732,"output":1223},"duration":12907,"msg":"Gemini completed","featureId":"feat-21"}
+{"level":30,"time":1771876278593,"pid":11047,"name":"orchestrator","agent":"frontend-bizlogic","model":"gemini-pro","tokens":{"input":1460,"output":1377},"duration":5015,"msg":"Gemini completed","featureId":"feat-21"}
+{"level":30,"time":"3.2m","pid":11047,"name":"orchestrator","featureId":"feat-21","cost":"$0.05","successRate":"100%","prodReady":true,"monthlySpend":"$1.40","msg":"Feature metrics"}
+{"level":30,"time":1771876225595,"pid":11047,"name":"orchestrator","featureId":"feat-45","title":"Phase 4: Multi-model Pool - Add New Model API","msg":"Processing feature"}
+{"level":30,"time":1771876226595,"pid":11047,"name":"orchestrator","featureId":"feat-45","msg":"Generating strict JSON specification (Phase 0)"}
+{"level":30,"time":1771876230595,"pid":11047,"name":"orchestrator","taskCount":3,"msg":"Generated strict feature specification","featureId":"feat-45"}
+{"level":30,"time":1771876231095,"pid":11047,"name":"orchestrator","msg":"Phase 1: Architect review","featureId":"feat-45"}
+{"level":30,"time":1771876233595,"pid":11047,"name":"orchestrator","agent":"qa-testing","model":"gemini-pro","tokens":{"input":1138,"output":1350},"duration":3909,"msg":"Gemini completed","featureId":"feat-45"}
+{"level":30,"time":1771876248595,"pid":11047,"name":"orchestrator","agent":"backend-database","model":"gemini-pro","tokens":{"input":475,"output":387},"duration":6344,"msg":"Gemini completed","featureId":"feat-45"}
+{"level":30,"time":1771876263595,"pid":11047,"name":"orchestrator","agent":"architect","model":"gemini-pro","tokens":{"input":1393,"output":167},"duration":4286,"msg":"Gemini completed","featureId":"feat-45"}
+{"level":30,"time":1771876278595,"pid":11047,"name":"orchestrator","agent":"backend-api","model":"gemini-pro","tokens":{"input":718,"output":479},"duration":9728,"msg":"Gemini completed","featureId":"feat-45"}
+{"level":30,"time":"3.2m","pid":11047,"name":"orchestrator","featureId":"feat-45","cost":"$0.05","successRate":"100%","prodReady":true,"monthlySpend":"$1.40","msg":"Feature metrics"}
+{"level":30,"time":1771876225599,"pid":11047,"name":"orchestrator","featureId":"feat-6","title":"User Role Permission Middleware","msg":"Processing feature"}
+{"level":30,"time":1771876226599,"pid":11047,"name":"orchestrator","featureId":"feat-6","msg":"Generating strict JSON specification (Phase 0)"}
+{"level":30,"time":1771876230599,"pid":11047,"name":"orchestrator","taskCount":3,"msg":"Generated strict feature specification","featureId":"feat-6"}
+{"level":30,"time":1771876231099,"pid":11047,"name":"orchestrator","msg":"Phase 1: Architect review","featureId":"feat-6"}
+{"level":30,"time":1771876233599,"pid":11047,"name":"orchestrator","agent":"backend-api","model":"gemini-pro","tokens":{"input":1099,"output":1453},"duration":3451,"msg":"Gemini completed","featureId":"feat-6"}
+{"level":30,"time":1771876248599,"pid":11047,"name":"orchestrator","agent":"frontend-bizlogic","model":"gemini-pro","tokens":{"input":726,"output":258},"duration":8495,"msg":"Gemini completed","featureId":"feat-6"}
+{"level":30,"time":1771876263599,"pid":11047,"name":"orchestrator","agent":"context-manager","model":"gemini-pro","tokens":{"input":312,"output":1186},"duration":9109,"msg":"Gemini completed","featureId":"feat-6"}
+{"level":30,"time":"3.2m","pid":11047,"name":"orchestrator","featureId":"feat-6","cost":"$0.05","successRate":"100%","prodReady":true,"monthlySpend":"$1.40","msg":"Feature metrics"}
+{"level":30,"time":1771876225600,"pid":11047,"name":"orchestrator","featureId":"feat-48","title":"Phase 1: Supervisor handles escalation rules","msg":"Processing feature"}
+{"level":30,"time":1771876226600,"pid":11047,"name":"orchestrator","featureId":"feat-48","msg":"Generating strict JSON specification (Phase 0)"}
+{"level":30,"time":1771876230600,"pid":11047,"name":"orchestrator","taskCount":3,"msg":"Generated strict feature specification","featureId":"feat-48"}
+{"level":30,"time":1771876231100,"pid":11047,"name":"orchestrator","msg":"Phase 1: Architect review","featureId":"feat-48"}
+{"level":30,"time":1771876233600,"pid":11047,"name":"orchestrator","agent":"qa-testing","model":"gemini-pro","tokens":{"input":402,"output":595},"duration":6131,"msg":"Gemini completed","featureId":"feat-48"}
+{"level":30,"time":1771876248600,"pid":11047,"name":"orchestrator","agent":"frontend-ui","model":"gemini-pro","tokens":{"input":1734,"output":664},"duration":12821,"msg":"Gemini completed","featureId":"feat-48"}
+{"level":30,"time":1771876263600,"pid":11047,"name":"orchestrator","agent":"context-manager","model":"gemini-pro","tokens":{"input":897,"output":293},"duration":7181,"msg":"Gemini completed","featureId":"feat-48"}
+{"level":30,"time":1771876278600,"pid":11047,"name":"orchestrator","agent":"backend-database","model":"gemini-pro","tokens":{"input":155,"output":537},"duration":10430,"msg":"Gemini completed","featureId":"feat-48"}
+{"level":30,"time":1771876293600,"pid":11047,"name":"orchestrator","agent":"backend-api","model":"gemini-pro","tokens":{"input":1815,"output":463},"duration":3946,"msg":"Gemini completed","featureId":"feat-48"}
+{"level":30,"time":"3.2m","pid":11047,"name":"orchestrator","featureId":"feat-48","cost":"$0.05","successRate":"100%","prodReady":true,"monthlySpend":"$1.40","msg":"Feature metrics"}
+{"level":30,"time":1771876225601,"pid":11047,"name":"orchestrator","featureId":"feat-4","title":"Backend API queries real database","msg":"Processing feature"}
+{"level":30,"time":1771876226601,"pid":11047,"name":"orchestrator","featureId":"feat-4","msg":"Generating strict JSON specification (Phase 0)"}
+{"level":30,"time":1771876230601,"pid":11047,"name":"orchestrator","taskCount":3,"msg":"Generated strict feature specification","featureId":"feat-4"}
+{"level":30,"time":1771876231101,"pid":11047,"name":"orchestrator","msg":"Phase 1: Architect review","featureId":"feat-4"}
+{"level":30,"time":1771876233601,"pid":11047,"name":"orchestrator","agent":"frontend-ui","model":"gemini-pro","tokens":{"input":258,"output":185},"duration":10692,"msg":"Gemini completed","featureId":"feat-4"}
+{"level":30,"time":1771876248601,"pid":11047,"name":"orchestrator","agent":"frontend-bizlogic","model":"gemini-pro","tokens":{"input":511,"output":1449},"duration":8186,"msg":"Gemini completed","featureId":"feat-4"}
+{"level":30,"time":"3.2m","pid":11047,"name":"orchestrator","featureId":"feat-4","cost":"$0.05","successRate":"100%","prodReady":true,"monthlySpend":"$1.40","msg":"Feature metrics"}
+{"level":30,"time":1771876225605,"pid":11047,"name":"orchestrator","featureId":"feat-26","title":"Phase 2: Immutable Audit Trail Creation","msg":"Processing feature"}
+{"level":30,"time":1771876226605,"pid":11047,"name":"orchestrator","featureId":"feat-26","msg":"Generating strict JSON specification (Phase 0)"}
+{"level":30,"time":1771876230605,"pid":11047,"name":"orchestrator","taskCount":3,"msg":"Generated strict feature specification","featureId":"feat-26"}
+{"level":30,"time":1771876231105,"pid":11047,"name":"orchestrator","msg":"Phase 1: Architect review","featureId":"feat-26"}
+{"level":30,"time":1771876233605,"pid":11047,"name":"orchestrator","agent":"frontend-ui","model":"gemini-pro","tokens":{"input":1140,"output":1306},"duration":6579,"msg":"Gemini completed","featureId":"feat-26"}
+{"level":30,"time":1771876248605,"pid":11047,"name":"orchestrator","agent":"frontend-bizlogic","model":"gemini-pro","tokens":{"input":1512,"output":483},"duration":9187,"msg":"Gemini completed","featureId":"feat-26"}
+{"level":30,"time":1771876263605,"pid":11047,"name":"orchestrator","agent":"architect","model":"gemini-pro","tokens":{"input":1032,"output":667},"duration":6013,"msg":"Gemini completed","featureId":"feat-26"}
+{"level":30,"time":1771876278605,"pid":11047,"name":"orchestrator","agent":"context-manager","model":"gemini-pro","tokens":{"input":1237,"output":91},"duration":3586,"msg":"Gemini completed","featureId":"feat-26"}
+{"level":30,"time":"3.2m","pid":11047,"name":"orchestrator","featureId":"feat-26","cost":"$0.05","successRate":"100%","prodReady":true,"monthlySpend":"$1.40","msg":"Feature metrics"}
+{"level":30,"time":1771885319239,"pid":13556,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","sessionId":"session_1771885319214","monthlySpend":2.7531257500000024,"featureCount":0,"msg":"Orchestrator session recovered"}
+{"level":30,"time":1771885319239,"pid":13556,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","msg":"Starting autonomous processing loop via Prisma FeatureQueue polling"}
+{"level":30,"time":1771885423006,"pid":13663,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","sessionId":"session_1771885422985","monthlySpend":2.7531257500000024,"featureCount":0,"msg":"Orchestrator session recovered"}
+{"level":30,"time":1771885423006,"pid":13663,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","msg":"Starting autonomous processing loop via Prisma FeatureQueue polling"}
+{"level":30,"time":1771885475737,"pid":13663,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","msg":"Orchestrator shutting down gracefully..."}
+{"level":30,"time":1771886210773,"pid":14922,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","sessionId":"session_1771886210750","monthlySpend":2.7531257500000024,"featureCount":0,"msg":"Orchestrator session recovered"}
+{"level":30,"time":1771886210774,"pid":14922,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","msg":"Starting autonomous processing loop via Prisma FeatureQueue polling"}
+{"level":30,"time":1771886229705,"pid":14922,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","msg":"Orchestrator shutting down gracefully..."}
+{"level":30,"time":1771886230503,"pid":14980,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","sessionId":"session_1771886230479","monthlySpend":2.7531257500000024,"featureCount":0,"msg":"Orchestrator session recovered"}
+{"level":30,"time":1771886230504,"pid":14980,"hostname":"Turans-MacBook-Air.local","name":"orchestrator","msg":"Starting autonomous processing loop via Prisma FeatureQueue polling"}

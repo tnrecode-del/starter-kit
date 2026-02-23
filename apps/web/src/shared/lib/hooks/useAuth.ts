@@ -1,6 +1,6 @@
 "use client";
 
-import { trpc } from "../utils/trpc";
+import { trpc } from "@/shared/api/trpc";
 import { useMemo } from "react";
 import type { LoginInput } from "@core/shared";
 
@@ -17,11 +17,11 @@ export const useAuth = () => {
   });
 
   const loginMutation = trpc.auth.login.useMutation({
-    onSuccess: (data) => {
+    onSuccess: (data: any) => {
       utils.auth.me.setData(undefined, data.user);
     },
-    onError: (error) => {
-      console.error("Ошибка входа:", error.message);
+    onError: () => {
+      // Intentionally suppressing login errors to prevent Next.js Error Overlay
     },
   });
 

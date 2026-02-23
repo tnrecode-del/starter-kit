@@ -18,6 +18,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import pino from "pino";
 import dotenv from "dotenv";
 import { Redis } from "ioredis";
+import { Queue } from "bullmq";
 
 dotenv.config();
 
@@ -44,7 +45,11 @@ import { VectorStore } from "./vector_store.js";
 import { TelegramNotifier } from "./telegram_bot_handler.js";
 import { db } from "@core/database";
 
-const log = pino({ name: "orchestrator" });
+const dest = pino.destination({
+  dest: "./orchestrator.log",
+  sync: false, // Asynchronous logging for better performance
+});
+const log = pino({ name: "orchestrator" }, dest);
 
 const CLAUDE_MODELS: Record<
   Extract<ModelTier, "haiku" | "sonnet" | "opus">,
@@ -54,6 +59,8 @@ const CLAUDE_MODELS: Record<
   sonnet: "claude-sonnet-4-5-20250929",
   opus: "claude-opus-4-6",
 };
+
+import { execSync } from "child_process";
 
 // ─── Orchestrator ───────────────────────────────────────────────────
 
@@ -65,6 +72,7 @@ export class MVPOrchestrator {
   private telegram: TelegramNotifier;
   private config: SystemConfig;
   private redis: Redis;
+  private queue: Queue;
 
   // Budget tracking
   private monthlySpend = 0;
@@ -91,77 +99,79 @@ export class MVPOrchestrator {
       config.telegramChatId,
     );
     this.redis = new Redis(process.env.REDIS_URL || "redis://localhost:6379");
+    this.queue = new Queue("feature-processing", {
+      connection: this.redis as any,
+    });
   }
 
   async initialize(): Promise<void> {
-    await this.vectorStore.initialize();
+    await this.mcpManager.initializeAll();
 
-    // Try to recover previous session budget and state
-    const now = new Date();
-    const budgetKey = `budget:monthly:${now.getFullYear()}:${now.getMonth() + 1}`;
-
-    try {
-      const storedBudget = await this.redis.get(budgetKey);
-      if (storedBudget) {
-        this.monthlySpend = parseFloat(storedBudget);
-      }
-
-      const sessionData = await this.redis.get(`session:${this.sessionId}`);
-      if (sessionData) {
-        const parsed = JSON.parse(sessionData);
-        this.featureCount = parsed.featureCount ?? 0;
-      }
-
-      log.info(
-        { monthlySpend: this.monthlySpend, featureCount: this.featureCount },
-        "Recovered session state from Redis",
-      );
-    } catch (err) {
-      log.error({ err }, "Failed to recover session state from Redis");
+    // Recover session state
+    const sessionData = await this.redis.get(`session:${this.sessionId}`);
+    if (sessionData) {
+      const parsed = JSON.parse(sessionData);
+      this.featureCount = parsed.featureCount || 0;
     }
 
-    log.info("Orchestrator initialized");
+    const now = new Date();
+    const budgetKey = `budget:monthly:${now.getFullYear()}:${now.getMonth() + 1}`;
+    const spent = await this.redis.get(budgetKey);
+    this.monthlySpend = spent ? parseFloat(spent) : 0;
+
+    log.info(
+      {
+        sessionId: this.sessionId,
+        monthlySpend: this.monthlySpend,
+        featureCount: this.featureCount,
+      },
+      "Orchestrator session recovered",
+    );
+    await this.telegram.send({
+      type: "queue_status",
+      title: "🚀 Orchestrator V4 Started",
+      message: `Session: \`${this.sessionId}\`\nSpend this month: $${this.monthlySpend.toFixed(2)}\nFeatures processed: ${this.featureCount}`,
+      priority: "low",
+    });
+  }
+
+  public async shutdown(): Promise<void> {
+    this.shuttingDown = true;
+    log.info("Orchestrator shutting down gracefully...");
+    await this.mcpManager.cleanupAll();
+    await this.redis.quit();
+    process.exit(0);
   }
 
   // ═══════════════════════════════════════════════════════════════════
-  // PHASE 0: SPEC GENERATOR
+  // SPEC GENERATION
   // ═══════════════════════════════════════════════════════════════════
 
   private async generateSpec(request: FeatureRequest): Promise<FeatureSpec> {
-    log.info(
-      { featureId: request.id },
-      "Generating strict JSON specification (Phase 0)",
-    );
     const model = this.gemini.getGenerativeModel({
-      model: "gemini-2.5-pro",
-      generationConfig: { responseMimeType: "application/json" },
+      model: "gemini-3.0-pro",
+      generationConfig: {
+        responseMimeType: "application/json",
+      },
     });
 
-    const prompt = `You are a Technical Product Manager & Architect.
-Convert the following feature request into a strict JSON specification.
-Break it down into atomic tasks for specialized agents.
+    const prompt = `
+You are the Lead Architect for a Next.js / NestJS / Prisma monorepo.
+Break down this feature request into a strict JSON DAG of tasks.
 
-Feature: ${request.title}
-Description: ${request.description}
-Acceptance Criteria:
-${request.acceptanceCriteria.map((c, i) => `${i + 1}. ${c}`).join("\n")}
+Feature Title: ${request.title}
+Feature Rules/Requirements: ${request.description}
+Acceptance Criteria: ${request.acceptanceCriteria?.join("\n- ") || "N/A"}
 
-Agents available:
-- "frontend-ui": React/Tailwind components
-- "frontend-bizlogic": Zustand/Zod/API hooks
-- "backend-api": NestJS controllers/services
-- "backend-database": Prisma schema/migrations
-- "qa-testing": Playwright/Vitest (must depend on all others)
+CRITICAL RULES:
+1. Identify ALL edge cases and required files to modify.
+2. Group related tasks for single agents.
+3. Establish clear dependencies (DAG).
 
-Rules for DAG Dependencies:
-- Backend Database tasks must have no dependencies.
-- Backend API tasks MUST depend on Backend Database tasks.
-- Frontend UI can have no dependencies, but Frontend BizLogic MUST depend on Frontend UI and Backend API.
-- QA Testing MUST depend on everything.
-
-Output ONLY valid JSON matching this schema:
+Output MUST be valid JSON strictly matching:
 {
-  "scope": "Brief technical summary",
+  "scope": "String explaining the feature context and constraints",
+  "technicalDecisions": ["Decision 1", "Decision 2"],
   "tasks": [
     {
       "id": "unique-task-string",
@@ -180,6 +190,15 @@ Output ONLY valid JSON matching this schema:
   // ═══════════════════════════════════════════════════════════════════
   // MAIN FEATURE PIPELINE
   // ═══════════════════════════════════════════════════════════════════
+
+  private runGitCommand(cmd: string): string {
+    try {
+      return execSync(cmd, { encoding: "utf8", stdio: "pipe" });
+    } catch (error: any) {
+      log.error({ cmd, error: error.message }, "Git command failed");
+      return error.stdout || "";
+    }
+  }
 
   async processFeature(request: FeatureRequest): Promise<ExecutionMetrics> {
     const startTime = Date.now();
@@ -214,8 +233,34 @@ Output ONLY valid JSON matching this schema:
       priority: "medium",
     });
 
+    // ── Git Isolation: Create new branch ────────────────────────────
+    const safeTitle = request.title
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/(^-|-$)/g, "");
+
+    // We use a timestamp to guarantee uniqueness, assuming a short hash representation
+    const branchName = `feature/task-${request.id}-${safeTitle.substring(0, 20)}`;
+
+    try {
+      log.info({ branch: branchName }, "Creating feature branch");
+      // First ensure we're clean and up-to-date on main
+      this.runGitCommand("git add .");
+      this.runGitCommand("git stash");
+      this.runGitCommand("git checkout main");
+      this.runGitCommand("git pull origin main || true"); // Just in case
+      // Create and switch to new branch
+      this.runGitCommand(`git checkout -b ${branchName}`);
+    } catch (e) {
+      log.warn(
+        { error: e },
+        "Failed to create clean Git branch, continuing on current branch.",
+      );
+    }
+
     const metrics: ExecutionMetrics = {
       featureId: request.id,
+      totalTokens: 0,
       totalCost: 0,
       costBreakdown: {
         inputCost: 0,
@@ -235,7 +280,7 @@ Output ONLY valid JSON matching this schema:
     try {
       metrics.featureSpec = await this.generateSpec(request);
       log.info(
-        { taskCount: metrics.featureSpec.tasks.length },
+        { taskCount: metrics.featureSpec.tasks.length, featureId: request.id },
         "Generated strict feature specification",
       );
     } catch (error) {
@@ -246,7 +291,7 @@ Output ONLY valid JSON matching this schema:
     }
 
     // ── Phase 1: Architect Review (with similar pattern enrichment) ──
-    log.info("Phase 1: Architect review");
+    log.info({ featureId: request.id }, "Phase 1: Architect review");
 
     const similarPatterns = await this.vectorStore.findSimilarFeatures(
       `${request.title} ${request.description}`,
@@ -272,7 +317,7 @@ Output ONLY valid JSON matching this schema:
 
     if (architectResult.status === "blocked") {
       log.warn(
-        { risks: architectResult.output.risks },
+        { risks: architectResult.output.risks, featureId: request.id },
         "Architect blocked feature",
       );
       await this.telegram.send({
@@ -287,7 +332,10 @@ Output ONLY valid JSON matching this schema:
     }
 
     // ── Phase 1.5: Context Manager (Dynamic Skills Briefing) ────────
-    log.info("Phase 1.5: Context manager skills briefing");
+    log.info(
+      { featureId: request.id },
+      "Phase 1.5: Context manager skills briefing",
+    );
 
     const contextManagerResult = await this.dispatchAgent({
       agent: "context-manager" as AgentId,
@@ -305,10 +353,13 @@ Output ONLY valid JSON matching this schema:
     this.addCost(metrics, contextManagerResult);
 
     // ── Phase 2: Supervisor DAG Execution ───────────────────────────
-    log.info("Phase 2: Supervisor DAG execution");
+    log.info({ featureId: request.id }, "Phase 2: Supervisor DAG execution");
 
     if (!metrics.featureSpec) {
-      log.error("FeatureSpec missing, aborting execution");
+      log.error(
+        { featureId: request.id },
+        "FeatureSpec missing, aborting execution",
+      );
       throw new Error("FeatureSpec generation failed");
     }
 
@@ -324,10 +375,16 @@ Output ONLY valid JSON matching this schema:
 
       if (readyTasks.length === 0) {
         if (failedTasks.size > 0) {
-          log.warn("DAG execution blocked due to failed upstream dependencies");
+          log.warn(
+            { featureId: request.id },
+            "DAG execution blocked due to failed upstream dependencies",
+          );
           break;
         } else {
-          log.error("DAG deadlock detected! Dependencies cannot be resolved.");
+          log.error(
+            { featureId: request.id },
+            "DAG deadlock detected! Dependencies cannot be resolved.",
+          );
           break;
         }
       }
@@ -380,7 +437,7 @@ Output ONLY valid JSON matching this schema:
           }
         } else {
           log.error(
-            { err: outcome.reason },
+            { err: outcome.reason, featureId: request.id },
             "Task execution promise rejected completely",
           );
           failedTasks.add("unknown-failure");
@@ -437,6 +494,29 @@ Output ONLY valid JSON matching this schema:
       86_400,
     ); // 24h TTL for session info
 
+    // ── Git Isolation: Commit and Push branch ────────────────────────
+    try {
+      log.info({ branch: branchName }, "Saving feature branch");
+      const statusCmd = this.runGitCommand("git status --porcelain");
+      if (statusCmd.trim().length > 0) {
+        this.runGitCommand("git add .");
+        this.runGitCommand(`git commit -m "feat: ${safeTitle}"`);
+        this.runGitCommand(`git push -u origin ${branchName}`);
+        log.info({ branch: branchName }, "Feature branch pushed to remote");
+      } else {
+        log.info({ branch: branchName }, "No changes to commit for feature");
+      }
+    } catch (e) {
+      log.warn({ error: e }, "Failed to commit/push feature branch");
+    } finally {
+      // Always try to return to main branch safely for the next task
+      try {
+        this.runGitCommand("git checkout main");
+      } catch (e) {
+        log.warn({ error: e }, "Failed to checkout main branch");
+      }
+    }
+
     // Report
     this.logMetrics(metrics, request);
     await this.telegram.send({
@@ -464,7 +544,10 @@ Output ONLY valid JSON matching this schema:
 
     // Circuit breaker check
     if (this.circuitOpen) {
-      log.warn({ agent: task.agent }, "Circuit breaker open, waiting 30s");
+      log.warn(
+        { agent: task.agent, featureId: task.feature.id },
+        "Circuit breaker open, waiting 30s",
+      );
       await sleep(30_000);
       this.circuitOpen = false;
       this.consecutiveFailures = 0;
@@ -582,6 +665,7 @@ Output ONLY valid JSON matching this schema:
         log.info(
           {
             agent: task.agent,
+            featureId: task.feature.id,
             model,
             tokens,
             cost: cost.total.toFixed(5),
@@ -610,12 +694,21 @@ Output ONLY valid JSON matching this schema:
 
         if (this.consecutiveFailures >= 5) {
           this.circuitOpen = true;
-          log.error("Circuit breaker triggered after 5 consecutive failures");
+          log.error(
+            { featureId: task.feature.id },
+            "Circuit breaker triggered after 5 consecutive failures",
+          );
         }
 
         const delay = this.config.retryBaseDelayMs * Math.pow(2, attempt - 1);
         log.warn(
-          { agent: task.agent, attempt, delay, error: lastError.message },
+          {
+            agent: task.agent,
+            featureId: task.feature.id,
+            attempt,
+            delay,
+            error: lastError.message,
+          },
           "Agent failed, retrying",
         );
 
@@ -627,7 +720,11 @@ Output ONLY valid JSON matching this schema:
 
     // All retries exhausted
     log.error(
-      { agent: task.agent, error: lastError?.message },
+      {
+        agent: task.agent,
+        featureId: task.feature.id,
+        error: lastError?.message,
+      },
       "Agent failed after all retries",
     );
 
@@ -695,12 +792,18 @@ Output ONLY valid JSON matching this schema:
     };
 
     log.info(
-      { agent: task.agent, model: modelTier, tokens, duration },
+      {
+        agent: task.agent,
+        featureId: task.feature.id,
+        model: modelTier,
+        tokens,
+        duration,
+      },
       "Gemini completed",
     );
 
     return {
-      agent: "orchestrator",
+      agent: task.agent,
       taskId: task.taskId,
       status: "success",
       output: this.parseAgentOutput(outputText),
@@ -899,6 +1002,12 @@ Provide: Vitest unit tests + Playwright E2E tests.`;
 
   private addCost(metrics: ExecutionMetrics, result: AgentResult): void {
     metrics.totalCost += result.cost;
+    metrics.totalTokens +=
+      (result.tokensUsed?.input || 0) + (result.tokensUsed?.output || 0);
+
+    metrics.costBreakdown.inputCost +=
+      (result.tokensUsed?.input || 0) * (result.cost / 2 || 0); // Approximation if needed
+
     this.monthlySpend += result.cost;
 
     // Budget alert
@@ -969,6 +1078,12 @@ Provide: Vitest unit tests + Playwright E2E tests.`;
 
     while (!this.shuttingDown) {
       try {
+        if (await this.queue.isPaused()) {
+          log.debug("Orchestrator queue is paused via BullMQ. Idling...");
+          await sleep(5000);
+          continue;
+        }
+
         // Find all pending tasks
         const pendingTasks = await db.featureQueue.findMany({
           where: { status: "PENDING" },
@@ -1021,11 +1136,42 @@ Provide: Vitest unit tests + Playwright E2E tests.`;
             try {
               const metrics = await this.processFeature(featureReq);
 
+              // Strip bloated specification data before saving to DB
+              const cleanMetrics = { ...metrics };
+              delete cleanMetrics.featureSpec;
+
+              const resultData = cleanMetrics.agentResults
+                .map(
+                  (r) =>
+                    `### ${r.agent}\n\n${r.output.code || "No output code generated."}`,
+                )
+                .join("\n\n---\n\n");
+
+              const executionMetricPayload = {
+                totalCostUsd: cleanMetrics.totalCost,
+                durationSeconds: Math.floor(cleanMetrics.totalTime / 1000),
+                successRate: Math.floor(cleanMetrics.successRate * 100),
+                readyForProduction: cleanMetrics.readyForProduction,
+                promptTokens: cleanMetrics.totalTokens,
+                completionTokens: 0,
+                cachedTokens: 0,
+                agentsUsed: cleanMetrics.agentResults.map((r: any) => ({
+                  role: r.agent,
+                  cost: r.cost,
+                })),
+              };
+
               // Mark done or failed based on regression/success rate
               if (metrics.readyForProduction) {
                 await db.featureQueue.update({
                   where: { id: task.id },
-                  data: { status: "COMPLETED" },
+                  data: {
+                    status: "COMPLETED",
+                    resultData,
+                    executionMetric: {
+                      create: executionMetricPayload,
+                    },
+                  },
                 });
               } else {
                 log.warn(
@@ -1034,7 +1180,13 @@ Provide: Vitest unit tests + Playwright E2E tests.`;
                 );
                 await db.featureQueue.update({
                   where: { id: task.id },
-                  data: { status: "FAILED" },
+                  data: {
+                    status: "FAILED",
+                    resultData,
+                    executionMetric: {
+                      create: executionMetricPayload,
+                    },
+                  },
                 });
               }
             } catch (err) {
@@ -1075,7 +1227,7 @@ Provide: Vitest unit tests + Playwright E2E tests.`;
       86_400,
     );
 
-    await this.mcpManager.disconnectAll();
+    await this.mcpManager.cleanupAll();
     log.info(
       {
         totalCost: `$${this.monthlySpend.toFixed(2)}`,
@@ -1083,12 +1235,6 @@ Provide: Vitest unit tests + Playwright E2E tests.`;
       },
       "Loop completed shutting down",
     );
-  }
-
-  private shutdown(): void {
-    log.info("Graceful shutdown initiated");
-    this.shuttingDown = true;
-    this.redis.disconnect();
   }
 }
 

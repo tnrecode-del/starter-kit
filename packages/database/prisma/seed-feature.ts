@@ -1,26 +1,34 @@
 import { db } from "../src/index.js";
 
 async function main() {
-  const feature = await db.featureQueue.upsert({
-    where: { featureId: 1 },
-    update: {
-      status: "PENDING",
-      name: "Hello World API Endpoint",
-      category: "backend",
-      dependsOnIds: [],
-      testSteps: "1. Endpoint returns 200\n2. Body contains 'Hello World'",
+  const feats = [
+    {
+      featureId: 5,
+      name: "Dashboard Analytics Charts Component",
+      category: "frontend",
+      priority: "HIGH",
+      testSteps:
+        "1. Render a responsive Recharts bar chart\n2. Integrate with mock data hooks\n3. Use Tailwind and Glassmorphism design",
     },
-    create: {
-      featureId: 1,
-      name: "Hello World API Endpoint",
+    {
+      featureId: 6,
+      name: "User Role Permission Middleware",
       category: "backend",
-      status: "PENDING",
-      dependsOnIds: [],
-      testSteps: "1. Endpoint returns 200\n2. Body contains 'Hello World'",
+      priority: "LOW",
+      testSteps:
+        "1. Create NestJS Guard for Role checking\n2. Read JWT token and validate role\n3. Throw 403 Forbidden if not Admin",
     },
-  });
+  ];
 
-  console.log("Seeded FeatureQueue:", feature);
+  for (const f of feats) {
+    await db.featureQueue.upsert({
+      where: { featureId: f.featureId },
+      update: { status: "PENDING", ...f },
+      create: { status: "PENDING", dependsOnIds: [], ...f },
+    });
+  }
+
+  console.log("Seeded new complex tasks to FeatureQueue!");
 }
 
 main()
