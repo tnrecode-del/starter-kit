@@ -141,7 +141,7 @@ export function NewTaskPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-8 flex-1 min-h-[600px] items-stretch">
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-8 h-[calc(100vh-160px)] min-h-[600px] items-stretch">
         {/* Left Column: Form */}
         <div className="md:col-span-3 flex flex-col gap-6 bg-card/60 backdrop-blur-xl border border-border/50 rounded-3xl p-8 shadow-sm h-full">
           <form
