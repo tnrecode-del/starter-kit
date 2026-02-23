@@ -39,50 +39,54 @@ export function NewTaskPage() {
     },
   ]);
 
-  const handleChatSubmit = (e: React.FormEvent) => {
+  const handleChatSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!chatInput.trim()) return;
 
     const userMessage = chatInput;
-    setMessages((prev) => [
-      ...prev,
+    const newMessages = [
+      ...messages,
       { role: "user", content: userMessage, isDraft: false },
-    ]);
+    ];
+    setMessages(newMessages);
     setChatInput("");
     setIsTyping(true);
 
-    // Mock AI response
-    setTimeout(() => {
-      let aiResponse = "";
-      let isDraft = false;
+    try {
+      const res = await fetch("/api/brainstorm", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: newMessages.slice(1) }),
+      });
+      const data = await res.json();
 
-      const lowerInput = userMessage.toLowerCase();
-      if (lowerInput.includes("stripe") || lowerInput.includes("payment")) {
-        aiResponse =
-          "Great idea. To integrate Stripe, I suggest these requirements:\n- Configure Stripe Webhook endpoints.\n- Add `stripe_customer_id` to the Postgres User table.\n- Build a pricing page UI component.";
-        isDraft = true;
-      } else if (lowerInput.includes("email") || lowerInput.includes("auth")) {
-        aiResponse =
-          "For authentication/emails, we should:\n- Setup Resend or AWS SES.\n- Create a magic link flow in Next.js.\n- Update Auth.js configuration.";
-        isDraft = true;
+      if (res.ok && data.text) {
+        setMessages((prev) => [
+          ...prev,
+          { role: "assistant", content: data.text, isDraft: true },
+        ]);
       } else {
-        const mockResponses = [
-          "I can definitely help with that. Let's break it down into modular tickets.\n- Update schema definition.\n- Implement tRPC router endpoints.\n- Add UI components.",
-          "That sounds like a great feature! Here's a quick draft to get us started:\n- Define background jobs in Redis.\n- Build the administrative dashboard view.\n- Set up daily cron tasks.",
-          "Interesting approach. We should consider these architectural requirements:\n- Expand the API to support pagination.\n- Optimize PostgreSQL indexes for the new queries.\n- Add frontend caching with React Query.",
-          "Got it. Let's organize the work:\n- Design the Feature-Sliced Architecture layers.\n- Write end-to-end tests in Playwright.\n- Implement the core business logic in the Domain layer.",
-        ];
-        aiResponse =
-          mockResponses[Math.floor(Math.random() * mockResponses.length)];
-        isDraft = true;
+        setMessages((prev) => [
+          ...prev,
+          {
+            role: "assistant",
+            content: "Sorry, I ran into an error generating a response.",
+            isDraft: false,
+          },
+        ]);
       }
-
+    } catch (error) {
       setMessages((prev) => [
         ...prev,
-        { role: "assistant", content: aiResponse, isDraft },
+        {
+          role: "assistant",
+          content: "Error connecting to AI Brainstorm service.",
+          isDraft: false,
+        },
       ]);
+    } finally {
       setIsTyping(false);
-    }, 1500);
+    }
   };
 
   const applyDraftToRequirements = (draftText: string) => {
@@ -93,15 +97,25 @@ export function NewTaskPage() {
     );
   };
 
-  const handleFormSubmit = (e: React.FormEvent) => {
+  const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate submission
-    setTimeout(() => {
-      setIsSubmitting(false);
+    try {
+      await fetch("/api/tasks", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: featureName,
+          requirements,
+          priority,
+        }),
+      });
       router.push("/admin");
-    }, 1000);
+    } catch (error: unknown) {
+      console.error("Failed to submit task", error);
+      setIsSubmitting(false);
+    }
   };
 
   return (
