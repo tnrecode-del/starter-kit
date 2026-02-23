@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
-    const { messages } = await req.json();
+    const { messages, context } = await req.json();
     const apiKey = process.env.GOOGLE_API_KEY;
 
     if (!apiKey) {
@@ -18,6 +18,13 @@ export async function POST(req: Request) {
       parts: [{ text: m.content }],
     }));
 
+    let systemText =
+      "You are an expert AI software architect and context manager. Help the user brainstorm concrete technical requirements, PRDs, and implementation steps for their features. Keep answers concise, actionable, and formatted as markdown lists. Reply in Russian if requested, but use English technical terms.";
+
+    if (context) {
+      systemText += `\n\nCurrent Feature Context:\nTitle: ${context.title || "Not specified"}\nRequirements defined so far: ${context.requirements || "None yet"}\n`;
+    }
+
     // System instructions are passed separately in Gemini API v1beta
     const response = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
@@ -26,11 +33,7 @@ export async function POST(req: Request) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           systemInstruction: {
-            parts: [
-              {
-                text: "You are an expert AI software architect and context manager. Help the user brainstorm concrete technical requirements, PRDs, and implementation steps for their features. Keep answers concise, actionable, and formatted as markdown lists. Reply in Russian if requested, but use English technical terms.",
-              },
-            ],
+            parts: [{ text: systemText }],
           },
           contents,
         }),

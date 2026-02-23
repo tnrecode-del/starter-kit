@@ -56,7 +56,13 @@ export function NewTaskPage() {
       const res = await fetch("/api/brainstorm", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: newMessages.slice(1) }),
+        body: JSON.stringify({
+          messages: newMessages.slice(1),
+          context: {
+            title: featureName,
+            requirements: requirements,
+          },
+        }),
       });
       const data = await res.json();
 
