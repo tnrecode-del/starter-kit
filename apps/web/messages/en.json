@@ -9,5 +9,90 @@
     "totalTasks": "Total Tasks",
     "active": "Active",
     "finished": "Finished"
+  },
+  "HomePage": {
+    "heroBadge": "AI Orchestrator v4 is Live",
+    "heroTitle": "Ship features faster with autonomous AI agents.",
+    "heroDesc": "Describe your feature, and watch a swarm of specialized AI agents collaborate to write, test, and deploy production-ready code in minutes. Say goodbye to manual boilerplate.",
+    "heroPrimaryCta": "Go to Admin Dashboard",
+    "heroSecondaryCta": "See How It Works",
+    "howItWorksTitle": "How It Works",
+    "howItWorksDesc": "Go from idea to production in three simple steps. Let the AI handle the heavy lifting while you focus on the vision.",
+    "step1Title": "Define Your Feature",
+    "step1Desc": "Provide a brief prompt or user story. The Context Manager automatically gathers the necessary codebase context and plans the FSD/DDD architecture.",
+    "step2Title": "Autonomous Execution",
+    "step2Desc": "A swarm of specialized sub-agents (frontend, backend, database) are spawned to write the code simultaneously, ensuring perfect integration.",
+    "step3Title": "Review & Deploy",
+    "step3Desc": "The QA Agent verifies the code against rigorous tests. Review the automated Pull Request and deploy your flawless feature to production.",
+    "roiTitle": "ROI that speaks for itself",
+    "roiDesc": "Stop paying for boilerplate. Our Orchestrator cuts development time by 90% while keeping token costs incredibly low.",
+    "roiStat1Title1": "Reduction in",
+    "roiStat1Title2": "development time",
+    "roiStat2Title1": "Average LLM cost",
+    "roiStat2Title2": "per feature",
+    "roiStat3Title1": "From natural language",
+    "roiStat3Title2": "to deployed PR",
+    "featuresTitle": "A complete platform for AI coding",
+    "featuresDesc": "Built from the ground up with a custom Vector Database, automated Context Managers, and precise multi-agent architecture.",
+    "feature1Title": "Instant Architecture",
+    "feature1Desc": "Automatically analyzes the target codebase and proposes the optimal FSD / DDD architecture for the new feature perfectly aligned with your standards.",
+    "feature2Title": "Sub-Agent Delegation",
+    "feature2Desc": "The Orchestrator spawns hyper-focused sub-agents leveraging specialized MCP tools for frontend, backend, or database tasks efficiently.",
+    "feature3Title": "Auto QA & Regression",
+    "feature3Desc": "Every snippet of code undergoes rigorous automated testing by the QA Agent before it hits the production check-point ensuring perfection.",
+    "techStackTitle": "Generating code for a modern tech stack",
+    "ctaTitle": "Ready to automate your engineering?",
+    "ctaDesc": "Join the Orchestrator V4 and experience the future of autonomous agent-assisted development.",
+    "ctaButton": "Start Building Now",
+    "footerRights": "AI Orchestrator MVP. All rights reserved."
+  },
+  "PipelineVisualizer": {
+    "stages": {
+      "analyze": {
+        "label": "Analyze",
+        "description": "Analyzing user prompt & generating PRD",
+        "promptMsg": "User Prompt Received",
+        "promptText": "\"Create a sleek automated pipeline visualizer component for the landing page with Tailwind animations and a live activity stream feel.\"",
+        "parsing": "Context Manager is parsing requirements...",
+        "searching": "Searching vector database for relevant codebase context",
+        "execTime": "Execution Time",
+        "llmCost": "LLM Cost"
+      },
+      "architect": {
+        "label": "Architect",
+        "description": "Proposing architecture & design system",
+        "drafted": "FSD Architecture Drafted"
+      },
+      "orchestrate": {
+        "label": "Orchestrate",
+        "description": "Sub-agents dispatched to execute tasks",
+        "spawning": "Spawning Agent Swarm (3 Active)",
+        "task1": "Build React Component Structure",
+        "task2": "Implement auto-cycling active hooks",
+        "task3": "Write E2E visualizer tests",
+        "savings": "$0.012 / hr savings"
+      },
+      "execute": {
+        "label": "Execute",
+        "description": "Writing code and resolving dependencies",
+        "autosaving": "Auto-saving..."
+      },
+      "verify": {
+        "label": "Verify",
+        "description": "Running E2E tests and deployment checks",
+        "test1": "PipelineVisualizer.test.tsx passes",
+        "test2": "No accessibility violations (a11y)",
+        "test3": "Web Vitals optimal (CLS ~0)",
+        "test4": "Bundle size within limits (+2.4kb)",
+        "ready": "Ready for Production",
+        "totalTime": "Total Time: 5.4s",
+        "totalCost": "Total Cost: $0.015"
+      }
+    },
+    "header": {
+      "liveStream": "Live Activity Stream"
+    },
+    "step": "Step",
+    "executingStage": "Executing Stage"
   }
 }

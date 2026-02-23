@@ -17,8 +17,11 @@ import {
 
 import { PipelineVisualizer } from "@/widgets/pipeline/ui/PipelineVisualizer";
 import { LandingHeader } from "@/widgets/header/ui/LandingHeader";
+import { getTranslations } from "next-intl/server";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const t = await getTranslations("HomePage");
+
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground transition-colors duration-300">
       <LandingHeader />
@@ -34,15 +37,13 @@ export default function HomePage() {
             <div className="inline-flex flex-col items-center gap-6 mb-10 fade-in">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-semibold border border-primary/20 backdrop-blur-md shadow-sm transition-all hover:bg-primary/20 cursor-default">
                 <Sparkles className="w-4 h-4" />
-                <span>AI Orchestrator v4 is Live</span>
+                <span>{t("heroBadge")}</span>
               </div>
               <h1 className="text-5xl md:text-8xl font-extrabold tracking-tight max-w-5xl text-transparent bg-clip-text bg-linear-to-br from-foreground to-foreground/50 leading-tight">
-                Ship features faster with autonomous AI agents.
+                {t("heroTitle")}
               </h1>
               <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl leading-relaxed mt-4">
-                Describe your feature, and watch a swarm of specialized AI
-                agents collaborate to write, test, and deploy production-ready
-                code in minutes. Say goodbye to manual boilerplate.
+                {t("heroDesc")}
               </p>
             </div>
 
@@ -54,7 +55,7 @@ export default function HomePage() {
                 href="/admin"
                 className="inline-flex h-14 items-center justify-center gap-2 rounded-xl bg-primary px-8 text-base font-bold text-primary-foreground shadow-xl shadow-primary/20 transition-all hover:bg-primary/90 hover:-translate-y-1 hover:shadow-primary/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
-                Go to Admin Dashboard
+                {t("heroPrimaryCta")}
                 <ArrowRight className="h-5 w-5" />
               </Link>
               <a
@@ -62,7 +63,7 @@ export default function HomePage() {
                 className="inline-flex h-14 items-center justify-center gap-2 rounded-xl bg-muted/50 backdrop-blur-md px-8 text-base font-semibold text-foreground shadow-sm border border-border transition-all hover:bg-muted/80 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 <Play className="h-5 w-5 ml-1" />
-                See How It Works
+                {t("heroSecondaryCta")}
               </a>
             </div>
 
@@ -85,11 +86,10 @@ export default function HomePage() {
           <div className="container mx-auto px-4 max-w-6xl relative z-10">
             <div className="text-center mb-20">
               <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6 text-foreground">
-                How It Works
+                {t("howItWorksTitle")}
               </h2>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                Go from idea to production in three simple steps. Let the AI
-                handle the heavy lifting while you focus on the vision.
+                {t("howItWorksDesc")}
               </p>
             </div>
 
@@ -102,11 +102,9 @@ export default function HomePage() {
                   1
                 </div>
                 <div className="space-y-3">
-                  <h3 className="font-bold text-2xl">Define Your Feature</h3>
+                  <h3 className="font-bold text-2xl">{t("step1Title")}</h3>
                   <p className="text-muted-foreground leading-relaxed text-base">
-                    Provide a brief prompt or user story. The Context Manager
-                    automatically gathers the necessary codebase context and
-                    plans the FSD/DDD architecture.
+                    {t("step1Desc")}
                   </p>
                 </div>
               </div>
@@ -116,11 +114,9 @@ export default function HomePage() {
                   2
                 </div>
                 <div className="space-y-3">
-                  <h3 className="font-bold text-2xl">Autonomous Execution</h3>
+                  <h3 className="font-bold text-2xl">{t("step2Title")}</h3>
                   <p className="text-muted-foreground leading-relaxed text-base">
-                    A swarm of specialized sub-agents (frontend, backend,
-                    database) are spawned to write the code simultaneously,
-                    ensuring perfect integration.
+                    {t("step2Desc")}
                   </p>
                 </div>
               </div>
@@ -130,11 +126,9 @@ export default function HomePage() {
                   3
                 </div>
                 <div className="space-y-3">
-                  <h3 className="font-bold text-2xl">Review & Deploy</h3>
+                  <h3 className="font-bold text-2xl">{t("step3Title")}</h3>
                   <p className="text-muted-foreground leading-relaxed text-base">
-                    The QA Agent verifies the code against rigorous tests.
-                    Review the automated Pull Request and deploy your flawless
-                    feature to production.
+                    {t("step3Desc")}
                   </p>
                 </div>
               </div>
@@ -148,11 +142,10 @@ export default function HomePage() {
           <div className="container mx-auto px-4 max-w-6xl relative z-10">
             <div className="text-center mb-16">
               <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
-                ROI that speaks for itself
+                {t("roiTitle")}
               </h2>
               <p className="text-muted-foreground max-w-2xl mx-auto">
-                Stop paying for boilerplate. Our Orchestrator cuts development
-                time by 90% while keeping token costs incredibly low.
+                {t("roiDesc")}
               </p>
             </div>
 
@@ -165,9 +158,9 @@ export default function HomePage() {
                   90%
                 </div>
                 <h3 className="font-medium text-muted-foreground text-center">
-                  Reduction in
+                  {t("roiStat1Title1")}
                   <br />
-                  development time
+                  {t("roiStat1Title2")}
                 </h3>
               </div>
 
@@ -179,9 +172,9 @@ export default function HomePage() {
                   &lt;$0.05
                 </div>
                 <h3 className="font-medium text-muted-foreground text-center">
-                  Average LLM cost
+                  {t("roiStat2Title1")}
                   <br />
-                  per feature
+                  {t("roiStat2Title2")}
                 </h3>
               </div>
 
@@ -193,9 +186,9 @@ export default function HomePage() {
                   ~3-5m
                 </div>
                 <h3 className="font-medium text-muted-foreground text-center">
-                  From natural language
+                  {t("roiStat3Title1")}
                   <br />
-                  to deployed PR
+                  {t("roiStat3Title2")}
                 </h3>
               </div>
             </div>
@@ -210,12 +203,10 @@ export default function HomePage() {
           <div className="container mx-auto px-4 max-w-6xl relative z-10">
             <div className="text-center mb-24">
               <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">
-                A complete platform for AI coding
+                {t("featuresTitle")}
               </h2>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                Built from the ground up with a custom Vector Database,
-                automated Context Managers, and precise multi-agent
-                architecture.
+                {t("featuresDesc")}
               </p>
             </div>
 
@@ -224,11 +215,9 @@ export default function HomePage() {
                 <div className="h-14 w-14 rounded-2xl bg-blue-500/10 text-blue-500 flex items-center justify-center mb-2 group-hover:bg-blue-500 group-hover:text-white transition-all duration-300">
                   <Zap className="h-7 w-7" />
                 </div>
-                <h3 className="font-bold text-xl">Instant Architecture</h3>
+                <h3 className="font-bold text-xl">{t("feature1Title")}</h3>
                 <p className="text-base text-muted-foreground leading-relaxed">
-                  Automatically analyzes the target codebase and proposes the
-                  optimal FSD / DDD architecture for the new feature perfectly
-                  aligned with your standards.
+                  {t("feature1Desc")}
                 </p>
               </div>
 
@@ -236,11 +225,9 @@ export default function HomePage() {
                 <div className="h-14 w-14 rounded-2xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center mb-2 group-hover:bg-emerald-500 group-hover:text-white transition-all duration-300">
                   <Cpu className="h-7 w-7" />
                 </div>
-                <h3 className="font-bold text-xl">Sub-Agent Delegation</h3>
+                <h3 className="font-bold text-xl">{t("feature2Title")}</h3>
                 <p className="text-base text-muted-foreground leading-relaxed">
-                  The Orchestrator spawns hyper-focused sub-agents leveraging
-                  specialized MCP tools for frontend, backend, or database tasks
-                  efficiently.
+                  {t("feature2Desc")}
                 </p>
               </div>
 
@@ -248,11 +235,9 @@ export default function HomePage() {
                 <div className="h-14 w-14 rounded-2xl bg-purple-500/10 text-purple-500 flex items-center justify-center mb-2 group-hover:bg-purple-500 group-hover:text-white transition-all duration-300">
                   <Shield className="h-7 w-7" />
                 </div>
-                <h3 className="font-bold text-xl">Auto QA & Regression</h3>
+                <h3 className="font-bold text-xl">{t("feature3Title")}</h3>
                 <p className="text-base text-muted-foreground leading-relaxed">
-                  Every snippet of code undergoes rigorous automated testing by
-                  the QA Agent before it hits the production check-point
-                  ensuring perfection.
+                  {t("feature3Desc")}
                 </p>
               </div>
             </div>
@@ -262,7 +247,7 @@ export default function HomePage() {
         <section className="py-24 bg-muted/5 border-t border-b border-border/50">
           <div className="container mx-auto px-4 max-w-6xl text-center">
             <h2 className="text-2xl font-bold tracking-tight mb-12 text-foreground/80">
-              Generating code for a modern tech stack
+              {t("techStackTitle")}
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 max-w-4xl mx-auto">
               <div className="flex items-center gap-3 p-4 bg-background rounded-xl border border-border/50 justify-center text-muted-foreground hover:text-foreground hover:border-primary/30 transition-all cursor-default">
@@ -290,17 +275,16 @@ export default function HomePage() {
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,var(--color-primary),transparent_70%)] opacity-5" />
           <div className="container mx-auto px-4 relative z-10 text-center flex flex-col items-center">
             <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">
-              Ready to automate your engineering?
+              {t("ctaTitle")}
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-10">
-              Join the Orchestrator V4 and experience the future of autonomous
-              agent-assisted development.
+              {t("ctaDesc")}
             </p>
             <Link
               href="/admin"
               className="inline-flex h-14 items-center justify-center gap-2 rounded-xl bg-primary px-10 text-lg font-bold text-primary-foreground shadow-2xl shadow-primary/20 transition-all hover:bg-primary/90 hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
-              Start Building Now
+              {t("ctaButton")}
               <ArrowRight className="h-5 w-5" />
             </Link>
           </div>
@@ -328,8 +312,7 @@ export default function HomePage() {
             </Link>
           </div>
           <p className="text-sm text-muted-foreground/80">
-            &copy; {new Date().getFullYear()} AI Orchestrator MVP. All rights
-            reserved.
+            &copy; {new Date().getFullYear()} {t("footerRights")}
           </p>
         </div>
       </footer>

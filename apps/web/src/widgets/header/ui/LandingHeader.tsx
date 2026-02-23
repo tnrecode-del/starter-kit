@@ -2,6 +2,7 @@
 import { Terminal } from "lucide-react";
 import Link from "next/link";
 import { ThemeToggle } from "./ThemeToggle";
+import { LocaleSwitcher } from "@/widgets/header/ui/LocaleSwitcher";
 
 export function LandingHeader() {
   return (
@@ -18,6 +19,7 @@ export function LandingHeader() {
         </Link>
 
         <div className="flex items-center gap-4">
+          <LocaleSwitcher />
           <ThemeToggle />
         </div>
       </div>

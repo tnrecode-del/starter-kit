@@ -8,9 +8,13 @@ import {
 // @ts-expect-error - Using compiled dist directly to bypass Turbopack workspace TS constraints
 import { db } from "@core/database/dist/src/index.js";
 import { QueueList } from "@/widgets/queue-list/ui/QueueList";
-import { NewFeatureDrawer } from "@/widgets/admin/ui/NewFeatureDrawer";
+import Link from "next/link";
+import { Button } from "@shared/ui/button";
+import { getTranslations } from "next-intl/server";
 
 export default async function AdminPage() {
+  const t = await getTranslations("AdminPage");
+
   const tasks = await db.featureQueue.findMany({
     orderBy: { updatedAt: "desc" },
   });
@@ -39,15 +43,16 @@ export default async function AdminPage() {
             <Sparkles className="h-6 w-6" />
           </div>
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">
-              Orchestrator Activity
-            </h1>
-            <p className="text-muted-foreground text-sm">
-              Monitor autonomous feature execution
-            </p>
+            <h1 className="text-3xl font-bold tracking-tight">{t("title")}</h1>
+            <p className="text-muted-foreground text-sm">{t("subtitle")}</p>
           </div>
         </div>
-        <NewFeatureDrawer />
+        <Link href="/admin/new">
+          <Button className="gap-2 shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all rounded-full px-6">
+            <Sparkles className="h-4 w-4" />
+            New Feature
+          </Button>
+        </Link>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
@@ -59,13 +64,15 @@ export default async function AdminPage() {
               <BrainCircuit className="h-5 w-5 text-primary" />
             </div>
             <div>
-              <h3 className="font-semibold text-lg mb-1">AI System Insight</h3>
+              <h3 className="font-semibold text-lg mb-1">
+                {t("aiSystemInsightTitle")}
+              </h3>
               <p className="text-muted-foreground leading-relaxed text-sm md:text-base">
                 {totalTasks === 0
-                  ? "задачи еще не созданы"
+                  ? t("tasksNotCreated")
                   : activeTasks > 0
-                    ? "задачи в процессе"
-                    : "все задачи выполнены"}
+                    ? t("tasksInProgress")
+                    : t("allTasksCompleted")}
               </p>
             </div>
           </div>
@@ -76,7 +83,7 @@ export default async function AdminPage() {
           <div className="flex flex-col justify-center rounded-2xl border bg-card/60 backdrop-blur-xl p-6 shadow-sm hover:-translate-y-1 transition-all duration-300 hover:shadow-lg flex-1 group">
             <div className="absolute -left-10 -bottom-10 h-32 w-32 rounded-full bg-purple-500/5 blur-3xl transition-all group-hover:bg-purple-500/10"></div>
             <span className="text-sm font-medium text-muted-foreground flex items-center gap-2 mb-2 relative z-10">
-              <ListTodo className="h-4 w-4 text-purple-500" /> Total Tasks
+              <ListTodo className="h-4 w-4 text-purple-500" /> {t("totalTasks")}
             </span>
             <div className="text-4xl font-extrabold text-foreground relative z-10">
               {totalTasks}
@@ -87,7 +94,7 @@ export default async function AdminPage() {
             <div className="flex flex-col justify-center rounded-2xl border bg-card/60 backdrop-blur-xl p-6 shadow-sm hover:-translate-y-1 transition-all duration-300 hover:shadow-lg flex-1 group relative overflow-hidden">
               <div className="absolute -left-10 -bottom-10 h-32 w-32 rounded-full bg-blue-500/5 blur-3xl transition-all group-hover:bg-blue-500/10"></div>
               <span className="text-sm font-medium text-muted-foreground flex items-center gap-2 mb-2 relative z-10">
-                <Activity className="h-4 w-4 text-blue-500" /> Active
+                <Activity className="h-4 w-4 text-blue-500" /> {t("active")}
               </span>
               <div className="text-3xl font-extrabold text-foreground relative z-10">
                 {activeTasks > 0 ? activeTasks : "0"}
@@ -97,7 +104,8 @@ export default async function AdminPage() {
             <div className="flex flex-col justify-center rounded-2xl border bg-card/60 backdrop-blur-xl p-6 shadow-sm hover:-translate-y-1 transition-all duration-300 hover:shadow-lg flex-1 group relative overflow-hidden">
               <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-emerald-500/5 blur-3xl transition-all group-hover:bg-emerald-500/10"></div>
               <span className="text-sm font-medium text-muted-foreground flex items-center gap-2 mb-2 relative z-10">
-                <CheckCircle2 className="h-4 w-4 text-emerald-500" /> Finished
+                <CheckCircle2 className="h-4 w-4 text-emerald-500" />{" "}
+                {t("finished")}
               </span>
               <div className="text-3xl font-extrabold text-emerald-600 relative z-10">
                 {completedTasks}
