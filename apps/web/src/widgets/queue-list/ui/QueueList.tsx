@@ -22,7 +22,13 @@ import {
 } from "lucide-react";
 
 import type { ReactNode } from "react";
-import { TaskDetailsModal } from "@/features/task-details/ui/TaskDetailsModal";
+import { TaskDetailsPanel } from "@/features/task-details/ui/TaskDetailsPanel";
+import {
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
+} from "@core/shared";
 
 const STATUS_CONFIG: Record<
   string,
@@ -108,7 +114,6 @@ export function QueueList({ initialTasks }: { initialTasks: TaskData[] }) {
   const router = useRouter();
   const [filter, setFilter] = useState<string>("ALL");
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedTask, setSelectedTask] = useState<TaskData | null>(null);
   const [queueStatus, setQueueStatus] = useState<
     "loading" | "running" | "paused"
   >("loading");
@@ -340,139 +345,153 @@ export function QueueList({ initialTasks }: { initialTasks: TaskData[] }) {
       <div className="space-y-4 relative">
         <div className="absolute -inset-4 bg-linear-to-b from-primary/5 to-transparent blur-2xl -z-10 rounded-[3rem]" />
 
-        {paginatedTasks.map((task) => {
-          const config =
-            STATUS_CONFIG[task.status as keyof typeof STATUS_CONFIG] ||
-            STATUS_CONFIG.PENDING;
+        <Accordion
+          type="single"
+          collapsible
+          className="w-full space-y-4 relative"
+        >
+          {paginatedTasks.map((task) => {
+            const config =
+              STATUS_CONFIG[task.status as keyof typeof STATUS_CONFIG] ||
+              STATUS_CONFIG.PENDING;
 
-          return (
-            <div
-              key={task.featureId}
-              onClick={() => setSelectedTask(task)}
-              className={`group relative flex flex-col p-5 gap-4 rounded-2xl border bg-card/60 backdrop-blur-sm transition-all duration-300 hover:shadow-md hover:bg-card/80 cursor-pointer ${config.animate || ""}`}
-            >
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <div className="flex items-start gap-4">
-                  <div
-                    className={`mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border ${config.base}`}
-                  >
-                    {config.icon}
-                  </div>
-
-                  <div className="flex flex-col gap-1.5">
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <h3 className="font-semibold text-foreground tracking-tight">
-                        {task.name}
-                      </h3>
-                      <span className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium bg-secondary/50 text-secondary-foreground transition-colors">
-                        {task.category}
-                      </span>
-                      {task.dependsOnIds && task.dependsOnIds.length > 0 && (
-                        <div
-                          className="inline-flex items-center gap-1.5 rounded-full border border-orange-500/20 px-2 py-0.5 text-xs font-medium bg-orange-500/10 text-orange-400"
-                          title="Dependencies"
-                        >
-                          <Link className="h-3 w-3" />
-                          {task.dependsOnIds
-                            .map(
-                              (id) => `FEAT-${id.toString().padStart(3, "0")}`,
-                            )
-                            .join(", ")}
-                        </div>
-                      )}
-                      {task.priority && (
-                        <div
-                          className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-xs font-medium ${PRIORITY_CONFIG[task.priority]?.base || PRIORITY_CONFIG.MEDIUM.base}`}
-                          title="Priority"
-                        >
-                          {PRIORITY_CONFIG[task.priority]?.icon ||
-                            PRIORITY_CONFIG.MEDIUM.icon}
-                          {PRIORITY_CONFIG[task.priority]?.label || "Medium"}
-                        </div>
-                      )}
-                    </div>
-
-                    <div className="flex items-center gap-4 text-sm text-muted-foreground flex-wrap">
-                      <span className="font-mono text-xs bg-muted px-1.5 py-0.5 rounded">
-                        FEAT-{task.featureId.toString().padStart(3, "0")}
-                      </span>
-                      <div className="flex items-center gap-1.5">
-                        <Clock className="h-3.5 w-3.5" />
-                        <time
-                          dateTime={task.updatedAt.toString()}
-                          className="text-xs"
-                        >
-                          {task.status === "IN_PROGRESS"
-                            ? "Started "
-                            : "Finished "}
-                          {timeAgo(task.updatedAt)}
-                        </time>
+            return (
+              <AccordionItem
+                key={task.featureId}
+                value={task.featureId.toString()}
+                className={`group relative flex flex-col rounded-2xl border bg-card/60 backdrop-blur-sm transition-all duration-300 hover:shadow-md hover:bg-card/80 overflow-hidden ${config.animate || ""}`}
+              >
+                <AccordionTrigger className="hover:no-underline px-5 py-5 m-0 data-[state=open]:border-b">
+                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 w-full pr-4 text-left">
+                    <div className="flex items-start gap-4">
+                      <div
+                        className={`mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border ${config.base}`}
+                      >
+                        {config.icon}
                       </div>
-                    </div>
-                  </div>
-                </div>
 
-                <div className="flex md:flex-col items-center md:items-end justify-between ml-14 md:ml-0 gap-3">
-                  <div
-                    className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium tracking-wide shadow-sm border ${config.base}`}
-                  >
-                    {config.label}
-                  </div>
-
-                  {task.executionMetric ? (
-                    <div
-                      className={`flex items-center gap-3 flex-wrap ${task.status === "IN_PROGRESS" ? "animate-pulse" : ""}`}
-                    >
-                      {/* Unique Agent Badges */}
-                      {task.executionMetric.agentsUsed?.length > 0 &&
-                        Array.from(
-                          new Set(
-                            (task.executionMetric.agentsUsed as any[]).map(
-                              (r) => r.role,
-                            ),
-                          ),
-                        ).map((agent: string) => {
-                          const style = getAgentStyle(agent);
-                          return (
+                      <div className="flex flex-col gap-1.5">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <h3 className="font-semibold text-foreground tracking-tight">
+                            {task.name}
+                          </h3>
+                          <span className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium bg-secondary/50 text-secondary-foreground transition-colors">
+                            {task.category}
+                          </span>
+                          {task.dependsOnIds &&
+                            task.dependsOnIds.length > 0 && (
+                              <div
+                                className="inline-flex items-center gap-1.5 rounded-full border border-orange-500/20 px-2 py-0.5 text-xs font-medium bg-orange-500/10 text-orange-400"
+                                title="Dependencies"
+                              >
+                                <Link className="h-3 w-3" />
+                                {task.dependsOnIds
+                                  .map(
+                                    (id) =>
+                                      `FEAT-${id.toString().padStart(3, "0")}`,
+                                  )
+                                  .join(", ")}
+                              </div>
+                            )}
+                          {task.priority && (
                             <div
-                              key={agent}
-                              className={`flex items-center gap-1.5 px-2 py-1 rounded-md text-xs font-medium border cursor-default ${style.color}`}
+                              className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-xs font-medium ${PRIORITY_CONFIG[task.priority]?.base || PRIORITY_CONFIG.MEDIUM.base}`}
+                              title="Priority"
                             >
-                              {style.icon}
-                              {agent}
+                              {PRIORITY_CONFIG[task.priority]?.icon ||
+                                PRIORITY_CONFIG.MEDIUM.icon}
+                              {PRIORITY_CONFIG[task.priority]?.label ||
+                                "Medium"}
                             </div>
-                          );
-                        })}
-
-                      {/* Cost & Tokens */}
-                      <div className="flex items-center gap-3 text-xs font-medium text-muted-foreground bg-muted/30 px-3 py-1.5 rounded-lg border border-border/50">
-                        <div
-                          className="flex items-center gap-1 cursor-help"
-                          title="Tokens used"
-                        >
-                          <MessageSquare className="h-3 w-3" />
-                          {task.executionMetric.promptTokens?.toLocaleString()}
+                          )}
                         </div>
-                        <div
-                          className="flex items-center gap-1 cursor-help"
-                          title="Total API Cost"
-                        >
-                          <Coins className="h-3 w-3 text-yellow-600/70" />$
-                          {task.executionMetric.totalCostUsd?.toFixed(3)}
+
+                        <div className="flex items-center gap-4 text-sm text-muted-foreground flex-wrap">
+                          <span className="font-mono text-xs bg-muted px-1.5 py-0.5 rounded">
+                            FEAT-{task.featureId.toString().padStart(3, "0")}
+                          </span>
+                          <div className="flex items-center gap-1.5">
+                            <Clock className="h-3.5 w-3.5" />
+                            <time
+                              dateTime={task.updatedAt.toString()}
+                              className="text-xs"
+                            >
+                              {task.status === "IN_PROGRESS"
+                                ? "Started "
+                                : "Finished "}
+                              {timeAgo(task.updatedAt)}
+                            </time>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  ) : task.status === "IN_PROGRESS" ? (
-                    <div className="flex items-center gap-3 text-xs font-medium text-blue-400 bg-blue-500/10 px-3 py-1.5 rounded-lg border border-blue-500/20 animate-pulse">
-                      <Bot className="h-3.5 w-3.5" />
-                      <span>Agents are initializing...</span>
+
+                    <div className="flex md:flex-col items-center md:items-end justify-between ml-14 md:ml-0 gap-3">
+                      <div
+                        className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium tracking-wide shadow-sm border ${config.base}`}
+                      >
+                        {config.label}
+                      </div>
+
+                      {task.executionMetric ? (
+                        <div
+                          className={`flex items-center gap-3 flex-wrap ${task.status === "IN_PROGRESS" ? "animate-pulse" : ""}`}
+                        >
+                          {/* Unique Agent Badges */}
+                          {task.executionMetric.agentsUsed?.length > 0 &&
+                            Array.from(
+                              new Set(
+                                (task.executionMetric.agentsUsed as any[]).map(
+                                  (r) => r.role,
+                                ),
+                              ),
+                            ).map((agent: string) => {
+                              const style = getAgentStyle(agent);
+                              return (
+                                <div
+                                  key={agent}
+                                  className={`flex items-center gap-1.5 px-2 py-1 rounded-md text-xs font-medium border cursor-default ${style.color}`}
+                                >
+                                  {style.icon}
+                                  {agent}
+                                </div>
+                              );
+                            })}
+
+                          {/* Cost & Tokens */}
+                          <div className="flex items-center gap-3 text-xs font-medium text-muted-foreground bg-muted/30 px-3 py-1.5 rounded-lg border border-border/50">
+                            <div
+                              className="flex items-center gap-1 cursor-help"
+                              title="Tokens used"
+                            >
+                              <MessageSquare className="h-3 w-3" />
+                              {task.executionMetric.promptTokens?.toLocaleString()}
+                            </div>
+                            <div
+                              className="flex items-center gap-1 cursor-help"
+                              title="Total API Cost"
+                            >
+                              <Coins className="h-3 w-3 text-yellow-600/70" />$
+                              {task.executionMetric.totalCostUsd?.toFixed(3)}
+                            </div>
+                          </div>
+                        </div>
+                      ) : task.status === "IN_PROGRESS" ? (
+                        <div className="flex items-center gap-3 text-xs font-medium text-blue-400 bg-blue-500/10 px-3 py-1.5 rounded-lg border border-blue-500/20 animate-pulse">
+                          <Bot className="h-3.5 w-3.5" />
+                          <span>Agents are initializing...</span>
+                        </div>
+                      ) : null}
                     </div>
-                  ) : null}
-                </div>
-              </div>
-            </div>
-          );
-        })}
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent className="p-0 bg-muted/10 border-none m-0">
+                  <TaskDetailsPanel task={task} />
+                </AccordionContent>
+              </AccordionItem>
+            );
+          })}
+        </Accordion>
 
         {filteredTasks.length === 0 && (
           <div className="flex flex-col items-center justify-center py-16 px-4 text-center border-2 border-dashed rounded-3xl bg-muted/20">
@@ -513,13 +532,6 @@ export function QueueList({ initialTasks }: { initialTasks: TaskData[] }) {
           </div>
         )}
       </div>
-
-      {selectedTask && (
-        <TaskDetailsModal
-          task={selectedTask}
-          onClose={() => setSelectedTask(null)}
-        />
-      )}
     </div>
   );
 }
