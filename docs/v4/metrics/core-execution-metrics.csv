@@ -1,0 +1,8 @@
+Параметр,Тип,Описание,Источник
+`taskId`,string,"Уникальный идентификатор задачи (формат: `FEAT-001`, `BUG-042`)",Генерация при создании
+`timestampStart`,ISO 8601,Время старта задачи,`Date.now()`
+`timestampEnd`,ISO 8601,Время завершения,`Date.now()`
+`durationMs`,number,Полное время выполнения,Расчёт
+`status`,enum,`pending` → `running` → `success` / `failed` / `aborted` / `retry`,State machine
+`retryCount`,number,Количество попыток (0 для первого запуска),Counter
+`abortReason`,string?,Причина прерывания (если `status: aborted`),Architect gate / Error

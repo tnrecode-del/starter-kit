@@ -1,0 +1,7 @@
+Параметр,Тип,Описание
+`branchName`,string,Ветка задачи (`feature/task-FEAT-001`)
+`baseBranch`,string,Базовая ветка (всегда `main`)
+`dependencies`,string[],"ID задач-блокеров (`[""FEAT-000""]`)"
+`mergeCommitHash`,string?,Хеш коммита слияния в `main`
+`mergeConflicts`,number,Количество конфликтов при merge
+`timeInQueueMs`,number,Время ожидания зависимостей

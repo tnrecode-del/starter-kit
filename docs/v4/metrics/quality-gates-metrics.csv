@@ -1,0 +1,7 @@
+Параметр,Тип,Описание
+`securityFlags`,string[],Найденные security issues
+`nPlusOneQueries`,number,Количество N+1 рисков
+`fsdViolations`,string[],Нарушения FSD архитектуры
+`dddViolations`,string[],Нарушения DDD архитектуры
+`architectApproved`,boolean,Прошёл ли Phase 1 gate
+`architectNotes`,string?,Комментарии архитектора

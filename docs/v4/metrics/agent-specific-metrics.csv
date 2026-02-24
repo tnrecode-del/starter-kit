@@ -1,0 +1,9 @@
+Параметр,Тип,Описание
+`agentsInvolved`,string[],"Список агентов (`[""architect"", ""frontend-ui"", ""backend-api""]`)"
+`agentBreakdown`,object,Детализация по каждому агенту:
+├─ `agentId`,string,Идентификатор агента
+├─ `tokensInput`,number,Токены на вход
+├─ `tokensOutput`,number,Токены на выход
+├─ `costUsd`,number,Стоимость вызовов
+├─ `durationMs`,number,Время работы агента
+└─ `modelUsed`,string,"Модель (`claude-3-5-sonnet`, `gemini-flash`)"

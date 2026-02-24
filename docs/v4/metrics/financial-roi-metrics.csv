@@ -1,0 +1,9 @@
+Параметр,Тип,Описание,Расчёт
+`tokensInput`,number,"Входные токены (все модели, все агенты)",Сумма по API calls
+`tokensOutput`,number,Выходные токены,Сумма по API calls
+`costUsd`,number,Фактическая стоимость в USD,`tokens × pricePerToken`
+`budgetLimitUsd`,number,Лимит из `.env` (`BUDGET_LIMIT`),`process.env.BUDGET_LIMIT`
+`budgetRemainingUsd`,number,Остаток бюджета,`limit - spent`
+`estimatedHumanHours`,number,Оценка человеко-часов на ручную разработку,Эвристика / Исторические данные
+`savedHumanHours`,number,Экономия человеко-часов,`estimated - actualOrchestratorTime`
+`roiRatio`,number,Коэффициент возврата инвестиций,`savedHumanHours / (costUsd / avgHourlyRate)`

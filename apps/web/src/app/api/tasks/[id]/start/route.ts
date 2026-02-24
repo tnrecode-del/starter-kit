@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
-import { db } from "@core/database/dist/src/index.js";
+import { db } from "@core/database";
 
 export async function POST(
-  req: Request,
+  _: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
   try {

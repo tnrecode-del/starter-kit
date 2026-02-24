@@ -1,0 +1,12 @@
+Параметр,Тип,Описание,Инструмент
+`filesCreated`,number,Создано новых файлов,MCP filesystem
+`filesModified`,number,Изменено существующих,MCP filesystem
+`filesDeleted`,number,Удалено файлов,MCP filesystem
+`linesAdded`,number,Строк добавлено,Git diff
+`linesRemoved`,number,Строк удалено,Git diff
+`testCoverageBefore`,number?,Покрытие тестами до (%),Vitest
+`testCoverageAfter`,number?,Покрытие тестами после (%),Vitest
+`typeErrorsBefore`,number,Ошибки TypeScript до,`tsc --noEmit`
+`typeErrorsAfter`,number,Ошибки TypeScript после,`tsc --noEmit`
+`lintErrorsBefore`,number,Ошибки линтера до,ESLint
+`lintErrorsAfter`,number,Ошибки линтера после,ESLint

@@ -1,0 +1,8 @@
+Метрика,Визуализация,Интервал обновления
+`tasksPerDay`,Bar chart,Real-time (SSE/polling)
+`avgCostPerTask`,Line chart,Hourly
+`successRate`,Gauge (%),Real-time
+`budgetBurnRate`,Progress bar + prediction,Daily
+`topAgentsByCost`,Pie chart,Daily
+`queueDepth`,Number badge,Real-time
+`savedHumanHours`,Counter (всего),Weekly

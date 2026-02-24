@@ -1,0 +1,6 @@
+Условие,Действие
+`budgetRemainingUsd < 5`,Предупреждение в Telegram
+`budgetRemainingUsd < 1`,Блокировка новых задач
+`successRate < 80%` (за 24ч),Уведомление + ревью pipeline
+`durationMs > 10min`,Флаг для оптимизации
+`retryCount > 3`,Эскалация на human review
