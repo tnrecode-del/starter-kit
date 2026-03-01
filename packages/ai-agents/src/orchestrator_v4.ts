@@ -19,6 +19,8 @@ import pino from "pino";
 import dotenv from "dotenv";
 import { Redis } from "ioredis";
 import { Queue } from "bullmq";
+import * as fs from "fs/promises";
+import * as path from "path";
 
 dotenv.config();
 
@@ -233,6 +235,11 @@ Output MUST be valid JSON strictly matching:
       priority: "medium",
     });
 
+    await this.appendFeatureLog(
+      request.id,
+      `# Feature: ${request.title}\n\n**Complexity:** ${request.complexity}\n**Est. Cost:** $${estimated.toFixed(3)}\n\n### Requirements\n${request.acceptanceCriteria?.map((c) => `- ${c}`).join("\n") || "N/A"}`,
+    );
+
     // ── Git Isolation: Create new branch ────────────────────────────
     const safeTitle = request.title
       .toLowerCase()
@@ -283,6 +290,10 @@ Output MUST be valid JSON strictly matching:
         { taskCount: metrics.featureSpec.tasks.length, featureId: request.id },
         "Generated strict feature specification",
       );
+      await this.appendFeatureLog(
+        request.id,
+        `### Feature Specification Phase 0\n\n\`\`\`json\n${JSON.stringify(metrics.featureSpec, null, 2)}\n\`\`\``,
+      );
     } catch (error) {
       log.warn(
         { err: (error as Error).message },
@@ -314,6 +325,11 @@ Output MUST be valid JSON strictly matching:
 
     metrics.agentResults.push(architectResult);
     this.addCost(metrics, architectResult);
+
+    await this.appendFeatureLog(
+      request.id,
+      `### Agent: Architect (Phase 1)\n\n**Duration:** ${architectResult.duration}ms | **Cost:** $${architectResult.cost.toFixed(4)}\n\n**Status:** ${architectResult.status}\n\n**Notes/Risks:**\n${architectResult.output.approvalNote}\n\n${JSON.stringify(architectResult.output.risks, null, 2)}`,
+    );
 
     if (architectResult.status === "blocked") {
       log.warn(
@@ -351,6 +367,11 @@ Output MUST be valid JSON strictly matching:
 
     metrics.agentResults.push(contextManagerResult);
     this.addCost(metrics, contextManagerResult);
+
+    await this.appendFeatureLog(
+      request.id,
+      `### Agent: Context Manager (Phase 1.5)\n\n**Duration:** ${contextManagerResult.duration}ms | **Cost:** $${contextManagerResult.cost.toFixed(4)}\n\n**Output Skills Briefing:**\n\n${contextManagerResult.output.code}`,
+    );
 
     // ── Phase 2: Supervisor DAG Execution ───────────────────────────
     log.info({ featureId: request.id }, "Phase 2: Supervisor DAG execution");
@@ -429,6 +450,11 @@ Output MUST be valid JSON strictly matching:
           const { specTask, result } = outcome.value;
           metrics.agentResults.push(result);
           this.addCost(metrics, result);
+
+          await this.appendFeatureLog(
+            request.id,
+            `### Agent: ${result.agent} (Phase 2)\n\n**Task ID:** ${result.taskId}\n**Duration:** ${result.duration}ms | **Cost:** $${result.cost.toFixed(4)}\n\n**Status:** ${result.status}\n\n**Output:**\n\n${result.output.code}`,
+          );
 
           if (result.status === "success") {
             completedTasks.add(specTask.id);
@@ -519,6 +545,11 @@ Output MUST be valid JSON strictly matching:
 
     // Report
     this.logMetrics(metrics, request);
+    await this.appendFeatureLog(
+      request.id,
+      `## Final Metrics\n\n- **Total Time:** ${(metrics.totalTime / 60000).toFixed(1)}m\n- **Total Cost:** $${metrics.totalCost.toFixed(4)}\n- **Success Rate:** ${(metrics.successRate * 100).toFixed(0)}%\n- **Production Ready:** ${metrics.readyForProduction ? "YES" : "NO"}`,
+    );
+
     await this.telegram.send({
       type: "feature_completed",
       title: "✅ Feature Completed",
@@ -1140,12 +1171,21 @@ Provide: Vitest unit tests + Playwright E2E tests.`;
               const cleanMetrics = { ...metrics };
               delete cleanMetrics.featureSpec;
 
-              const resultData = cleanMetrics.agentResults
-                .map(
-                  (r) =>
-                    `### ${r.agent}\n\n${r.output.code || "No output code generated."}`,
-                )
-                .join("\n\n---\n\n");
+              const gitDiffOutput = this.runGitCommand(
+                "git diff --name-status main || git status -s",
+              ).trim();
+              const changedFilesText = gitDiffOutput
+                ? `### Changed Files\n\n\`\`\`text\n${gitDiffOutput}\n\`\`\`\n\n---\n\n`
+                : "";
+
+              const resultData =
+                changedFilesText +
+                cleanMetrics.agentResults
+                  .map(
+                    (r) =>
+                      `### ${r.agent}\n\n${r.output.code || "No output code generated."}`,
+                  )
+                  .join("\n\n---\n\n");
 
               const executionMetricPayload = {
                 totalCostUsd: cleanMetrics.totalCost,
@@ -1235,6 +1275,25 @@ Provide: Vitest unit tests + Playwright E2E tests.`;
       },
       "Loop completed shutting down",
     );
+  }
+
+  // ─── Markdown Logging ───────────────────────────────────────────
+
+  private async appendFeatureLog(
+    featureId: string,
+    markdown: string,
+  ): Promise<void> {
+    try {
+      const logsDir = path.join(process.cwd(), "../../docs/logs");
+      await fs.mkdir(logsDir, { recursive: true });
+      const safeId = featureId.toUpperCase();
+      const filePath = path.join(logsDir, `${safeId}.md`);
+
+      const timeStr = new Date().toISOString();
+      await fs.appendFile(filePath, `\n\n[${timeStr}]\n${markdown}\n`);
+    } catch (err) {
+      log.error({ err, featureId }, "Failed to append feature log");
+    }
   }
 }
 

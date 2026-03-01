@@ -36,8 +36,16 @@ export async function GET(request: Request) {
     if (featureIdParam) {
       const featureId = parseInt(featureIdParam, 10);
       parsedLogs = parsedLogs.filter(
-        (l) => l.featureId === featureId || l.featureId === `feat-${featureId}`,
+        (l) =>
+          l.featureId === featureId ||
+          l.featureId === `feat-${featureId}` ||
+          l.featureId === featureIdParam,
       );
+
+      if (parsedLogs.length === 0) {
+        // No logs found for this feature yet
+        parsedLogs = [];
+      }
     }
 
     // Return the last 500 logs to avoid overwhelming the client

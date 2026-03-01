@@ -4,10 +4,11 @@ import {
   Code2,
   PlayCircle,
   Loader2,
-  Sparkles,
   AlertCircle,
   Clock,
   Wrench,
+  BarChart2,
+  LayoutDashboard,
 } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import { getAgentStyle } from "@/entities/task/lib/agent-styles";
@@ -19,6 +20,10 @@ import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
 } from "@core/shared";
 import {
   PieChart,
@@ -106,19 +111,43 @@ export function TaskDetailsPanel({ task }: TaskDetailsPanelProps) {
     }
   }, [logs]);
 
+  // Extract changed files if present in resultData
+  const getChangedFiles = () => {
+    if (!task.resultData) return null;
+    const match = task.resultData.match(
+      /### Changed Files\n\n```text\n([\s\S]*?)```/,
+    );
+    if (match && match[1]) {
+      return match[1].trim().split("\n").filter(Boolean);
+    }
+    return null;
+  };
+
+  const changedFiles = getChangedFiles();
+
   return (
     <div className="flex flex-col border-t bg-muted/5 animate-in fade-in slide-in-from-top-2 duration-300 relative z-0">
       <div className="absolute inset-0 bg-linear-to-b from-primary/5 to-transparent pointer-events-none" />
 
-      <Tabs defaultValue="overview" className="w-full flex flex-col h-[500px]">
+      <Tabs
+        defaultValue="metrics"
+        className="w-full flex flex-col h-[500px] md:h-auto"
+      >
         {/* Controls & Tabs Header */}
         <div className="flex items-center justify-between px-6 py-2 border-b bg-muted/20 sticky top-0 z-10">
           <TabsList className="bg-transparent space-x-2 h-10 w-auto p-0">
             <TabsTrigger
+              value="metrics"
+              className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none px-4 pb-2 pt-2 h-full flex items-center gap-2 text-sm"
+            >
+              <BarChart2 className="h-4 w-4" />
+              Metrics
+            </TabsTrigger>
+            <TabsTrigger
               value="overview"
               className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none px-4 pb-2 pt-2 h-full flex items-center gap-2 text-sm"
             >
-              <Sparkles className="h-4 w-4" />
+              <LayoutDashboard className="h-4 w-4" />
               Overview & Results
             </TabsTrigger>
             <TabsTrigger
@@ -134,15 +163,6 @@ export function TaskDetailsPanel({ task }: TaskDetailsPanelProps) {
                 </span>
               )}
             </TabsTrigger>
-            {task.executionMetric && (
-              <TabsTrigger
-                value="metrics"
-                className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none px-4 pb-2 pt-2 h-full flex items-center gap-2 text-sm"
-              >
-                <Sparkles className="h-4 w-4" />
-                Metrics
-              </TabsTrigger>
-            )}
           </TabsList>
 
           <div className="flex items-center gap-2">
@@ -188,10 +208,10 @@ export function TaskDetailsPanel({ task }: TaskDetailsPanelProps) {
         </div>
 
         {/* Tab Contents */}
-        <div className="flex-1 overflow-hidden relative">
+        <div className="flex-1 overflow-hidden relative md:overflow-visible">
           <TabsContent
             value="overview"
-            className="h-full m-0 p-0 overflow-y-auto"
+            className="h-full md:h-auto m-0 p-0 overflow-y-auto md:overflow-visible"
           >
             <div className="p-8 space-y-8 min-h-full">
               {/* Task Goals Section */}
@@ -234,20 +254,83 @@ export function TaskDetailsPanel({ task }: TaskDetailsPanelProps) {
                     )}
                   </div>
                 ) : (
-                  <div className="prose prose-sm dark:prose-invert max-w-none bg-background/50 p-6 rounded-xl border shadow-xs">
-                    <ReactMarkdown>{task.resultData}</ReactMarkdown>
+                  <div className="bg-background/50 border p-5 rounded-xl shadow-xs space-y-4">
+                    <p className="text-sm text-muted-foreground">
+                      The designated AI agents have completed processing this
+                      task. The generated codebase files and architecture
+                      guidelines are available via the detailed output below.
+                    </p>
+
+                    {changedFiles && changedFiles.length > 0 && (
+                      <div className="space-y-2 mt-4 mb-4">
+                        <h4 className="text-sm font-semibold flex items-center gap-2 text-foreground">
+                          <Code2 className="h-4 w-4" /> Changed Files
+                        </h4>
+                        <ul className="text-sm text-muted-foreground bg-muted/20 border rounded-md p-3 space-y-1 font-mono overflow-x-auto max-h-[300px] overflow-y-auto">
+                          {changedFiles.map((f, i) => {
+                            const isAdded = f.startsWith("A");
+                            const isDeleted = f.startsWith("D");
+
+                            return (
+                              <li key={i} className="flex items-center gap-2">
+                                <span
+                                  className={`text-xs font-bold px-1.5 py-0.5 rounded ${isAdded ? "bg-green-500/20 text-green-500" : isDeleted ? "bg-red-500/20 text-red-500" : "bg-blue-500/20 text-blue-500"}`}
+                                >
+                                  {f.split(/\s+/)[0]}
+                                </span>
+                                <span>{f.split(/\s+/).slice(1).join(" ")}</span>
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      </div>
+                    )}
+
+                    <Accordion type="single" collapsible className="w-full">
+                      <AccordionItem value="raw-output" className="border-none">
+                        <AccordionTrigger className="hover:no-underline px-4 py-3 bg-muted/20 rounded-md border text-sm data-[state=open]:rounded-b-none transition-all">
+                          View Raw Output
+                        </AccordionTrigger>
+                        <AccordionContent className="p-4 bg-muted/10 border border-t-0 rounded-b-md max-h-[400px] overflow-y-auto">
+                          <div className="prose prose-sm dark:prose-invert max-w-none">
+                            <ReactMarkdown>{task.resultData}</ReactMarkdown>
+                          </div>
+                        </AccordionContent>
+                      </AccordionItem>
+                    </Accordion>
                   </div>
                 )}
               </div>
             </div>
           </TabsContent>
 
-          {task.executionMetric && (
-            <TabsContent
-              value="metrics"
-              className="h-full m-0 p-0 overflow-y-auto"
-            >
-              <div className="p-8 space-y-8 min-h-full max-w-4xl mx-auto">
+          <TabsContent
+            value="metrics"
+            className="h-full md:h-auto m-0 p-0 overflow-y-auto md:overflow-visible"
+          >
+            <div className="p-8 space-y-8 min-h-full max-w-4xl mx-auto">
+              {!task.executionMetric ? (
+                <div className="flex flex-col items-center justify-center text-muted-foreground space-y-4 py-16 bg-background/30 rounded-xl border border-dashed">
+                  {task.status === "IN_PROGRESS" ||
+                  task.status === "PENDING" ? (
+                    <>
+                      <div className="relative">
+                        <BarChart2 className="h-10 w-10 opacity-20" />
+                        <Loader2 className="h-6 w-6 animate-spin absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-primary" />
+                      </div>
+                      <p>
+                        Aggregating metrics... This will be available when
+                        agents finish.
+                      </p>
+                    </>
+                  ) : (
+                    <>
+                      <BarChart2 className="h-10 w-10 opacity-20" />
+                      <p>Metrics are not available for this task.</p>
+                    </>
+                  )}
+                </div>
+              ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {/* Token Breakdown */}
                   <div className="bg-background/50 border p-6 rounded-xl shadow-xs">
@@ -270,10 +353,11 @@ export function TaskDetailsPanel({ task }: TaskDetailsPanelProps) {
                             color: "var(--color-chart-3)",
                           },
                         }}
-                        className="h-full"
+                        className="w-full h-full"
                       >
                         <ResponsiveContainer width="100%" height="100%">
                           <PieChart>
+                            <ChartTooltip content={<ChartTooltipContent />} />
                             <Pie
                               data={[
                                 {
@@ -284,132 +368,124 @@ export function TaskDetailsPanel({ task }: TaskDetailsPanelProps) {
                                 {
                                   name: "Completion",
                                   value:
-                                    Number(
-                                      task.executionMetric.completionTokens,
-                                    ) || 0,
+                                    task.executionMetric.completionTokens || 0,
                                   fill: "var(--color-chart-2)",
                                 },
                                 {
                                   name: "Cached",
-                                  value:
-                                    Number(task.executionMetric.cachedTokens) ||
-                                    0,
+                                  value: task.executionMetric.cachedTokens || 0,
                                   fill: "var(--color-chart-3)",
                                 },
-                              ].filter((d) => d.value > 0)}
-                              cx="50%"
-                              cy="50%"
+                              ]}
+                              dataKey="value"
+                              nameKey="name"
                               innerRadius={60}
                               outerRadius={80}
                               paddingAngle={5}
-                              dataKey="value"
-                              strokeWidth={0}
-                            >
-                              {/* Cells are styled via the fill property above */}
-                            </Pie>
-                            <ChartTooltip content={<ChartTooltipContent />} />
+                            />
                           </PieChart>
                         </ResponsiveContainer>
                       </ChartContainer>
                     </div>
                   </div>
 
-                  {/* Cost by Agent */}
+                  {/* Cost Details */}
                   <div className="bg-background/50 border p-6 rounded-xl shadow-xs">
                     <h3 className="text-sm font-semibold mb-6 flex items-center gap-2 text-muted-foreground uppercase tracking-wider">
-                      Cost Details ($)
+                      Cost Details
                     </h3>
                     <div className="h-[250px] w-full">
                       <ChartContainer
                         config={{
                           cost: {
-                            label: "Cost USD",
+                            label: "$Cost",
                             color: "var(--color-chart-4)",
                           },
                         }}
-                        className="h-full"
+                        className="w-full h-full"
                       >
                         <ResponsiveContainer width="100%" height="100%">
                           <BarChart
-                            data={
-                              Array.isArray(task.executionMetric.agentsUsed)
-                                ? task.executionMetric.agentsUsed
-                                : []
-                            }
-                            layout="vertical"
-                            margin={{ left: 40, right: 20 }}
+                            data={task.executionMetric.agentsUsed?.map(
+                              (a: any) => ({
+                                name: a.role.split("-")[0],
+                                cost: a.cost,
+                              }),
+                            )}
+                            margin={{
+                              top: 10,
+                              right: 10,
+                              left: -20,
+                              bottom: 0,
+                            }}
                           >
-                            <XAxis type="number" hide />
-                            <YAxis
-                              dataKey="role"
-                              type="category"
+                            <XAxis
+                              dataKey="name"
                               axisLine={false}
                               tickLine={false}
-                              tick={{
-                                fill: "currentColor",
-                                fontSize: 12,
-                                className: "text-muted-foreground",
-                              }}
+                              tick={{ fontSize: 12 }}
                             />
-                            <ChartTooltip
-                              content={<ChartTooltipContent />}
-                              cursor={{ fill: "var(--muted)" }}
+                            <YAxis
+                              axisLine={false}
+                              tickLine={false}
+                              tickFormatter={(val) => `$${val}`}
+                              tick={{ fontSize: 12 }}
                             />
+                            <ChartTooltip content={<ChartTooltipContent />} />
                             <Bar
                               dataKey="cost"
-                              fill="var(--color-cost)"
-                              radius={4}
-                              barSize={32}
+                              fill="var(--color-chart-4)"
+                              radius={[4, 4, 0, 0]}
                             />
                           </BarChart>
                         </ResponsiveContainer>
                       </ChartContainer>
                     </div>
                   </div>
-                </div>
 
-                {/* Key Stats Row */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  <div className="bg-background/50 border p-4 rounded-xl flex flex-col gap-1 items-center justify-center text-center">
-                    <span className="text-2xl font-bold tracking-tight">
-                      ${task.executionMetric.totalCostUsd?.toFixed(3)}
-                    </span>
-                    <span className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">
-                      Total Cost
-                    </span>
-                  </div>
-                  <div className="bg-background/50 border p-4 rounded-xl flex flex-col gap-1 items-center justify-center text-center">
-                    <span className="text-2xl font-bold tracking-tight">
-                      {task.executionMetric.durationSeconds}s
-                    </span>
-                    <span className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">
-                      Duration
-                    </span>
-                  </div>
-                  <div className="bg-background/50 border p-4 rounded-xl flex flex-col gap-1 items-center justify-center text-center">
-                    <span className="text-2xl font-bold tracking-tight">
-                      {task.executionMetric.successRate}%
-                    </span>
-                    <span className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">
-                      Success
-                    </span>
-                  </div>
-                  <div className="bg-background/50 border p-4 rounded-xl flex flex-col gap-1 items-center justify-center text-center">
-                    <span className="text-2xl font-bold tracking-tight text-primary">
-                      {task.roiMetric?.estimatedHumanHoursSaved
-                        ? `${task.roiMetric.estimatedHumanHoursSaved}h`
-                        : "--"}
-                    </span>
-                    <span className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">
-                      Hours Saved
-                    </span>
+                  {/* Quick Stats Grid */}
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 col-span-full">
+                    <div className="bg-background/50 border p-4 rounded-xl flex flex-col gap-1 items-center justify-center text-center">
+                      <span className="text-2xl font-bold tracking-tight text-primary">
+                        ${task.executionMetric.totalCostUsd?.toFixed(3)}
+                      </span>
+                      <span className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">
+                        Total Cost
+                      </span>
+                    </div>
+                    <div className="bg-background/50 border p-4 rounded-xl flex flex-col gap-1 items-center justify-center text-center">
+                      <span className="text-2xl font-bold tracking-tight">
+                        {task.executionMetric.durationSeconds}s
+                      </span>
+                      <span className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">
+                        Duration
+                      </span>
+                    </div>
+                    <div className="bg-background/50 border p-4 rounded-xl flex flex-col gap-1 items-center justify-center text-center">
+                      <span className="text-2xl font-bold tracking-tight">
+                        {task.executionMetric.successRate}%
+                      </span>
+                      <span className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">
+                        Success
+                      </span>
+                    </div>
+                    <div className="bg-background/50 border p-4 rounded-xl flex flex-col gap-1 items-center justify-center text-center">
+                      <span className="text-2xl font-bold tracking-tight text-primary">
+                        {task.roiMetric?.estimatedHumanHoursSaved
+                          ? `${task.roiMetric.estimatedHumanHoursSaved}h`
+                          : "--"}
+                      </span>
+                      <span className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">
+                        Hours Saved
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </TabsContent>
-          )}
+              )}
+            </div>
+          </TabsContent>
 
-          <TabsContent value="logs" className="h-full m-0 p-0">
+          <TabsContent value="logs" className="h-full md:h-[500px] m-0 p-0">
             <div className="flex flex-col h-full bg-[#0d1117] relative">
               <div
                 ref={scrollRef}
