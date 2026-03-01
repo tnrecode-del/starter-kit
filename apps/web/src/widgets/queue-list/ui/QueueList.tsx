@@ -438,12 +438,15 @@ export function QueueList({ initialTasks }: { initialTasks: TaskData[] }) {
                           className={`flex items-center gap-3 flex-wrap ${task.status === "IN_PROGRESS" ? "animate-pulse" : ""}`}
                         >
                           {/* Unique Agent Badges */}
-                          {task.executionMetric.agentsUsed?.length > 0 &&
+                          {Array.isArray(task.executionMetric.agentsUsed) &&
+                            task.executionMetric.agentsUsed.length > 0 &&
                             Array.from(
                               new Set(
-                                (task.executionMetric.agentsUsed as any[]).map(
-                                  (r) => r.role,
-                                ),
+                                (
+                                  task.executionMetric.agentsUsed as {
+                                    role: string;
+                                  }[]
+                                ).map((r) => r.role),
                               ),
                             ).map((agent: string) => {
                               const style = getAgentStyle(agent);

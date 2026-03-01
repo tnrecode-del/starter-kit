@@ -1,6 +1,5 @@
 import { Sparkles } from "lucide-react";
-// @ts-expect-error - Using compiled dist directly to bypass Turbopack workspace TS constraints
-import { db } from "@core/database/dist/src/index.js";
+import { db } from "@core/database";
 import { QueueList } from "@/widgets/queue-list/ui/QueueList";
 import { AdminDashboardMetrics } from "@/widgets/admin-metrics/ui/AdminDashboardMetrics";
 import Link from "next/link";

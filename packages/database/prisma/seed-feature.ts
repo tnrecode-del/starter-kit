@@ -41,6 +41,23 @@ async function main() {
     gitBranch: "feat/dashboard-analytics",
     toolsCalled: 12,
     estimatedHumanHoursSaved: 6.5,
+    savedHumanHours: 6.4,
+    roiRatio: 4.8,
+  };
+
+  const codeMetric = {
+    filesCreated: 2,
+    filesDeleted: 0,
+    linesAdded: 154,
+    linesRemoved: 12,
+    testCoverageBefore: 78.5,
+    testCoverageAfter: 81.2,
+    typeErrorsBefore: 0,
+    typeErrorsAfter: 0,
+    lintErrorsBefore: 1,
+    lintErrorsAfter: 0,
+    securityFlags: [],
+    architectApproved: true,
   };
 
   for (const f of feats) {
@@ -62,6 +79,12 @@ async function main() {
             update: roiMetric,
           },
         },
+        codeMetric: {
+          upsert: {
+            create: codeMetric,
+            update: codeMetric,
+          },
+        },
         ...f,
       },
       create: {
@@ -71,6 +94,7 @@ async function main() {
           "### Developer Agent\n\n```tsx\nexport function AnalyticsChart() { ... }\n```",
         executionMetric: { create: executionMetric },
         roiMetric: { create: roiMetric },
+        codeMetric: { create: codeMetric },
         ...f,
       },
     });

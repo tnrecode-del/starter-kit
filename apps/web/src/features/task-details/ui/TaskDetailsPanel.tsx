@@ -11,12 +11,15 @@ import {
 } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import { getAgentStyle } from "@/entities/task/lib/agent-styles";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@core/shared";
 import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@shared/ui/chart";
+} from "@core/shared";
 import {
   PieChart,
   Pie,
@@ -252,40 +255,62 @@ export function TaskDetailsPanel({ task }: TaskDetailsPanelProps) {
                       Token Breakdown
                     </h3>
                     <div className="h-[250px] w-full">
-                      <ResponsiveContainer width="100%" height="100%">
-                        <PieChart>
-                          <Pie
-                            data={[
-                              {
-                                name: "Prompt",
-                                value: task.executionMetric.promptTokens || 0,
-                                fill: "hsl(var(--chart-1))",
-                              },
-                              {
-                                name: "Completion",
-                                value:
-                                  task.executionMetric.completionTokens || 0,
-                                fill: "hsl(var(--chart-2))",
-                              },
-                              {
-                                name: "Cached",
-                                value: task.executionMetric.cachedTokens || 0,
-                                fill: "hsl(var(--chart-3))",
-                              },
-                            ].filter((d) => d.value > 0)}
-                            cx="50%"
-                            cy="50%"
-                            innerRadius={60}
-                            outerRadius={80}
-                            paddingAngle={5}
-                            dataKey="value"
-                            strokeWidth={0}
-                          >
-                            {/* Cells are styled via the fill property above */}
-                          </Pie>
-                          <ChartTooltip content={<ChartTooltipContent />} />
-                        </PieChart>
-                      </ResponsiveContainer>
+                      <ChartContainer
+                        config={{
+                          prompt: {
+                            label: "Prompt",
+                            color: "var(--color-chart-1)",
+                          },
+                          completion: {
+                            label: "Completion",
+                            color: "var(--color-chart-2)",
+                          },
+                          cached: {
+                            label: "Cached",
+                            color: "var(--color-chart-3)",
+                          },
+                        }}
+                        className="h-full"
+                      >
+                        <ResponsiveContainer width="100%" height="100%">
+                          <PieChart>
+                            <Pie
+                              data={[
+                                {
+                                  name: "Prompt",
+                                  value: task.executionMetric.promptTokens || 0,
+                                  fill: "var(--color-chart-1)",
+                                },
+                                {
+                                  name: "Completion",
+                                  value:
+                                    Number(
+                                      task.executionMetric.completionTokens,
+                                    ) || 0,
+                                  fill: "var(--color-chart-2)",
+                                },
+                                {
+                                  name: "Cached",
+                                  value:
+                                    Number(task.executionMetric.cachedTokens) ||
+                                    0,
+                                  fill: "var(--color-chart-3)",
+                                },
+                              ].filter((d) => d.value > 0)}
+                              cx="50%"
+                              cy="50%"
+                              innerRadius={60}
+                              outerRadius={80}
+                              paddingAngle={5}
+                              dataKey="value"
+                              strokeWidth={0}
+                            >
+                              {/* Cells are styled via the fill property above */}
+                            </Pie>
+                            <ChartTooltip content={<ChartTooltipContent />} />
+                          </PieChart>
+                        </ResponsiveContainer>
+                      </ChartContainer>
                     </div>
                   </div>
 
@@ -299,14 +324,18 @@ export function TaskDetailsPanel({ task }: TaskDetailsPanelProps) {
                         config={{
                           cost: {
                             label: "Cost USD",
-                            color: "hsl(var(--chart-4))",
+                            color: "var(--color-chart-4)",
                           },
                         }}
                         className="h-full"
                       >
                         <ResponsiveContainer width="100%" height="100%">
                           <BarChart
-                            data={task.executionMetric.agentsUsed || []}
+                            data={
+                              Array.isArray(task.executionMetric.agentsUsed)
+                                ? task.executionMetric.agentsUsed
+                                : []
+                            }
                             layout="vertical"
                             margin={{ left: 40, right: 20 }}
                           >

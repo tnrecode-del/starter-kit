@@ -39,9 +39,12 @@ model FeatureQueue {
   testSteps    String
   resultData   String?
   executionLog String?
+  retryCount   Int      @default(0)
+  abortReason  String?
   
   executionMetric ExecutionMetric?
   roiMetric       RoiMetric?
+  codeMetric      CodeMetric?
   
   createdAt    DateTime @default(now()) @map("created_at")
   updatedAt    DateTime @updatedAt @map("updated_at")
@@ -60,6 +63,11 @@ model ExecutionMetric {
   completionTokens Int
   cachedTokens     Int
   agentsUsed       Json
+  
+  timestampStart   DateTime?
+  timestampEnd     DateTime?
+  budgetLimitUsd   Float?
+  budgetRemainingUsd Float?
   createdAt        DateTime @default(now())
 }
 
@@ -72,5 +80,32 @@ model RoiMetric {
   gitBranch        String?
   toolsCalled      Int?
   estimatedHumanHoursSaved Float?
+  savedHumanHours          Float?
+  roiRatio                 Float?
+  createdAt        DateTime @default(now())
+}
+
+model CodeMetric {
+  id               String   @id @default(cuid())
+  featureId        String   @unique
+  feature          FeatureQueue @relation(fields: [featureId], references: [id], onDelete: Cascade)
+  
+  filesCreated     Int      @default(0)
+  filesDeleted     Int      @default(0)
+  linesAdded       Int      @default(0)
+  linesRemoved     Int      @default(0)
+  
+  testCoverageBefore Float?
+  testCoverageAfter  Float?
+  
+  typeErrorsBefore   Int?
+  typeErrorsAfter    Int?
+  
+  lintErrorsBefore   Int?
+  lintErrorsAfter    Int?
+  
+  securityFlags      String[]
+  architectApproved  Boolean?
+  
   createdAt        DateTime @default(now())
 }

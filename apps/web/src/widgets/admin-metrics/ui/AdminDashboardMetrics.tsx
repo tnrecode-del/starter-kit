@@ -94,7 +94,7 @@ export function AdminDashboardMetrics({
           <div className="flex-1 w-full min-h-0">
             <ChartContainer
               config={{
-                tasks: { label: "Tasks", color: "hsl(var(--primary))" },
+                tasks: { label: "Tasks", color: "var(--color-primary)" },
               }}
               className="w-full h-full"
             >
@@ -129,7 +129,7 @@ export function AdminDashboardMetrics({
             {topAgents.length > 0 ? (
               <ChartContainer
                 config={{
-                  cost: { label: "Cost ($)", color: "hsl(var(--chart-2))" },
+                  cost: { label: "Cost ($)", color: "var(--color-chart-2)" },
                 }}
                 className="w-full h-full"
               >

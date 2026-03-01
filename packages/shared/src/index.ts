@@ -13,3 +13,4 @@ export * from "./ui/textarea";
 export * from "./ui/sheet";
 export * from "./ui/accordion";
 export * from "./ui/tabs";
+export * from "./ui/chart";
