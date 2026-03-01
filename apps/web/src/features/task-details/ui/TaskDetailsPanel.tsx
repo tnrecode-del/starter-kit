@@ -12,6 +12,20 @@ import {
 import ReactMarkdown from "react-markdown";
 import { getAgentStyle } from "@/entities/task/lib/agent-styles";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@core/shared";
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@shared/ui/chart";
+import {
+  PieChart,
+  Pie,
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+} from "recharts";
 
 interface LogEntry {
   level: number;
@@ -31,6 +45,8 @@ export interface TaskDetailsPanelProps {
     status: string;
     testSteps: string;
     resultData?: string | null;
+    executionMetric?: any;
+    roiMetric?: any;
   };
 }
 
@@ -115,6 +131,15 @@ export function TaskDetailsPanel({ task }: TaskDetailsPanelProps) {
                 </span>
               )}
             </TabsTrigger>
+            {task.executionMetric && (
+              <TabsTrigger
+                value="metrics"
+                className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none px-4 pb-2 pt-2 h-full flex items-center gap-2 text-sm"
+              >
+                <Sparkles className="h-4 w-4" />
+                Metrics
+              </TabsTrigger>
+            )}
           </TabsList>
 
           <div className="flex items-center gap-2">
@@ -213,6 +238,147 @@ export function TaskDetailsPanel({ task }: TaskDetailsPanelProps) {
               </div>
             </div>
           </TabsContent>
+
+          {task.executionMetric && (
+            <TabsContent
+              value="metrics"
+              className="h-full m-0 p-0 overflow-y-auto"
+            >
+              <div className="p-8 space-y-8 min-h-full max-w-4xl mx-auto">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* Token Breakdown */}
+                  <div className="bg-background/50 border p-6 rounded-xl shadow-xs">
+                    <h3 className="text-sm font-semibold mb-6 flex items-center gap-2 text-muted-foreground uppercase tracking-wider">
+                      Token Breakdown
+                    </h3>
+                    <div className="h-[250px] w-full">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <PieChart>
+                          <Pie
+                            data={[
+                              {
+                                name: "Prompt",
+                                value: task.executionMetric.promptTokens || 0,
+                                fill: "hsl(var(--chart-1))",
+                              },
+                              {
+                                name: "Completion",
+                                value:
+                                  task.executionMetric.completionTokens || 0,
+                                fill: "hsl(var(--chart-2))",
+                              },
+                              {
+                                name: "Cached",
+                                value: task.executionMetric.cachedTokens || 0,
+                                fill: "hsl(var(--chart-3))",
+                              },
+                            ].filter((d) => d.value > 0)}
+                            cx="50%"
+                            cy="50%"
+                            innerRadius={60}
+                            outerRadius={80}
+                            paddingAngle={5}
+                            dataKey="value"
+                            strokeWidth={0}
+                          >
+                            {/* Cells are styled via the fill property above */}
+                          </Pie>
+                          <ChartTooltip content={<ChartTooltipContent />} />
+                        </PieChart>
+                      </ResponsiveContainer>
+                    </div>
+                  </div>
+
+                  {/* Cost by Agent */}
+                  <div className="bg-background/50 border p-6 rounded-xl shadow-xs">
+                    <h3 className="text-sm font-semibold mb-6 flex items-center gap-2 text-muted-foreground uppercase tracking-wider">
+                      Cost Details ($)
+                    </h3>
+                    <div className="h-[250px] w-full">
+                      <ChartContainer
+                        config={{
+                          cost: {
+                            label: "Cost USD",
+                            color: "hsl(var(--chart-4))",
+                          },
+                        }}
+                        className="h-full"
+                      >
+                        <ResponsiveContainer width="100%" height="100%">
+                          <BarChart
+                            data={task.executionMetric.agentsUsed || []}
+                            layout="vertical"
+                            margin={{ left: 40, right: 20 }}
+                          >
+                            <XAxis type="number" hide />
+                            <YAxis
+                              dataKey="role"
+                              type="category"
+                              axisLine={false}
+                              tickLine={false}
+                              tick={{
+                                fill: "currentColor",
+                                fontSize: 12,
+                                className: "text-muted-foreground",
+                              }}
+                            />
+                            <ChartTooltip
+                              content={<ChartTooltipContent />}
+                              cursor={{ fill: "var(--muted)" }}
+                            />
+                            <Bar
+                              dataKey="cost"
+                              fill="var(--color-cost)"
+                              radius={4}
+                              barSize={32}
+                            />
+                          </BarChart>
+                        </ResponsiveContainer>
+                      </ChartContainer>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Key Stats Row */}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div className="bg-background/50 border p-4 rounded-xl flex flex-col gap-1 items-center justify-center text-center">
+                    <span className="text-2xl font-bold tracking-tight">
+                      ${task.executionMetric.totalCostUsd?.toFixed(3)}
+                    </span>
+                    <span className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">
+                      Total Cost
+                    </span>
+                  </div>
+                  <div className="bg-background/50 border p-4 rounded-xl flex flex-col gap-1 items-center justify-center text-center">
+                    <span className="text-2xl font-bold tracking-tight">
+                      {task.executionMetric.durationSeconds}s
+                    </span>
+                    <span className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">
+                      Duration
+                    </span>
+                  </div>
+                  <div className="bg-background/50 border p-4 rounded-xl flex flex-col gap-1 items-center justify-center text-center">
+                    <span className="text-2xl font-bold tracking-tight">
+                      {task.executionMetric.successRate}%
+                    </span>
+                    <span className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">
+                      Success
+                    </span>
+                  </div>
+                  <div className="bg-background/50 border p-4 rounded-xl flex flex-col gap-1 items-center justify-center text-center">
+                    <span className="text-2xl font-bold tracking-tight text-primary">
+                      {task.roiMetric?.estimatedHumanHoursSaved
+                        ? `${task.roiMetric.estimatedHumanHoursSaved}h`
+                        : "--"}
+                    </span>
+                    <span className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">
+                      Hours Saved
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </TabsContent>
+          )}
 
           <TabsContent value="logs" className="h-full m-0 p-0">
             <div className="flex flex-col h-full bg-[#0d1117] relative">
