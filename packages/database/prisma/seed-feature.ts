@@ -20,11 +20,59 @@ async function main() {
     },
   ];
 
+  // Define mock data for executionMetric and roiMetric
+  const executionMetric = {
+    totalCostUsd: 1.25,
+    durationSeconds: 145,
+    successRate: 98,
+    readyForProduction: true,
+    promptTokens: 4500,
+    completionTokens: 2100,
+    cachedTokens: 1000,
+    agentsUsed: [
+      { role: "Developer Agent", cost: 0.8 },
+      { role: "Reviewer Agent", cost: 0.3 },
+      { role: "Testing Agent", cost: 0.15 },
+    ],
+  };
+
+  const roiMetric = {
+    filesModified: 4,
+    gitBranch: "feat/dashboard-analytics",
+    toolsCalled: 12,
+    estimatedHumanHoursSaved: 6.5,
+  };
+
   for (const f of feats) {
     await db.featureQueue.upsert({
       where: { featureId: f.featureId },
-      update: { status: "PENDING", ...f },
-      create: { status: "PENDING", dependsOnIds: [], ...f },
+      update: {
+        status: "COMPLETED",
+        resultData:
+          "### Developer Agent\n\n```tsx\nexport function AnalyticsChart() { ... }\n```",
+        executionMetric: {
+          upsert: {
+            create: executionMetric,
+            update: executionMetric,
+          },
+        },
+        roiMetric: {
+          upsert: {
+            create: roiMetric,
+            update: roiMetric,
+          },
+        },
+        ...f,
+      },
+      create: {
+        status: "COMPLETED",
+        dependsOnIds: [],
+        resultData:
+          "### Developer Agent\n\n```tsx\nexport function AnalyticsChart() { ... }\n```",
+        executionMetric: { create: executionMetric },
+        roiMetric: { create: roiMetric },
+        ...f,
+      },
     });
   }
 
