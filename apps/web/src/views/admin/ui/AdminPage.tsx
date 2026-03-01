@@ -1,42 +1,157 @@
-import {
-  Activity,
-  Sparkles,
-  BrainCircuit,
-  CheckCircle2,
-  ListTodo,
-} from "lucide-react";
+import { Sparkles } from "lucide-react";
 // @ts-expect-error - Using compiled dist directly to bypass Turbopack workspace TS constraints
 import { db } from "@core/database/dist/src/index.js";
 import { QueueList } from "@/widgets/queue-list/ui/QueueList";
+import { AdminDashboardMetrics } from "@/widgets/admin-metrics/ui/AdminDashboardMetrics";
 import Link from "next/link";
 import { Button } from "@shared/ui/button";
 import { getTranslations } from "next-intl/server";
 
+// ---------------------------------------------------------------------------
+// Types
+// ---------------------------------------------------------------------------
+
+interface AgentUsedEntry {
+  role: string;
+  cost: number;
+}
+
+interface ExecutionMetricRow {
+  totalCostUsd: number;
+  agentsUsed: unknown; // Prisma returns Json as unknown
+}
+
+interface FeatureQueueRow {
+  featureId: number;
+  name: string;
+  status: string;
+  category: string;
+  priority: string;
+  testSteps: string;
+  resultData?: string | null;
+  executionMetric?: ExecutionMetricRow | null;
+  roiMetric?: unknown | null;
+  dependsOnIds?: number[];
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+// ---------------------------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------------------------
+
+/** Format a Date as "Mon DD" for the chart x-axis (e.g. "Mar 01"). */
+function formatDateLabel(date: Date): string {
+  return date.toLocaleDateString("en-US", { month: "short", day: "2-digit" });
+}
+
+/** Return the ISO date string "YYYY-MM-DD" for a given Date. */
+function toDateKey(date: Date): string {
+  return date.toISOString().slice(0, 10);
+}
+
+// ---------------------------------------------------------------------------
+// Metrics computation (pure functions, no side-effects)
+// ---------------------------------------------------------------------------
+
+function computeTasksPerDay(
+  tasks: FeatureQueueRow[],
+): { date: string; tasks: number }[] {
+  // Build a map covering exactly the last 7 calendar days (today inclusive).
+  const today = new Date();
+  const countByDay = new Map<string, { label: string; count: number }>();
+
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(today);
+    d.setDate(today.getDate() - i);
+    countByDay.set(toDateKey(d), { label: formatDateLabel(d), count: 0 });
+  }
+
+  for (const task of tasks) {
+    const key = toDateKey(new Date(task.createdAt));
+    const entry = countByDay.get(key);
+    if (entry) {
+      entry.count += 1;
+    }
+  }
+
+  return Array.from(countByDay.values()).map(({ label, count }) => ({
+    date: label,
+    tasks: count,
+  }));
+}
+
+function computeTopAgents(
+  tasks: FeatureQueueRow[],
+): { agent: string; cost: number }[] {
+  const costByAgent = new Map<string, number>();
+
+  for (const task of tasks) {
+    const raw = task.executionMetric?.agentsUsed;
+    if (!Array.isArray(raw)) continue;
+
+    for (const entry of raw as AgentUsedEntry[]) {
+      if (typeof entry?.role !== "string" || typeof entry?.cost !== "number") {
+        continue;
+      }
+      costByAgent.set(
+        entry.role,
+        (costByAgent.get(entry.role) ?? 0) + entry.cost,
+      );
+    }
+  }
+
+  return Array.from(costByAgent.entries())
+    .map(([agent, cost]) => ({ agent, cost: Math.round(cost * 1000) / 1000 }))
+    .sort((a, b) => b.cost - a.cost);
+}
+
+function computeTotalSpend(tasks: FeatureQueueRow[]): number {
+  return tasks.reduce((sum, task) => {
+    const cost = task.executionMetric?.totalCostUsd;
+    return typeof cost === "number" ? sum + cost : sum;
+  }, 0);
+}
+
+// ---------------------------------------------------------------------------
+// Page
+// ---------------------------------------------------------------------------
+
 export default async function AdminPage() {
   const t = await getTranslations("AdminPage");
 
-  const tasks = await db.featureQueue.findMany({
+  const tasks: FeatureQueueRow[] = await db.featureQueue.findMany({
     orderBy: { updatedAt: "desc" },
+    include: {
+      executionMetric: true,
+      roiMetric: true,
+    },
   });
 
-  // Next.js serializes props from Server to Client components.
-  // Prisma JSON fields can sometimes be complex objects. Deep clone/parse them.
-  const serializedTasks = tasks.map((t: any) => ({
-    ...t,
-    executionMetric: t.executionMetric,
-    roiMetric: t.roiMetric,
+  // Serialize for Client Component boundary (Dates → ISO strings survive JSON).
+  const serializedTasks = tasks.map((task) => ({
+    ...task,
+    executionMetric: task.executionMetric ?? null,
+    roiMetric: task.roiMetric ?? null,
   }));
 
-  const activeTasks = serializedTasks.filter(
-    (t: any) => t.status === "IN_PROGRESS",
-  ).length;
-  const completedTasks = tasks.filter(
-    (t: any) => t.status === "COMPLETED",
-  ).length;
+  // --- Counts ---
   const totalTasks = tasks.length;
+  const activeTasks = tasks.filter((t) => t.status === "IN_PROGRESS").length;
+  const completedTasks = tasks.filter((t) => t.status === "COMPLETED").length;
+
+  // --- Spend & budget ---
+  const totalSpend = computeTotalSpend(tasks);
+  // Static budget cap for burn-rate display; adjust as needed.
+  const budgetLimit = 50;
+
+  // --- Chart data ---
+  const tasksPerDay = computeTasksPerDay(tasks);
+  const topAgents = computeTopAgents(tasks);
 
   return (
     <main className="container max-w-5xl mx-auto py-12 px-6 fade-in">
+      {/* Header */}
       <div className="flex items-center justify-between mb-8">
         <div className="flex items-center gap-3">
           <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
@@ -55,66 +170,20 @@ export default async function AdminPage() {
         </Link>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-        {/* AI Insight Widget (Bento Item 1 - Spans 2 columns on md) */}
-        <div className="md:col-span-2 relative overflow-hidden rounded-2xl border bg-card/60 backdrop-blur-xl p-6 shadow-sm hover:-translate-y-1 transition-all duration-300 hover:shadow-lg group">
-          <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-primary/10 blur-3xl transition-all group-hover:bg-primary/20"></div>
-          <div className="flex items-start gap-4 relative z-10">
-            <div className="rounded-full bg-primary/20 p-2 mt-1">
-              <BrainCircuit className="h-5 w-5 text-primary" />
-            </div>
-            <div>
-              <h3 className="font-semibold text-lg mb-1">
-                {t("aiSystemInsightTitle")}
-              </h3>
-              <p className="text-muted-foreground leading-relaxed text-sm md:text-base">
-                {totalTasks === 0
-                  ? t("tasksNotCreated")
-                  : activeTasks > 0
-                    ? t("tasksInProgress")
-                    : t("allTasksCompleted")}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Stats Bento Items */}
-        <div className="flex flex-col gap-6">
-          <div className="flex flex-col justify-center rounded-2xl border bg-card/60 backdrop-blur-xl p-6 shadow-sm hover:-translate-y-1 transition-all duration-300 hover:shadow-lg flex-1 group">
-            <div className="absolute -left-10 -bottom-10 h-32 w-32 rounded-full bg-purple-500/5 blur-3xl transition-all group-hover:bg-purple-500/10"></div>
-            <span className="text-sm font-medium text-muted-foreground flex items-center gap-2 mb-2 relative z-10">
-              <ListTodo className="h-4 w-4 text-purple-500" /> {t("totalTasks")}
-            </span>
-            <div className="text-4xl font-extrabold text-foreground relative z-10">
-              {totalTasks}
-            </div>
-          </div>
-
-          <div className="flex gap-6 flex-1">
-            <div className="flex flex-col justify-center rounded-2xl border bg-card/60 backdrop-blur-xl p-6 shadow-sm hover:-translate-y-1 transition-all duration-300 hover:shadow-lg flex-1 group relative overflow-hidden">
-              <div className="absolute -left-10 -bottom-10 h-32 w-32 rounded-full bg-blue-500/5 blur-3xl transition-all group-hover:bg-blue-500/10"></div>
-              <span className="text-sm font-medium text-muted-foreground flex items-center gap-2 mb-2 relative z-10">
-                <Activity className="h-4 w-4 text-blue-500" /> {t("active")}
-              </span>
-              <div className="text-3xl font-extrabold text-foreground relative z-10">
-                {activeTasks > 0 ? activeTasks : "0"}
-              </div>
-            </div>
-
-            <div className="flex flex-col justify-center rounded-2xl border bg-card/60 backdrop-blur-xl p-6 shadow-sm hover:-translate-y-1 transition-all duration-300 hover:shadow-lg flex-1 group relative overflow-hidden">
-              <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-emerald-500/5 blur-3xl transition-all group-hover:bg-emerald-500/10"></div>
-              <span className="text-sm font-medium text-muted-foreground flex items-center gap-2 mb-2 relative z-10">
-                <CheckCircle2 className="h-4 w-4 text-emerald-500" />{" "}
-                {t("finished")}
-              </span>
-              <div className="text-3xl font-extrabold text-emerald-600 relative z-10">
-                {completedTasks}
-              </div>
-            </div>
-          </div>
-        </div>
+      {/* Metrics widget */}
+      <div className="mb-12">
+        <AdminDashboardMetrics
+          totalTasks={totalTasks}
+          activeTasks={activeTasks}
+          completedTasks={completedTasks}
+          totalSpend={totalSpend}
+          budgetLimit={budgetLimit}
+          tasksPerDay={tasksPerDay}
+          topAgents={topAgents}
+        />
       </div>
 
+      {/* Queue list */}
       <div className="relative">
         <QueueList initialTasks={serializedTasks} />
       </div>
